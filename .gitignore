@@ -50,3 +50,4 @@ Temporary Items
 /.vs/config
 /appsettings.Prod.json
 /bin/Debug/netcoreapp1.1
+/.vs/HouseDB/v15
