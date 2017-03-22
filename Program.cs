@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace MysensorElectronDB
 {
-    public class Program
+	public class Program
     {
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
-				.UseUrls("http://localhost:5001")
+				.UseUrls("http://localhost:5002")
 				.UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
