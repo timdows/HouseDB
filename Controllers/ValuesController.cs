@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
-namespace MysensorElectronDB.Controllers
+namespace HouseDB.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
     public class ValuesController : Controller
     {
         // GET api/values

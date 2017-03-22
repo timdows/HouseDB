@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MysensorElectronDB.Data.Models;
+using HouseDB.Data.Models;
 
-namespace MysensorElectronDB.Data
+namespace HouseDB.Data
 {
 	public class DataContext : DbContext
 	{
@@ -10,5 +10,8 @@ namespace MysensorElectronDB.Data
 		}
 
 		public DbSet<ConfigurationValue> ConfigurationValues { get; set; }
+		public DbSet<HeaterMeterGroup> HeaterMeterGroups { get; set; }
+		public DbSet<HeaterMeter> HeaterMeters { get; set; }
+		public DbSet<HeaterValue> HeaterValues { get; set; }
 	}
 }

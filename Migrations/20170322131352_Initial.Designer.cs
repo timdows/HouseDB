@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MysensorElectronDB.Data;
+using HouseDB.Data;
 
-namespace MysensorElectronDB.Migrations
+namespace HouseDB.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20170322131352_Initial")]
@@ -16,7 +16,7 @@ namespace MysensorElectronDB.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");
 
-            modelBuilder.Entity("MysensorElectronDB.Data.Models.ConfigurationValue", b =>
+            modelBuilder.Entity("HouseDB.Data.Models.ConfigurationValue", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();

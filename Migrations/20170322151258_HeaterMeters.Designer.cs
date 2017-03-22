@@ -8,9 +8,10 @@ using HouseDB.Data;
 namespace HouseDB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20170322151258_HeaterMeters")]
+    partial class HeaterMeters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");
@@ -40,29 +41,11 @@ namespace HouseDB.Migrations
 
                     b.Property<string>("GNumber");
 
-                    b.Property<long?>("HeaterMeterGroupID");
-
                     b.Property<string>("Name");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("HeaterMeterGroupID");
 
                     b.ToTable("HeaterMeter");
-                });
-
-            modelBuilder.Entity("HouseDB.Data.Models.HeaterMeterGroup", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("DateDeleted");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("HeaterMeterGroup");
                 });
 
             modelBuilder.Entity("HouseDB.Data.Models.HeaterValue", b =>
@@ -83,13 +66,6 @@ namespace HouseDB.Migrations
                     b.HasIndex("HeaterMeterID");
 
                     b.ToTable("HeaterValue");
-                });
-
-            modelBuilder.Entity("HouseDB.Data.Models.HeaterMeter", b =>
-                {
-                    b.HasOne("HouseDB.Data.Models.HeaterMeterGroup", "HeaterMeterGroup")
-                        .WithMany("HeaterMeters")
-                        .HasForeignKey("HeaterMeterGroupID");
                 });
 
             modelBuilder.Entity("HouseDB.Data.Models.HeaterValue", b =>

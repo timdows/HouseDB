@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System;
 
-namespace MysensorElectronDB.Data
+namespace HouseDB.Data
 {
 	public static class EntityFrameworkExtensions
 	{

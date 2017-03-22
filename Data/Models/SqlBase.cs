@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MysensorElectronDB.Data.Models
+namespace HouseDB.Data.Models
 {
 	public class SqlBase
 	{

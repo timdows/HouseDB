@@ -1,4 +1,4 @@
-﻿namespace MysensorElectronDB.Data.Models
+﻿namespace HouseDB.Data.Models
 {
 	public class ConfigurationValue : SqlBase
 	{

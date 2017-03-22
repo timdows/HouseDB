@@ -1,0 +1,192 @@
+2017-03-22 16:17:09.407 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/heater/getall.json  
+2017-03-22 16:17:10.466 +01:00 [Information] Executing action method "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" with arguments (null) - ModelState is Valid
+2017-03-22 16:17:10.712 +01:00 [Information] Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`DateDeleted`, `a_item`.`GNumber`, `a_item`.`Name`
+FROM `HeaterMeter` AS `a_item`
+ORDER BY `a_item`.`ID`
+2017-03-22 16:17:10.761 +01:00 [Information] Executing JsonResult, writing value "System.Collections.Generic.List`1[HouseDB.Data.Models.HeaterMeter]".
+2017-03-22 16:17:11.466 +01:00 [Information] Executed action "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" in 1112.4606ms
+2017-03-22 16:17:11.497 +01:00 [Information] Request finished in 2140.414ms 200 application/json; charset=utf-8
+2017-03-22 16:17:11.886 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/favicon.ico  
+2017-03-22 16:17:11.898 +01:00 [Information] Request finished in 12.3002ms 404 
+2017-03-22 16:17:11.928 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/favicon.ico  
+2017-03-22 16:17:11.929 +01:00 [Information] Request finished in 1.3092ms 404 
+2017-03-22 16:20:18.331 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/heater/getall.json  
+2017-03-22 16:20:18.337 +01:00 [Information] Executing action method "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" with arguments (null) - ModelState is Valid
+2017-03-22 16:20:18.400 +01:00 [Information] Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`DateDeleted`, `a_item`.`GNumber`, `a_item`.`Name`
+FROM `HeaterMeter` AS `a_item`
+ORDER BY `a_item`.`ID`
+2017-03-22 16:20:18.527 +01:00 [Information] Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `h`.`ID`, `h`.`Date`, `h`.`DateDeleted`, `h`.`HeaterMeterID`, `h`.`Value`
+FROM `HeaterValue` AS `h`
+WHERE EXISTS (
+    SELECT 1
+    FROM `HeaterMeter` AS `a_item`
+    WHERE `h`.`HeaterMeterID` = `a_item`.`ID`)
+ORDER BY `h`.`HeaterMeterID`
+2017-03-22 16:20:18.622 +01:00 [Information] Executing JsonResult, writing value "System.Collections.Generic.List`1[HouseDB.Data.Models.HeaterMeter]".
+2017-03-22 16:20:18.688 +01:00 [Information] Executed action "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" in 352.2444ms
+2017-03-22 16:20:18.691 +01:00 [Information] Request finished in 362.5004ms 200 application/json; charset=utf-8
+2017-03-22 16:20:25.601 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/heater/getall.json  
+2017-03-22 16:20:25.603 +01:00 [Information] Executing action method "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" with arguments (null) - ModelState is Valid
+2017-03-22 16:20:25.637 +01:00 [Information] Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`DateDeleted`, `a_item`.`GNumber`, `a_item`.`Name`
+FROM `HeaterMeter` AS `a_item`
+ORDER BY `a_item`.`ID`
+2017-03-22 16:20:25.650 +01:00 [Information] Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `h`.`ID`, `h`.`Date`, `h`.`DateDeleted`, `h`.`HeaterMeterID`, `h`.`Value`
+FROM `HeaterValue` AS `h`
+WHERE EXISTS (
+    SELECT 1
+    FROM `HeaterMeter` AS `a_item`
+    WHERE `h`.`HeaterMeterID` = `a_item`.`ID`)
+ORDER BY `h`.`HeaterMeterID`
+2017-03-22 16:20:25.652 +01:00 [Information] Executing JsonResult, writing value "System.Collections.Generic.List`1[HouseDB.Data.Models.HeaterMeter]".
+2017-03-22 16:20:25.653 +01:00 [Information] Executed action "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" in 50.3035ms
+2017-03-22 16:20:25.654 +01:00 [Information] Request finished in 53.1745ms 200 application/json; charset=utf-8
+2017-03-22 16:26:43.766 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/heater/getall.json  
+2017-03-22 16:26:43.771 +01:00 [Information] Executing action method "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" with arguments (null) - ModelState is Valid
+2017-03-22 16:26:43.878 +01:00 [Information] Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`DateDeleted`, `a_item`.`GNumber`, `a_item`.`Name`
+FROM `HeaterMeter` AS `a_item`
+ORDER BY `a_item`.`ID`
+2017-03-22 16:26:43.897 +01:00 [Information] Executed DbCommand (14ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `h`.`ID`, `h`.`Date`, `h`.`DateDeleted`, `h`.`HeaterMeterID`, `h`.`Value`
+FROM `HeaterValue` AS `h`
+WHERE EXISTS (
+    SELECT 1
+    FROM `HeaterMeter` AS `a_item`
+    WHERE `h`.`HeaterMeterID` = `a_item`.`ID`)
+ORDER BY `h`.`HeaterMeterID`
+2017-03-22 16:26:43.914 +01:00 [Information] Executing JsonResult, writing value "System.Collections.Generic.List`1[HouseDB.Data.Models.HeaterMeter]".
+2017-03-22 16:26:43.920 +01:00 [Information] Executed action "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" in 149.6692ms
+2017-03-22 16:26:43.923 +01:00 [Information] Request finished in 157.4259ms 200 application/json; charset=utf-8
+2017-03-22 18:03:14.611 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/heater/getall.json  
+2017-03-22 18:03:14.615 +01:00 [Information] Executing action method "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" with arguments (null) - ModelState is Valid
+2017-03-22 18:03:14.725 +01:00 [Information] Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`DateDeleted`, `a_item`.`GNumber`, `a_item`.`Name`
+FROM `HeaterMeter` AS `a_item`
+ORDER BY `a_item`.`ID`
+2017-03-22 18:03:14.739 +01:00 [Information] Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `h`.`ID`, `h`.`Date`, `h`.`DateDeleted`, `h`.`HeaterMeterID`, `h`.`Value`
+FROM `HeaterValue` AS `h`
+WHERE EXISTS (
+    SELECT 1
+    FROM `HeaterMeter` AS `a_item`
+    WHERE `h`.`HeaterMeterID` = `a_item`.`ID`)
+ORDER BY `h`.`HeaterMeterID`
+2017-03-22 18:03:14.743 +01:00 [Information] Executing JsonResult, writing value "System.Collections.Generic.List`1[HouseDB.Data.Models.HeaterMeter]".
+2017-03-22 18:03:14.745 +01:00 [Information] Executed action "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" in 130.0276ms
+2017-03-22 18:03:14.748 +01:00 [Information] Request finished in 137.4859ms 200 application/json; charset=utf-8
+2017-03-22 18:15:03.558 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/heater/getall.json  
+2017-03-22 18:15:03.581 +01:00 [Information] Executing action method "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" with arguments (null) - ModelState is Valid
+2017-03-22 18:15:03.695 +01:00 [Information] Executed DbCommand (13ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`DateDeleted`, `a_item`.`GNumber`, `a_item`.`Name`
+FROM `HeaterMeter` AS `a_item`
+ORDER BY `a_item`.`ID`
+2017-03-22 18:15:03.715 +01:00 [Information] Executed DbCommand (13ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `h`.`ID`, `h`.`Date`, `h`.`DateDeleted`, `h`.`HeaterMeterID`, `h`.`Value`
+FROM `HeaterValue` AS `h`
+WHERE EXISTS (
+    SELECT 1
+    FROM `HeaterMeter` AS `a_item`
+    WHERE `h`.`HeaterMeterID` = `a_item`.`ID`)
+ORDER BY `h`.`HeaterMeterID`
+2017-03-22 18:15:03.727 +01:00 [Information] Executing JsonResult, writing value "System.Collections.Generic.List`1[HouseDB.Data.Models.HeaterMeter]".
+2017-03-22 18:15:03.732 +01:00 [Information] Executed action "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" in 150.7004ms
+2017-03-22 18:15:03.736 +01:00 [Information] Request finished in 179.4923ms 200 application/json; charset=utf-8
+2017-03-22 18:15:08.819 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/heater/getall.json  
+2017-03-22 18:15:08.827 +01:00 [Information] Executing action method "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" with arguments (null) - ModelState is Valid
+2017-03-22 18:15:08.864 +01:00 [Information] Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`DateDeleted`, `a_item`.`GNumber`, `a_item`.`Name`
+FROM `HeaterMeter` AS `a_item`
+ORDER BY `a_item`.`ID`
+2017-03-22 18:15:08.878 +01:00 [Information] Executed DbCommand (13ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `h`.`ID`, `h`.`Date`, `h`.`DateDeleted`, `h`.`HeaterMeterID`, `h`.`Value`
+FROM `HeaterValue` AS `h`
+WHERE EXISTS (
+    SELECT 1
+    FROM `HeaterMeter` AS `a_item`
+    WHERE `h`.`HeaterMeterID` = `a_item`.`ID`)
+ORDER BY `h`.`HeaterMeterID`
+2017-03-22 18:15:08.884 +01:00 [Information] Executing JsonResult, writing value "System.Collections.Generic.List`1[HouseDB.Data.Models.HeaterMeter]".
+2017-03-22 18:15:08.886 +01:00 [Information] Executed action "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" in 58.5194ms
+2017-03-22 18:15:08.887 +01:00 [Information] Request finished in 67.9098ms 200 application/json; charset=utf-8
+2017-03-22 18:20:04.673 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/heater/getall.json  
+2017-03-22 18:20:04.678 +01:00 [Information] Executing action method "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" with arguments (null) - ModelState is Valid
+2017-03-22 18:20:04.709 +01:00 [Information] Executed DbCommand (10ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`DateDeleted`, `a_item`.`GNumber`, `a_item`.`Name`
+FROM `HeaterMeter` AS `a_item`
+ORDER BY `a_item`.`ID`
+2017-03-22 18:20:04.724 +01:00 [Information] Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `h`.`ID`, `h`.`Date`, `h`.`DateDeleted`, `h`.`HeaterMeterID`, `h`.`Value`
+FROM `HeaterValue` AS `h`
+WHERE EXISTS (
+    SELECT 1
+    FROM `HeaterMeter` AS `a_item`
+    WHERE `h`.`HeaterMeterID` = `a_item`.`ID`)
+ORDER BY `h`.`HeaterMeterID`
+2017-03-22 18:20:04.729 +01:00 [Information] Executing JsonResult, writing value "System.Collections.Generic.List`1[HouseDB.Data.Models.HeaterMeter]".
+2017-03-22 18:20:04.735 +01:00 [Information] Executed action "HouseDB.Controllers.Heater.HeaterController.GetAll (HouseDB)" in 56.5404ms
+2017-03-22 18:20:04.742 +01:00 [Information] Request finished in 69.2306ms 200 application/json; charset=utf-8
+2017-03-22 22:05:23.621 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/heater/getclientmodel.json?heaterMeterGroupID=1  
+2017-03-22 22:05:24.219 +01:00 [Information] Executing action method "HouseDB.Controllers.Heater.HeaterController.GetClientModel (HouseDB)" with arguments (["1"]) - ModelState is Valid
+2017-03-22 22:05:24.597 +01:00 [Information] Executed DbCommand (17ms) [Parameters=[@__heaterMeterGroupID_0='?'], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`DateDeleted`, `a_item`.`Name`
+FROM `HeaterMeterGroup` AS `a_item`
+WHERE `a_item`.`ID` = @__heaterMeterGroupID_0
+LIMIT 2
+2017-03-22 22:05:24.605 +01:00 [Error] An exception occurred in the database while iterating the results of a query.
+
+MySql.Data.MySqlClient.MySqlException: Table 'ipd0001_housedb.HeaterMeterGroup' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.Execute(IRelationalConnection connection, String executeMethod, IReadOnlyDictionary`2 parameterValues, Boolean closeConnection)
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.ExecuteReader(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable.Enumerator.BufferlessMoveNext(Boolean buffer)
+   at Microsoft.EntityFrameworkCore.Query.QueryMethodProvider.<_ShapedQuery>d__3`1.MoveNext()
+   at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   at lambda_method(Closure , QueryContext )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass20_0`1.<CompileQueryCore>b__0(QueryContext qc)
+2017-03-22 22:08:17.864 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/heater/getclientmodel.json?heaterMeterGroupID=1  
+2017-03-22 22:08:18.495 +01:00 [Information] Executing action method "HouseDB.Controllers.Heater.HeaterController.GetClientModel (HouseDB)" with arguments (["1"]) - ModelState is Valid
+2017-03-22 22:08:18.821 +01:00 [Information] Executed DbCommand (21ms) [Parameters=[@__heaterMeterGroupID_0='?'], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`DateDeleted`, `a_item`.`Name`
+FROM `HeaterMeterGroup` AS `a_item`
+WHERE `a_item`.`ID` = @__heaterMeterGroupID_0
+LIMIT 2
+2017-03-22 22:08:19.168 +01:00 [Information] Executed DbCommand (18ms) [Parameters=[@__HeaterMeterGroup_ID_0='?'], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`Date`, `a_item`.`DateDeleted`, `a_item`.`HeaterMeterID`, `a_item`.`Value`, `a_item.HeaterMeter`.`ID`, `a_item.HeaterMeter`.`DateDeleted`, `a_item.HeaterMeter`.`GNumber`, `a_item.HeaterMeter`.`HeaterMeterGroupID`, `a_item.HeaterMeter`.`Name`, `a_item.HeaterMeter.HeaterMeterGroup`.`ID`, `a_item.HeaterMeter.HeaterMeterGroup`.`DateDeleted`, `a_item.HeaterMeter.HeaterMeterGroup`.`Name`, `h`.`ID`, `h`.`DateDeleted`, `h`.`GNumber`, `h`.`HeaterMeterGroupID`, `h`.`Name`, `h0`.`ID`, `h0`.`DateDeleted`, `h0`.`Name`
+FROM `HeaterValue` AS `a_item`
+LEFT JOIN `HeaterMeter` AS `a_item.HeaterMeter` ON `a_item`.`HeaterMeterID` = `a_item.HeaterMeter`.`ID`
+LEFT JOIN `HeaterMeterGroup` AS `a_item.HeaterMeter.HeaterMeterGroup` ON `a_item.HeaterMeter`.`HeaterMeterGroupID` = `a_item.HeaterMeter.HeaterMeterGroup`.`ID`
+LEFT JOIN `HeaterMeter` AS `h` ON `a_item`.`HeaterMeterID` = `h`.`ID`
+LEFT JOIN `HeaterMeterGroup` AS `h0` ON `h`.`HeaterMeterGroupID` = `h0`.`ID`
+WHERE `a_item.HeaterMeter.HeaterMeterGroup`.`ID` = @__HeaterMeterGroup_ID_0
+ORDER BY `a_item`.`Date`, `a_item`.`HeaterMeterID`, `a_item.HeaterMeter`.`HeaterMeterGroupID`
+2017-03-22 22:08:19.333 +01:00 [Information] Executing JsonResult, writing value "HouseDB.Controllers.Heater.HeaterClientModel".
+2017-03-22 22:08:19.671 +01:00 [Information] Executed action "HouseDB.Controllers.Heater.HeaterController.GetClientModel (HouseDB)" in 1383.5993ms
+2017-03-22 22:08:19.700 +01:00 [Information] Request finished in 1870.6014ms 200 application/json; charset=utf-8
+2017-03-22 22:08:40.764 +01:00 [Information] Request starting HTTP/1.1 GET http://localhost:5002/heater/getclientmodel.json?heaterMeterGroupID=1  
+2017-03-22 22:08:40.770 +01:00 [Information] Executing action method "HouseDB.Controllers.Heater.HeaterController.GetClientModel (HouseDB)" with arguments (["1"]) - ModelState is Valid
+2017-03-22 22:08:40.843 +01:00 [Information] Executed DbCommand (10ms) [Parameters=[@__heaterMeterGroupID_0='?'], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`DateDeleted`, `a_item`.`Name`
+FROM `HeaterMeterGroup` AS `a_item`
+WHERE `a_item`.`ID` = @__heaterMeterGroupID_0
+LIMIT 2
+2017-03-22 22:08:40.886 +01:00 [Information] Executed DbCommand (18ms) [Parameters=[@__HeaterMeterGroup_ID_0='?'], CommandType='Text', CommandTimeout='30']
+SELECT `a_item`.`ID`, `a_item`.`Date`, `a_item`.`DateDeleted`, `a_item`.`HeaterMeterID`, `a_item`.`Value`, `a_item.HeaterMeter`.`ID`, `a_item.HeaterMeter`.`DateDeleted`, `a_item.HeaterMeter`.`GNumber`, `a_item.HeaterMeter`.`HeaterMeterGroupID`, `a_item.HeaterMeter`.`Name`, `a_item.HeaterMeter.HeaterMeterGroup`.`ID`, `a_item.HeaterMeter.HeaterMeterGroup`.`DateDeleted`, `a_item.HeaterMeter.HeaterMeterGroup`.`Name`, `h`.`ID`, `h`.`DateDeleted`, `h`.`GNumber`, `h`.`HeaterMeterGroupID`, `h`.`Name`, `h0`.`ID`, `h0`.`DateDeleted`, `h0`.`Name`
+FROM `HeaterValue` AS `a_item`
+LEFT JOIN `HeaterMeter` AS `a_item.HeaterMeter` ON `a_item`.`HeaterMeterID` = `a_item.HeaterMeter`.`ID`
+LEFT JOIN `HeaterMeterGroup` AS `a_item.HeaterMeter.HeaterMeterGroup` ON `a_item.HeaterMeter`.`HeaterMeterGroupID` = `a_item.HeaterMeter.HeaterMeterGroup`.`ID`
+LEFT JOIN `HeaterMeter` AS `h` ON `a_item`.`HeaterMeterID` = `h`.`ID`
+LEFT JOIN `HeaterMeterGroup` AS `h0` ON `h`.`HeaterMeterGroupID` = `h0`.`ID`
+WHERE `a_item.HeaterMeter.HeaterMeterGroup`.`ID` = @__HeaterMeterGroup_ID_0
+ORDER BY `a_item`.`Date`, `a_item`.`HeaterMeterID`, `a_item.HeaterMeter`.`HeaterMeterGroupID`
+2017-03-22 22:08:40.896 +01:00 [Information] Executing JsonResult, writing value "HouseDB.Controllers.Heater.HeaterClientModel".
+2017-03-22 22:08:40.901 +01:00 [Information] Executed action "HouseDB.Controllers.Heater.HeaterController.GetClientModel (HouseDB)" in 133.7737ms
+2017-03-22 22:08:40.903 +01:00 [Information] Request finished in 139.331ms 200 application/json; charset=utf-8

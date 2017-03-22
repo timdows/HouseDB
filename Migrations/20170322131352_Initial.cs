@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MysensorElectronDB.Migrations
+namespace HouseDB.Migrations
 {
     public partial class Initial : Migration
     {

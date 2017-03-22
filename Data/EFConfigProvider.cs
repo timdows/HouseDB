@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 
-namespace MysensorElectronDB.Data
+namespace HouseDB.Data
 {
 	public class EFConfigProvider : ConfigurationProvider
 	{
