@@ -13,7 +13,8 @@ namespace MysensorElectronDB
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
-                .UseKestrel()
+				.UseUrls("http://localhost:5001")
+				.UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
