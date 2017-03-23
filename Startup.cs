@@ -39,6 +39,8 @@ namespace HouseDB
 				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 			});
 
+			services.AddCors();
+
 			var connection = Configuration["Database:ConnectionString"];
 			services.AddDbContext<DataContext>(options => options.UseMySQL(connection));
 		}
@@ -48,6 +50,8 @@ namespace HouseDB
 		{
 			loggerFactory.AddSerilog();
 			appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
+
+			app.UseCors(builder => builder.AllowAnyOrigin());
 
 			app.UseMvc(routes =>
 			{

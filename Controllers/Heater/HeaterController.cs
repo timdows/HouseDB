@@ -1,6 +1,7 @@
 ﻿using HouseDB.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace HouseDB.Controllers.Heater
@@ -20,11 +21,25 @@ namespace HouseDB.Controllers.Heater
 			return Json(meters);
 		}
 
-		public IActionResult GetClientModel([FromQuery] long heaterMeterGroupID)
+		public IActionResult GetClientModel()
 		{
-			var clientModel = new HeaterClientModel();
-			clientModel.Load(_dataContext, heaterMeterGroupID);
-			return Json(clientModel);
+			var groups = _dataContext.HeaterMeterGroups.ToList();
+			var clientModels = new List<HeaterGroupClientModel>();
+			var heaterClientValues = new List<List<HeaterClientValue>>();
+
+			foreach (var group in groups)
+			{
+				var clientModel = new HeaterGroupClientModel();
+				clientModel.Load(_dataContext, group.ID);
+
+				clientModels.Add(clientModel);
+				heaterClientValues.Add(clientModel.HeaterClientValues);
+			}
+
+			var total = new HeaterTotalClientModel();
+			total.Load(_dataContext, heaterClientValues);
+
+			return Json(new { total, clientModels });
 		}
 	}
 }
