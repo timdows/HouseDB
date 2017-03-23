@@ -13,5 +13,6 @@ namespace HouseDB.Data
 		public DbSet<HeaterMeterGroup> HeaterMeterGroups { get; set; }
 		public DbSet<HeaterMeter> HeaterMeters { get; set; }
 		public DbSet<HeaterValue> HeaterValues { get; set; }
+		public DbSet<Device> Devices { get; set; }
 	}
 }
