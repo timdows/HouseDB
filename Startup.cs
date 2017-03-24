@@ -58,6 +58,7 @@ namespace HouseDB
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(name: "jsonRoute", template: "{controller}/{action}.json");
+				routes.MapRoute(name: "postRoute", template: "{controller}/{action}");
 			});
 		}
 	}
