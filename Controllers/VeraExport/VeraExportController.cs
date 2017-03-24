@@ -46,7 +46,9 @@ namespace HouseDB.Controllers.VeraExport
 					//	exportFile.Content = memoryStream.ToArray();
 					//}
 
-					using (var fileStream = new FileStream(Path.Combine("exports", file.FileName), FileMode.Create))
+					using (var fileStream = new FileStream(
+						Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("exports", file.FileName)), 
+						FileMode.Create))
 					{
 						await file.CopyToAsync(fileStream);
 					}
