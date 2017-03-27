@@ -22,7 +22,7 @@ namespace HouseDB.Controllers.VeraExport
 			_logger = logger;
 		}
 
-		public async Task<IActionResult> UploadAsync(ICollection<IFormFile> files)
+		public async Task<IActionResult> Upload(ICollection<IFormFile> files)
 		{
 			_logger.LogWarning("VeraExportController files count {0}", files.Count);
 
@@ -46,9 +46,13 @@ namespace HouseDB.Controllers.VeraExport
 					//	exportFile.Content = memoryStream.ToArray();
 					//}
 
-					using (var fileStream = new FileStream(
-						Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("exports", file.FileName)), 
-						FileMode.Create))
+					var exportPath = Path.Combine(Directory.GetCurrentDirectory(), "exports");
+					if (!Directory.Exists(exportPath))
+					{
+						Directory.CreateDirectory(exportPath);
+					}
+					
+					using (var fileStream = new FileStream(Path.Combine(exportPath, file.FileName), FileMode.Create))
 					{
 						await file.CopyToAsync(fileStream);
 					}
