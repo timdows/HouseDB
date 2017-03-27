@@ -8,9 +8,10 @@ using HouseDB.Data;
 namespace HouseDB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20170327115628_OriginalFileName")]
+    partial class OriginalFileName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");
@@ -129,30 +130,6 @@ namespace HouseDB.Migrations
                     b.ToTable("HeaterValue");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.KwhDeviceValue", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("DateDeleted");
-
-                    b.Property<DateTime>("DateTime");
-
-                    b.Property<long?>("DeviceID");
-
-                    b.Property<string>("RawDataLine");
-
-                    b.Property<long>("UnixTimestamp");
-
-                    b.Property<decimal>("Value");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("DeviceID");
-
-                    b.ToTable("KwhDeviceValue");
-                });
-
             modelBuilder.Entity("HouseDB.Data.Models.HeaterMeter", b =>
                 {
                     b.HasOne("HouseDB.Data.Models.HeaterMeterGroup", "HeaterMeterGroup")
@@ -165,13 +142,6 @@ namespace HouseDB.Migrations
                     b.HasOne("HouseDB.Data.Models.HeaterMeter", "HeaterMeter")
                         .WithMany("HeaterValues")
                         .HasForeignKey("HeaterMeterID");
-                });
-
-            modelBuilder.Entity("HouseDB.Data.Models.KwhDeviceValue", b =>
-                {
-                    b.HasOne("HouseDB.Data.Models.Device", "Device")
-                        .WithMany()
-                        .HasForeignKey("DeviceID");
                 });
         }
     }

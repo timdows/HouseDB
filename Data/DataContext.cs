@@ -15,5 +15,6 @@ namespace HouseDB.Data
 		public DbSet<HeaterValue> HeaterValues { get; set; }
 		public DbSet<Device> Devices { get; set; }
 		public DbSet<ExportFile> ExportFiles { get; set; }
+		public DbSet<KwhDeviceValue> KwhDeviceValues { get; set; }
 	}
 }
