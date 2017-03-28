@@ -131,11 +131,13 @@ namespace HouseDB.Controllers.VeraExport
 					continue;
 				}
 
-				int perIteration = 500;
+				int perIteration = 1000;
 				while (newKwhDeviceValues.Count >= perIteration)
 				{
 					var range = newKwhDeviceValues.GetRange(0, perIteration);
 					newKwhDeviceValues.RemoveRange(0, perIteration);
+
+					_logger.LogWarning("Lines left for device {0}: {1}", device.Name, newKwhDeviceValues.Count);
 
 					await _dataContext.KwhDeviceValues.AddRangeAsync(range);
 					await _dataContext.SaveChangesAsync();
