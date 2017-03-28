@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace HouseDB.Controllers.Heater
 {
-	public class HeaterTotalClientModel
+	public class HeaterTotalClientModel : BaseClientModel
 	{
 		public HeaterMeterGroup HeaterMeterGroup { get; set; } = new HeaterMeterGroup();
 		public List<HeaterGraphData> YearGraphData { get; set; } = new List<HeaterGraphData>();

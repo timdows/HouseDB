@@ -89,7 +89,7 @@ namespace HouseDB.Controllers.VeraExport
 			_logger.LogWarning("ImportKwhDeviceValues extractPath {0}", extractPath);
 
 			var devices = _dataContext.Devices
-				.Where(a_item => a_item.IsForKwhImport && a_item.DataMineChannel == 22)
+				.Where(a_item => a_item.IsForKwhImport)
 				.ToList();
 
 			foreach (var device in devices)
@@ -120,7 +120,7 @@ namespace HouseDB.Controllers.VeraExport
 
 				// Get exising values from database
 				var existingValues = _dataContext.KwhDeviceValues
-					.Where(a_item => a_item.Device.ID == device.ID)
+					.Where(a_item => a_item.DeviceID == device.ID)
 					.ToList();
 
 				// Compare lists

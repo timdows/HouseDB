@@ -4,11 +4,12 @@ using HouseDB.Data.Settings;
 using HouseDB.Extensions;
 using Microsoft.Extensions.Caching.Memory;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace HouseDB.Controllers.SevenSegment
 {
-	public class SevenSegmentClientModel
+	public class SevenSegmentClientModel : BaseClientModel
 	{
 		public string Watt { get; set; }
 		public string LastWeekTotal { get; set; }
@@ -56,20 +57,32 @@ namespace HouseDB.Controllers.SevenSegment
 			var previousWeekMonday = DateTime.Today.AddDays(-7).StartOfWeek(DayOfWeek.Monday);
 			var previousWeekSunday = previousWeekMonday.AddDays(6);
 
+			// Get working data from cache or set it
+			var dataset = _memoryCache.Get($"{nameof(SevenSegmentClientModel)}_DataSet") as List<KwhDeviceValue>;
+			if (dataset == null)
+			{
+				dataset = _dataContext.KwhDeviceValues
+					.Where(a_item => (a_item.DeviceID == highDevice.ID || a_item.DeviceID == lowDevice.ID) &&
+									 a_item.DateTime >= previousMonthFirstDay &&
+									 a_item.DateTime <= thisWeekSunday)
+					.ToList();
+				_memoryCache.Set($"{nameof(SevenSegmentClientModel)}_DataSet", dataset);
+			}
+
 			// Calculate previous week
-			var previousWeekHighValues = GetKwhDeviceValues(highDevice, previousWeekMonday, previousWeekSunday);
+			var previousWeekHighValues = GetKwhDeviceValues(dataset, highDevice, previousWeekMonday, previousWeekSunday);
 			var previousWeekHigh = previousWeekHighValues.Max(a_item => a_item.Value) - previousWeekHighValues.Min(a_item => a_item.Value);
 
-			var previousWeekLowValues = GetKwhDeviceValues(lowDevice, previousWeekMonday, previousWeekSunday);
+			var previousWeekLowValues = GetKwhDeviceValues(dataset, lowDevice, previousWeekMonday, previousWeekSunday);
 			var previousWeekLow = previousWeekLowValues.Max(a_item => a_item.Value) - previousWeekLowValues.Min(a_item => a_item.Value);
 
 			LastWeekTotal = (previousWeekHigh + previousWeekLow).ToString();
 
 			// Calculate previous month
-			var previousMonthHighValues = GetKwhDeviceValues(highDevice, previousMonthFirstDay, previousMonthLastDay);
+			var previousMonthHighValues = GetKwhDeviceValues(dataset, highDevice, previousMonthFirstDay, previousMonthLastDay);
 			var previousMonthHigh = previousMonthHighValues.Max(a_item => a_item.Value) - previousMonthHighValues.Min(a_item => a_item.Value);
 
-			var previousMonthLowValues = GetKwhDeviceValues(lowDevice, previousMonthFirstDay, previousMonthLastDay);
+			var previousMonthLowValues = GetKwhDeviceValues(dataset, lowDevice, previousMonthFirstDay, previousMonthLastDay);
 			var previousMonthLow = previousMonthLowValues.Max(a_item => a_item.Value) - previousMonthLowValues.Min(a_item => a_item.Value);
 
 			LastMonthTotal = (previousMonthHigh + previousMonthLow).ToString();
@@ -79,30 +92,32 @@ namespace HouseDB.Controllers.SevenSegment
 			var lowPowerImportValue = (low == null) ? null : low as PowerImportValueClientModel;
 
 			// Calculate this week and try to use cached values
-			var thisWeekHighValues = GetKwhDeviceValues(highDevice, thisWeekMonday, thisWeekSunday);
+			var thisWeekHighValues = GetKwhDeviceValues(dataset, highDevice, thisWeekMonday, thisWeekSunday);
 			var thisWeekHigh = (highPowerImportValue?.Max ?? thisWeekHighValues.Max(a_item => a_item.Value)) - thisWeekHighValues.Min(a_item => a_item.Value);
 
-			var thisWeekLowValues = GetKwhDeviceValues(lowDevice, thisWeekMonday, thisWeekSunday);
+			var thisWeekLowValues = GetKwhDeviceValues(dataset, lowDevice, thisWeekMonday, thisWeekSunday);
 			var thisWeekLow = (lowPowerImportValue?.Max ?? thisWeekLowValues.Max(a_item => a_item.Value)) - thisWeekLowValues.Min(a_item => a_item.Value);
 
 			ThisWeekTotal = (thisWeekHigh + thisWeekLow).ToString();
 
 			// Calculate this month and try to use cached values
-			var thisMonthHighValues = GetKwhDeviceValues(highDevice, thisMonthFirstDay, thisMonthLastDay);
+			var thisMonthHighValues = GetKwhDeviceValues(dataset, highDevice, thisMonthFirstDay, thisMonthLastDay);
 			var thisMonthHigh = (highPowerImportValue?.Max ?? thisMonthHighValues.Max(a_item => a_item.Value)) - thisMonthHighValues.Min(a_item => a_item.Value);
 
-			var thisMonthLowValues = GetKwhDeviceValues(lowDevice, thisMonthFirstDay, thisMonthLastDay);
+			var thisMonthLowValues = GetKwhDeviceValues(dataset, lowDevice, thisMonthFirstDay, thisMonthLastDay);
 			var thisMonthLow = (highPowerImportValue?.Max ?? thisMonthLowValues.Max(a_item => a_item.Value)) - thisMonthLowValues.Min(a_item => a_item.Value);
 
 			ThisMonthTotal = (thisMonthHigh + thisMonthLow).ToString();
 		}
 
-		private IQueryable<KwhDeviceValue> GetKwhDeviceValues(Data.Models.Device device, DateTime firstDate, DateTime lastDate)
+		private IQueryable<KwhDeviceValue> GetKwhDeviceValues(List<KwhDeviceValue> dataset, Data.Models.Device device, DateTime firstDate, DateTime lastDate)
 		{
-			return _dataContext.KwhDeviceValues
-				.Where(a_item => a_item.ID == device.ID &&
+			return dataset
+				.Where(a_item => a_item.DeviceID == device.ID &&
 								 a_item.DateTime >= firstDate &&
-								 a_item.DateTime <= lastDate);
+								 a_item.DateTime <= lastDate)
+				.DefaultIfEmpty(new KwhDeviceValue())
+				.AsQueryable();
 		}
 	}
 }

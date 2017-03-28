@@ -1,5 +1,6 @@
 ﻿using HouseDB.Extensions;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HouseDB.Data.Models
 {
@@ -10,6 +11,9 @@ namespace HouseDB.Data.Models
 		public long UnixTimestamp { get; set; }
 		public Decimal Value { get; set; }
 		public string RawDataLine { get; set; }
+
+		[ForeignKey("Device")]
+		public long DeviceID { get; set; }
 
 		public static KwhDeviceValue Create(string rawDataLine, Device device)
 		{
