@@ -86,6 +86,8 @@ namespace HouseDB.Controllers.VeraExport
 
 		private async Task ImportKwhDeviceValues(string extractPath)
 		{
+			_logger.LogWarning("ImportKwhDeviceValues extractPath {0}", extractPath);
+
 			var devices = _dataContext.Devices
 				.Where(a_item => a_item.IsForKwhImport)
 				.ToList();
@@ -128,6 +130,7 @@ namespace HouseDB.Controllers.VeraExport
 
 				if (!newKwhDeviceValues.Any())
 				{
+					_logger.LogWarning("Nothing to import for {0}", device.Name);
 					continue;
 				}
 
