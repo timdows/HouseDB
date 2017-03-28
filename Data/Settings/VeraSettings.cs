@@ -1,4 +1,4 @@
-﻿namespace HouseDB.Settings
+﻿namespace HouseDB.Data.Settings
 {
 	public class VeraSettings
     {

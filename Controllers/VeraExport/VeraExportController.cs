@@ -1,6 +1,5 @@
 ﻿using HouseDB.Data;
 using HouseDB.Data.Models;
-using HouseDB.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,9 +24,9 @@ namespace HouseDB.Controllers.VeraExport
 			_logger = logger;
 		}
 
-		public async Task<IActionResult> Test()
+		public async Task<IActionResult> Test([FromQuery] string localPath)
 		{
-			await ImportKwhDeviceValues(@"C:\Users\Timdows\Documents\GitHub\HouseDB\exports\extract\20170327-152819");
+			await ImportKwhDeviceValues(localPath);
 
 			return Json(true);
 		}

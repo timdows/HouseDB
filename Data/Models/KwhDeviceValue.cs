@@ -1,6 +1,5 @@
 ﻿using HouseDB.Extensions;
 using System;
-using System.Collections.Generic;
 
 namespace HouseDB.Data.Models
 {
@@ -20,10 +19,15 @@ namespace HouseDB.Data.Models
 				return null;
 			}
 
+			if (!long.TryParse(split[0], out long unixTimestamp) || !decimal.TryParse(split[1], out decimal value))
+			{
+				return null;
+			}
+
 			var kwhDeviceValue = new KwhDeviceValue
 			{
-				UnixTimestamp = long.Parse(split[0]),
-				Value = decimal.Parse(split[1]),
+				UnixTimestamp = unixTimestamp,
+				Value = value,
 				RawDataLine = rawDataLine,
 				Device = device
 			};
@@ -40,7 +44,7 @@ namespace HouseDB.Data.Models
 			if (Object.ReferenceEquals(this, kwhDeviceValue)) return true;
 
 			//Check whether the  properties are equal. 
-			return 
+			return
 				this != null &&
 				obj != null &&
 				UnixTimestamp.Equals(kwhDeviceValue.UnixTimestamp) &&

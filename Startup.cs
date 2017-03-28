@@ -7,7 +7,7 @@ using HouseDB.Data;
 using MySQL.Data.Entity.Extensions;
 using Newtonsoft.Json;
 using Serilog;
-using HouseDB.Settings;
+using HouseDB.Data.Settings;
 
 namespace HouseDB
 {
@@ -45,6 +45,7 @@ namespace HouseDB
 			var connection = Configuration["Database:ConnectionString"];
 			services.AddDbContext<DataContext>(options => options.UseMySQL(connection));
 			services.Configure<VeraSettings>(Configuration.GetSection("VeraSettings"));
+			services.Configure<DataMineSettings>(Configuration.GetSection("DataMineSettings"));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

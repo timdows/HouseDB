@@ -1,5 +1,5 @@
 ﻿using HouseDB.Data;
-using HouseDB.Settings;
+using HouseDB.Data.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
