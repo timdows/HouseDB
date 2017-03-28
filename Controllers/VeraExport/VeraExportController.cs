@@ -89,7 +89,7 @@ namespace HouseDB.Controllers.VeraExport
 			_logger.LogWarning("ImportKwhDeviceValues extractPath {0}", extractPath);
 
 			var devices = _dataContext.Devices
-				.Where(a_item => a_item.IsForKwhImport)
+				.Where(a_item => a_item.IsForKwhImport && a_item.DataMineChannel == 22)
 				.ToList();
 
 			foreach (var device in devices)
@@ -133,6 +133,8 @@ namespace HouseDB.Controllers.VeraExport
 					_logger.LogWarning("Nothing to import for {0}", device.Name);
 					continue;
 				}
+
+				existingValues = null;
 
 				int perIteration = 1000;
 				while (newKwhDeviceValues.Count >= perIteration)

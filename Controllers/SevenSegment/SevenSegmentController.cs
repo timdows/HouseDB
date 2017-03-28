@@ -3,14 +3,11 @@ using HouseDB.Data.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
 
 namespace HouseDB.Controllers.SevenSegment
 {
 	public class SevenSegmentController : HouseDBController
-    {
-		private const string CacheKeyWattValue = "SevenSegment_WattValue";
-
+	{
 		private readonly VeraSettings _veraSettings;
 		private readonly IMemoryCache _memoryCache;
 		private readonly DataMineSettings _dataMineSettings;
@@ -29,26 +26,19 @@ namespace HouseDB.Controllers.SevenSegment
 
 		public void InsertCurrentWattValue([FromForm] int wattValue)
 		{
-			_memoryCache.Set(CacheKeyWattValue, wattValue);
+			_memoryCache.Set($"{nameof(SevenSegmentController)}_WattValue", wattValue);
 		}
 
 		public void InsertCurrentPowerImportValue([FromForm] PowerImportValueClientModel clientModel)
 		{
-			_memoryCache.Set(CacheKeyWattValue, 1);
+			_memoryCache.Set($"{nameof(SevenSegmentController)}_{clientModel.Type}", clientModel);
 		}
 
-		public async Task<JsonResult> SevenSegment()
+		public JsonResult GetClientModel()
 		{
-			var clientModel = new SevenSegmentClientModel(_dataContext, _veraSettings, _dataMineSettings);
-			await clientModel.Load();
+			var clientModel = new SevenSegmentClientModel(_dataContext, _memoryCache, _veraSettings, _dataMineSettings);
+			clientModel.Load();
 			return Json(clientModel);
 		}
-	}
-
-	public class PowerImportValueClientModel
-	{
-		public string Label { get; set; }
-		public decimal Min { get; set; }
-		public decimal Max { get; set; }
 	}
 }
