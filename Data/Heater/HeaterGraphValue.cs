@@ -1,4 +1,4 @@
-﻿namespace HouseDB.Controllers.Heater
+﻿namespace HouseDB.Data.Heater
 {
 	public class HeaterGraphValue
 	{

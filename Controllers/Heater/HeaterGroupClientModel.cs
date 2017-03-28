@@ -1,4 +1,5 @@
 ﻿using HouseDB.Data;
+using HouseDB.Data.Heater;
 using HouseDB.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

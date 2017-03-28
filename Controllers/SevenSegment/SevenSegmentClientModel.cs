@@ -21,19 +21,19 @@ namespace HouseDB.Controllers.SevenSegment
 		//private readonly IMemoryCache _memoryCache;
 		private readonly DataContext _dataContext;
 		private readonly VeraSettings _veraSettings;
-		//private readonly DataMineSettings _dataMineSettings;
+		private readonly DataMineSettings _dataMineSettings;
 
 		public SevenSegmentClientModel(
 			DataContext dataContext,
 			//IMemoryCache memoryCache,
-			VeraSettings veraSettings
-			//DataMineSettings dataMineSettings
+			VeraSettings veraSettings,
+			DataMineSettings dataMineSettings
 			)
 		{
 			_dataContext = dataContext;
 			//_memoryCache = memoryCache;
 			_veraSettings = veraSettings;
-			//_dataMineSettings = dataMineSettings;
+			_dataMineSettings = dataMineSettings;
 		}
 
 		public async Task Load()

@@ -24,14 +24,14 @@ namespace HouseDB.Controllers.VeraExport
 			_logger = logger;
 		}
 
-		public async Task<IActionResult> Test([FromQuery] string localPath)
+		public async Task<JsonResult> Test([FromQuery] string localPath)
 		{
 			await ImportKwhDeviceValues(localPath);
 
 			return Json(true);
 		}
 
-		public async Task<IActionResult> Upload(ICollection<IFormFile> files)
+		public async Task<JsonResult> Upload(ICollection<IFormFile> files)
 		{
 			_logger.LogWarning("VeraExportController files count {0}", files.Count);
 

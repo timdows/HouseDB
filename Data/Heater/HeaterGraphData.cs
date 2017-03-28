@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HouseDB.Controllers.Heater
+namespace HouseDB.Data.Heater
 {
 	public class HeaterGraphData
 	{
