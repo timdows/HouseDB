@@ -97,6 +97,8 @@ namespace HouseDB.Controllers.VeraExport
 				var rawPath = Path.Combine(extractPath, Path.Combine(device.DataMineChannel.ToString(), "raw"));
 				var rawFiles = Directory.GetFiles(rawPath, "*.txt");
 
+				_logger.LogWarning($"{rawFiles.Length} files for device {device.Name}");
+
 				// Get raw information and parse to list
 				var rawKwhDeviceValues = new List<KwhDeviceValue>();
 				foreach (var rawFile in rawFiles)
