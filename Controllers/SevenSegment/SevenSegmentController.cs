@@ -40,5 +40,13 @@ namespace HouseDB.Controllers.SevenSegment
 			clientModel.Load();
 			return Json(clientModel);
 		}
+
+		public JsonResult GetDebugCacheData()
+		{
+			var high = _memoryCache.Get($"{nameof(SevenSegmentController)}_High");
+			var low = _memoryCache.Get($"{nameof(SevenSegmentController)}_Low");
+
+			return Json(new { high, low });
+		}
 	}
 }
