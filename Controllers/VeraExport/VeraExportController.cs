@@ -149,6 +149,9 @@ namespace HouseDB.Controllers.VeraExport
 					await _dataContext.KwhDeviceValues.AddRangeAsync(range);
 					await _dataContext.SaveChangesAsync();
 				}
+
+				_logger.LogWarning("Lines left for device {0}: {1}", device.Name, newKwhDeviceValues.Count);
+
 				await _dataContext.KwhDeviceValues.AddRangeAsync(newKwhDeviceValues);
 				await _dataContext.SaveChangesAsync();
 			}
