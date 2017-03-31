@@ -67,7 +67,7 @@ namespace HouseDB.Controllers.SevenSegment
 									 a_item.DateTime <= thisWeekSunday)
 					.ToList();
 				_memoryCache.Set(
-					$"{nameof(SevenSegmentClientModel)}_DataSet", dataset, DateTimeOffset.Now.AddMinutes(5));
+					$"{nameof(SevenSegmentClientModel)}_DataSet", dataset, DateTimeOffset.Now.AddHours(1));
 			}
 
 			// Calculate previous week
