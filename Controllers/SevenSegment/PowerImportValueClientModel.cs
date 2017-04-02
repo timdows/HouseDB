@@ -20,6 +20,7 @@
 
 		public bool Valid => Max != -9999999999 && Min != 9999999999;
 
+		public decimal? ValidMin => Valid ? (decimal?)Min : null;
 		public decimal? ValidMax => Valid ? (decimal?)Max : null;
 	}
 }

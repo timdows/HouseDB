@@ -40,7 +40,16 @@ namespace HouseDB.Controllers.SevenSegment
 			var high = _memoryCache.Get($"{nameof(SevenSegmentController)}_High");
 			var low = _memoryCache.Get($"{nameof(SevenSegmentController)}_Low");
 
-			Watt = (watt == null) ? "0" : watt.ToString();
+			//Watt = (watt == null) ? "0" : watt.ToString();
+			if (watt == null)
+			{
+				Watt = "0";
+			}
+			else
+			{
+				var wattValueClientModel = watt as WattValueClientModel;
+				Watt = wattValueClientModel.Watt.ToString();
+			}
 
 			// Get the two devices for high and low
 			var highDevice = _dataContext.Devices.Single(a_item => a_item.ID == _dataMineSettings.PowerImport1Channel);
