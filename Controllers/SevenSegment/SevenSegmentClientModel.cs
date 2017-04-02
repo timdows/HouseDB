@@ -103,19 +103,23 @@ namespace HouseDB.Controllers.SevenSegment
 
 			// Calculate this week and try to use cached values
 			var thisWeekHighValues = GetKwhDeviceValues(dataset, highDevice, thisWeekMonday, thisWeekSunday);
-			var thisWeekHigh = (highPowerImportValue?.ValidMax ?? thisWeekHighValues.Max(a_item => a_item.Value)) - thisWeekHighValues.Min(a_item => a_item.Value);
+			var thisWeekHigh = (highPowerImportValue?.ValidMax ?? thisWeekHighValues.Max(a_item => a_item.Value)) -
+							   (highPowerImportValue?.ValidMin ?? thisWeekHighValues.Min(a_item => a_item.Value));
 
 			var thisWeekLowValues = GetKwhDeviceValues(dataset, lowDevice, thisWeekMonday, thisWeekSunday);
-			var thisWeekLow = (lowPowerImportValue?.ValidMax ?? thisWeekLowValues.Max(a_item => a_item.Value)) - thisWeekLowValues.Min(a_item => a_item.Value);
+			var thisWeekLow = (lowPowerImportValue?.ValidMax ?? thisWeekLowValues.Max(a_item => a_item.Value)) -
+							  (lowPowerImportValue?.ValidMin ?? thisWeekLowValues.Min(a_item => a_item.Value));
 
 			ThisWeekTotal = (thisWeekHigh + thisWeekLow).ToString();
 
 			// Calculate this month and try to use cached values
 			var thisMonthHighValues = GetKwhDeviceValues(dataset, highDevice, thisMonthFirstDay, thisMonthLastDay);
-			var thisMonthHigh = (highPowerImportValue?.ValidMax ?? thisMonthHighValues.Max(a_item => a_item.Value)) - thisMonthHighValues.Min(a_item => a_item.Value);
+			var thisMonthHigh = (highPowerImportValue?.ValidMax ?? thisMonthHighValues.Max(a_item => a_item.Value)) -
+								(highPowerImportValue?.ValidMin ?? thisMonthHighValues.Min(a_item => a_item.Value));
 
 			var thisMonthLowValues = GetKwhDeviceValues(dataset, lowDevice, thisMonthFirstDay, thisMonthLastDay);
-			var thisMonthLow = (highPowerImportValue?.ValidMax ?? thisMonthLowValues.Max(a_item => a_item.Value)) - thisMonthLowValues.Min(a_item => a_item.Value);
+			var thisMonthLow = (highPowerImportValue?.ValidMax ?? thisMonthLowValues.Max(a_item => a_item.Value)) -
+							   (highPowerImportValue?.ValidMin ?? thisMonthLowValues.Min(a_item => a_item.Value));
 
 			ThisMonthTotal = (thisMonthHigh + thisMonthLow).ToString();
 		}
