@@ -36,11 +36,13 @@ namespace HouseDB.Controllers.SevenSegment
 
 		public void Load()
 		{
+			// Get cached objects
 			var watt = _memoryCache.Get($"{nameof(SevenSegmentController)}_WattValue");
 			var high = _memoryCache.Get($"{nameof(SevenSegmentController)}_High");
 			var low = _memoryCache.Get($"{nameof(SevenSegmentController)}_Low");
+			var highDeviceCache = _memoryCache.Get($"{nameof(SevenSegmentClientModel)}_HighDevice");
+			var lowDeviceCache = _memoryCache.Get($"{nameof(SevenSegmentClientModel)}_LowDevice");
 
-			//Watt = (watt == null) ? "0" : watt.ToString();
 			if (watt == null)
 			{
 				Watt = "0";
@@ -52,8 +54,28 @@ namespace HouseDB.Controllers.SevenSegment
 			}
 
 			// Get the two devices for high and low
-			var highDevice = _dataContext.Devices.Single(a_item => a_item.ID == _dataMineSettings.PowerImport1Channel);
-			var lowDevice = _dataContext.Devices.Single(a_item => a_item.ID == _dataMineSettings.PowerImport2Channel);
+			Data.Models.Device highDevice;
+			Data.Models.Device lowDevice;
+
+			if (highDeviceCache == null)
+			{
+				highDevice = _dataContext.Devices.Single(a_item => a_item.ID == _dataMineSettings.PowerImport1Channel);
+				_memoryCache.Set($"{nameof(SevenSegmentClientModel)}_HighDevice", highDevice);
+			}
+			else
+			{
+				highDevice = highDeviceCache as Data.Models.Device;
+			}
+			
+			if (lowDeviceCache == null)
+			{
+				lowDevice = _dataContext.Devices.Single(a_item => a_item.ID == _dataMineSettings.PowerImport2Channel);
+				_memoryCache.Set($"{nameof(SevenSegmentClientModel)}_LowDevice", lowDevice);
+			}
+			else
+			{
+				lowDevice = lowDeviceCache as Data.Models.Device;
+			}
 
 			// Get working dates
 			var thisMonthFirstDay = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
