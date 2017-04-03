@@ -1,7 +1,10 @@
-﻿namespace HouseDB.Controllers.SevenSegment
+﻿using System;
+
+namespace HouseDB.Controllers.SevenSegment
 {
 	public class PowerImportValueClientModel
     {
+		public DateTime DateTimeAdded { get; set; }
 		public string Label { get; set; }
 		public decimal Min { get; set; }
 		public decimal Max { get; set; }

@@ -37,6 +37,7 @@ namespace HouseDB.Controllers.SevenSegment
 
 		public void InsertCurrentPowerImportValue([FromForm] PowerImportValueClientModel clientModel)
 		{
+			clientModel.DateTimeAdded = DateTime.Now;
 			_memoryCache.Set($"{nameof(SevenSegmentController)}_{clientModel.Type}", clientModel);
 		}
 
