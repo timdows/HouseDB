@@ -84,6 +84,16 @@ namespace HouseDB.Controllers.VeraExport
 			return Json(true);
 		}
 
+		public JsonResult GetExportFileStats()
+		{
+			var last10Stats = _dataContext.ExportFiles
+				.OrderByDescending(a_item => a_item.DateAdded)
+				.Take(10)
+				.ToList();
+
+			return Json(last10Stats);
+		}
+
 		private async Task ImportKwhDeviceValues(string extractPath)
 		{
 			_logger.LogWarning("ImportKwhDeviceValues extractPath {0}", extractPath);
