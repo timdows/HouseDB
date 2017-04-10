@@ -47,6 +47,7 @@ namespace HouseDB
 			services.AddDbContext<DataContext>(options => options.UseMySQL(connection));
 			services.Configure<VeraSettings>(Configuration.GetSection("VeraSettings"));
 			services.Configure<DataMineSettings>(Configuration.GetSection("DataMineSettings"));
+			services.Configure<RaspicamSettings>(Configuration.GetSection("RaspicamSettings"));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -9,14 +9,17 @@ namespace HouseDB.Controllers.Settings
 	{
 		private readonly VeraSettings _veraSettings;
 		private readonly DataMineSettings _dataMineSettings;
+		private readonly RaspicamSettings _raspicamSettings;
 
 		public SettingsController(
 			DataContext dataContext,
 			IOptions<VeraSettings> veraSettings,
-			IOptions<DataMineSettings> dataMineSettings) : base(dataContext)
+			IOptions<DataMineSettings> dataMineSettings,
+			IOptions<RaspicamSettings> raspicamSettings) : base(dataContext)
 		{
 			_veraSettings = veraSettings.Value;
 			_dataMineSettings = dataMineSettings.Value;
+			_raspicamSettings = raspicamSettings.Value;
 		}
 
 		public JsonResult GetVeraSettings()
@@ -27,6 +30,11 @@ namespace HouseDB.Controllers.Settings
 		public JsonResult GetDataMineSettings()
 		{
 			return Json(_dataMineSettings);
+		}
+
+		public JsonResult GetRaspicamSettings()
+		{
+			return Json(_raspicamSettings);
 		}
 	}
 }
