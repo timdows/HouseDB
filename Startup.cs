@@ -48,6 +48,7 @@ namespace HouseDB
 			services.Configure<VeraSettings>(Configuration.GetSection("VeraSettings"));
 			services.Configure<DataMineSettings>(Configuration.GetSection("DataMineSettings"));
 			services.Configure<RaspicamSettings>(Configuration.GetSection("RaspicamSettings"));
+			services.Configure<DomoticzSettings>(Configuration.GetSection("DomoticzSettings"));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
