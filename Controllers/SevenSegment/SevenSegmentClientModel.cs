@@ -1,4 +1,5 @@
-﻿using HouseDB.Data;
+﻿using HouseDB.Controllers.Exporter;
+using HouseDB.Data;
 using HouseDB.Data.Models;
 using HouseDB.Data.Settings;
 using HouseDB.Extensions;
@@ -37,7 +38,7 @@ namespace HouseDB.Controllers.SevenSegment
 		public void Load()
 		{
 			// Get cached objects
-			var watt = _memoryCache.Get($"{nameof(SevenSegmentController)}_WattValue");
+			var watt = _memoryCache.Get($"{nameof(ExporterController)}_WattValue");
 			var high = _memoryCache.Get($"{nameof(SevenSegmentController)}_High");
 			var low = _memoryCache.Get($"{nameof(SevenSegmentController)}_Low");
 			var highDeviceCache = _memoryCache.Get($"{nameof(SevenSegmentClientModel)}_HighDevice");
