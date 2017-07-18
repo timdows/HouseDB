@@ -1,5 +1,6 @@
 ﻿using HouseDB.Controllers.SevenSegment;
 using HouseDB.Data;
+using HouseDB.Data.Exporter;
 using HouseDB.Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,11 @@ namespace HouseDB.Controllers.Exporter
 				DateTimeAdded = DateTime.Now
 			};
 			_memoryCache.Set($"{nameof(ExporterController)}_WattValue", clientModel);
+		}
+
+		public void InsertCurrentPowerValues([FromBody] ExporterCurrentPowerValues exporterCurrentPowerValues)
+		{
+			_memoryCache.Set($"{nameof(ExporterCurrentPowerValues)}", exporterCurrentPowerValues);
 		}
 
 		public async Task<JsonResult> UploadDatabase(ICollection<IFormFile> files)

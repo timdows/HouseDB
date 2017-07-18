@@ -25,7 +25,7 @@ namespace HouseDB
 			Configuration = builder.Build();
 
 			Log.Logger = new LoggerConfiguration()
-				.MinimumLevel.Warning()
+				.MinimumLevel.Debug()
 				.Enrich.FromLogContext()
 				.WriteTo.LiterateConsole()
 				.ReadFrom.Configuration(Configuration)

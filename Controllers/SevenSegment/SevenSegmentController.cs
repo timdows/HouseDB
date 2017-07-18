@@ -25,16 +25,6 @@ namespace HouseDB.Controllers.SevenSegment
 			_dataMineSettings = dataMineSettings.Value;
 		}
 
-		//public void InsertCurrentWattValue([FromForm] int wattValue)
-		//{
-		//	var clientModel = new WattValueClientModel
-		//	{
-		//		Watt = wattValue,
-		//		DateTimeAdded = DateTime.Now
-		//	};
-		//	_memoryCache.Set($"{nameof(SevenSegmentController)}_WattValue", clientModel);
-		//}
-
 		public void InsertCurrentPowerImportValue([FromForm] PowerImportValueClientModel clientModel)
 		{
 			clientModel.DateTimeAdded = DateTime.Now;
