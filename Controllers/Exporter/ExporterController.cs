@@ -34,7 +34,12 @@ namespace HouseDB.Controllers.Exporter
 
 		public void InsertCurrentPowerValues([FromBody] ExporterCurrentPowerValues exporterCurrentPowerValues)
 		{
-			_memoryCache.Set($"{nameof(ExporterCurrentPowerValues)}", exporterCurrentPowerValues);
+			_memoryCache.Set(nameof(ExporterCurrentPowerValues), exporterCurrentPowerValues);
+		}
+
+		public void InsertDomoticzP1Consumption([FromBody] List<DomoticzP1Consumption> domoticzP1Consumptions)
+		{
+			_memoryCache.Set(nameof(List<DomoticzP1Consumption>), domoticzP1Consumptions);
 		}
 
 		public async Task<JsonResult> UploadDatabase(ICollection<IFormFile> files)

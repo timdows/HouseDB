@@ -40,7 +40,8 @@ namespace HouseDB.Controllers.SevenSegment
 		{
 			// Get cached objects
 			//var watt = _memoryCache.Get($"{nameof(ExporterController)}_WattValue");
-			var exporterCurrentPowerValuesCache = _memoryCache.Get($"{nameof(ExporterCurrentPowerValues)}");
+			var exporterCurrentPowerValuesCache = _memoryCache.Get(nameof(ExporterCurrentPowerValues));
+			var domoticzP1ConsumptionsCache = _memoryCache.Get(nameof(List<DomoticzP1Consumption>));
 			//var high = _memoryCache.Get($"{nameof(SevenSegmentController)}_High");
 			//var low = _memoryCache.Get($"{nameof(SevenSegmentController)}_Low");
 			//var highDeviceCache = _memoryCache.Get($"{nameof(SevenSegmentClientModel)}_HighDevice");
@@ -51,6 +52,35 @@ namespace HouseDB.Controllers.SevenSegment
 				var exporterCurrentPowerValues = exporterCurrentPowerValuesCache as ExporterCurrentPowerValues;
 				Watt = exporterCurrentPowerValues.Watt.ToString();
 				ThisWeekTotal = exporterCurrentPowerValues.CounterToday.ToString();
+			}
+
+			if (domoticzP1ConsumptionsCache != null)
+			{
+				var domoticzP1Consumption = domoticzP1ConsumptionsCache as List<DomoticzP1Consumption>;
+
+				// Get working dates
+				var thisMonthFirstDay = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+				var thisMonthLastDay = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month));
+				var previousMonthFirstDay = thisMonthFirstDay.AddMonths(-1);
+				var previousMonthLastDay = thisMonthFirstDay.AddDays(-1);
+
+				var thisWeekMonday = DateTime.Today.StartOfWeek(DayOfWeek.Monday);
+				var thisWeekSunday = thisWeekMonday.AddDays(6);
+				var previousWeekMonday = DateTime.Today.AddDays(-7).StartOfWeek(DayOfWeek.Monday);
+				var previousWeekSunday = previousWeekMonday.AddDays(6);
+
+				// Calculate Month values
+				ThisMonthTotal = domoticzP1Consumption
+					.Where(a_item => a_item.Date >= thisMonthFirstDay &&
+									 a_item.Date <= thisMonthLastDay)
+					.Sum(a_item => a_item.DayUsage)
+					.ToString();
+
+				LastMonthTotal = domoticzP1Consumption
+					.Where(a_item => a_item.Date >= previousMonthFirstDay &&
+									 a_item.Date <= previousMonthLastDay)
+					.Sum(a_item => a_item.DayUsage)
+					.ToString();
 			}
 
 			// In current domoticz setting not working
@@ -69,7 +99,7 @@ namespace HouseDB.Controllers.SevenSegment
 			//{
 			//	highDevice = highDeviceCache as Data.Models.Device;
 			//}
-			
+
 			//if (lowDeviceCache == null)
 			//{
 			//	lowDevice = _dataContext.Devices.Single(a_item => a_item.ID == _dataMineSettings.PowerImport2Channel);
@@ -80,16 +110,7 @@ namespace HouseDB.Controllers.SevenSegment
 			//	lowDevice = lowDeviceCache as Data.Models.Device;
 			//}
 
-			//// Get working dates
-			//var thisMonthFirstDay = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-			//var thisMonthLastDay = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month));
-			//var previousMonthFirstDay = thisMonthFirstDay.AddMonths(-1);
-			//var previousMonthLastDay = thisMonthFirstDay.AddDays(-1);
 
-			//var thisWeekMonday = DateTime.Today.StartOfWeek(DayOfWeek.Monday);
-			//var thisWeekSunday = thisWeekMonday.AddDays(6);
-			//var previousWeekMonday = DateTime.Today.AddDays(-7).StartOfWeek(DayOfWeek.Monday);
-			//var previousWeekSunday = previousWeekMonday.AddDays(6);
 
 			//// Get working data from cache or set it
 			//var dataset = _memoryCache.Get($"{nameof(SevenSegmentClientModel)}_DataSet") as List<KwhDeviceValue>;
