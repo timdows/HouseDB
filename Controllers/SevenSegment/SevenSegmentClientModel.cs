@@ -45,7 +45,7 @@ namespace HouseDB.Controllers.SevenSegment
 			if (domoticzValuesForCachingClientModelCache != null)
 			{
 				var domoticzValuesForCachingClientModel = domoticzValuesForCachingClientModelCache as DomoticzValuesForCachingClientModel;
-				Watt = domoticzValuesForCachingClientModel.P1Values.CurrentWattValue.ToString();
+				Watt = Convert.ToInt32(domoticzValuesForCachingClientModel.P1Values.CurrentWattValue).ToString();
 				ThisWeekTotal = domoticzValuesForCachingClientModel.P1Values.TodayKwhUsage.ToString();
 			}
 
