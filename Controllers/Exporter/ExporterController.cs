@@ -9,6 +9,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HouseDB.Controllers.Exporter
@@ -47,9 +48,32 @@ namespace HouseDB.Controllers.Exporter
 		}
 
 		[HttpPost]
-		public void InsertDomoticzKwhValues([FromBody] DomoticzKwhValuesClientModel clientModel)
+		public async Task InsertDomoticzKwhValues([FromBody] DomoticzKwhValuesClientModel clientModel)
 		{
-			_memoryCache.Set(nameof(List<DomoticzKwhValuesClientModel>), clientModel);
+			// Get the existing values from this device between the clientModel dates
+			var existing = _dataContext.KwhDateUsages
+				.Where(a_item => a_item.DeviceID == clientModel.Device.ID &&
+								 a_item.Date >= clientModel.DomoticzKwhUsages.Min(b_item => b_item.Date) &&
+								 a_item.Date <= clientModel.DomoticzKwhUsages.Max(b_item => b_item.Date))
+				.ToList();
+
+			foreach (var domoticzKwhUsage in clientModel.DomoticzKwhUsages)
+			{
+				// Skip value if it is already in the database
+				if (existing.Any(a_item => a_item.Date == domoticzKwhUsage.Date))
+				{
+					continue;
+				}
+
+				_dataContext.KwhDateUsages.Add(new KwhDateUsage
+				{
+					DeviceID = clientModel.Device.ID,
+					Date = domoticzKwhUsage.Date,
+					Usage = domoticzKwhUsage.Usage
+				});
+			}
+
+			await _dataContext.SaveChangesAsync();
 		}
 
 		[HttpPost]
