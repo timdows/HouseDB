@@ -39,14 +39,14 @@ namespace HouseDB.Controllers.SevenSegment
 		public void Load()
 		{
 			// Get cached objects
-			var exporterCurrentPowerValuesCache = _memoryCache.Get(nameof(ExporterCurrentPowerValues));
+			var domoticzValuesForCachingClientModelCache = _memoryCache.Get(nameof(DomoticzValuesForCachingClientModel));
 			var domoticzP1ConsumptionsCache = _memoryCache.Get(nameof(List<DomoticzP1Consumption>));
 
-			if (exporterCurrentPowerValuesCache != null)
+			if (domoticzValuesForCachingClientModelCache != null)
 			{
-				var exporterCurrentPowerValues = exporterCurrentPowerValuesCache as ExporterCurrentPowerValues;
-				Watt = exporterCurrentPowerValues.Watt.ToString();
-				ThisWeekTotal = exporterCurrentPowerValues.CounterToday.ToString();
+				var domoticzValuesForCachingClientModel = domoticzValuesForCachingClientModelCache as DomoticzValuesForCachingClientModel;
+				Watt = domoticzValuesForCachingClientModel.P1Values.CurrentWattValue.ToString();
+				ThisWeekTotal = domoticzValuesForCachingClientModel.P1Values.TodayKwhUsage.ToString();
 			}
 
 			if (domoticzP1ConsumptionsCache != null)

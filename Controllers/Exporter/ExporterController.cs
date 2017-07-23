@@ -1,5 +1,4 @@
-﻿using HouseDB.Controllers.SevenSegment;
-using HouseDB.Data;
+﻿using HouseDB.Data;
 using HouseDB.Data.Exporter;
 using HouseDB.Data.Models;
 using Microsoft.AspNetCore.Http;
@@ -22,23 +21,6 @@ namespace HouseDB.Controllers.Exporter
 		public ExporterController(DataContext dataContext, IMemoryCache memoryCache) : base(dataContext)
 		{
 			_memoryCache = memoryCache;
-		}
-
-		[HttpPost]
-		public void InsertCurrentWattValue([FromBody] int wattValue)
-		{
-			var clientModel = new WattValueClientModel
-			{
-				Watt = wattValue,
-				DateTimeAdded = DateTime.Now
-			};
-			_memoryCache.Set($"{nameof(ExporterController)}_WattValue", clientModel);
-		}
-
-		[HttpPost]
-		public void InsertCurrentPowerValues([FromBody] ExporterCurrentPowerValues exporterCurrentPowerValues)
-		{
-			_memoryCache.Set(nameof(ExporterCurrentPowerValues), exporterCurrentPowerValues);
 		}
 
 		[HttpPost]
