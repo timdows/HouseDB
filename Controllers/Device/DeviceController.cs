@@ -17,5 +17,15 @@ namespace HouseDB.Controllers.Device
 
 			return Json(device);
 		}
+
+		public JsonResult GetAllKwhExportDevices()
+		{
+			var devices = _dataContext.Devices
+				.Where(a_item => a_item.IsForKwhImport &&
+								 a_item.DomoticzIdx != 0)
+				.ToList();
+
+			return Json(devices);
+		}
 	}
 }
