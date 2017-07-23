@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace HouseDB.Controllers.Exporter
 {
+	[Route("[controller]/[action]")]
 	public class ExporterController : HouseDBController
 	{
 		private readonly IMemoryCache _memoryCache;
@@ -22,6 +23,7 @@ namespace HouseDB.Controllers.Exporter
 			_memoryCache = memoryCache;
 		}
 
+		[HttpPost]
 		public void InsertCurrentWattValue([FromBody] int wattValue)
 		{
 			var clientModel = new WattValueClientModel
@@ -32,16 +34,19 @@ namespace HouseDB.Controllers.Exporter
 			_memoryCache.Set($"{nameof(ExporterController)}_WattValue", clientModel);
 		}
 
+		[HttpPost]
 		public void InsertCurrentPowerValues([FromBody] ExporterCurrentPowerValues exporterCurrentPowerValues)
 		{
 			_memoryCache.Set(nameof(ExporterCurrentPowerValues), exporterCurrentPowerValues);
 		}
 
+		[HttpPost]
 		public void InsertDomoticzP1Consumption([FromBody] List<DomoticzP1Consumption> domoticzP1Consumptions)
 		{
 			_memoryCache.Set(nameof(List<DomoticzP1Consumption>), domoticzP1Consumptions);
 		}
 
+		[HttpPost]
 		public async Task<JsonResult> UploadDatabase(ICollection<IFormFile> files)
 		{
 			Log.Debug("ExporterController files count {0}", files.Count);

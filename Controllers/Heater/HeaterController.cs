@@ -7,12 +7,14 @@ using System.Linq;
 
 namespace HouseDB.Controllers.Heater
 {
+	[Route("[controller]/[action]")]
 	public class HeaterController : HouseDBController
 	{
 		public HeaterController(DataContext dataContext) : base(dataContext)
 		{
 		}
 
+		[HttpGet]
 		public IActionResult GetAll()
 		{
 			var meters = _dataContext.HeaterMeters
@@ -22,6 +24,7 @@ namespace HouseDB.Controllers.Heater
 			return Json(meters);
 		}
 
+		[HttpGet]
 		public IActionResult GetClientModel()
 		{
 			var groups = _dataContext.HeaterMeterGroups.ToList();

@@ -8,6 +8,7 @@ using MySQL.Data.Entity.Extensions;
 using Newtonsoft.Json;
 using Serilog;
 using HouseDB.Data.Settings;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace HouseDB
 {
@@ -49,6 +50,12 @@ namespace HouseDB
 			services.Configure<DataMineSettings>(Configuration.GetSection("DataMineSettings"));
 			services.Configure<RaspicamSettings>(Configuration.GetSection("RaspicamSettings"));
 			services.Configure<DomoticzSettings>(Configuration.GetSection("DomoticzSettings"));
+
+			// Register the Swagger generator, defining one or more Swagger documents
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new Info { Title = "HouseDB API", Version = "v1" });
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +70,15 @@ namespace HouseDB
 			{
 				routes.MapRoute(name: "jsonRoute", template: "{controller}/{action}.json");
 				routes.MapRoute(name: "postRoute", template: "{controller}/{action}");
+			});
+
+			// Enable middleware to serve generated Swagger as a JSON endpoint.
+			app.UseSwagger();
+
+			// Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "HouseDB API v1");
 			});
 		}
 	}

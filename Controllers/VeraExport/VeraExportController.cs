@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace HouseDB.Controllers.VeraExport
 {
+	[Route("[controller]/[action]")]
 	public class VeraExportController : HouseDBController
 	{
 		private readonly ILogger<VeraExportController> _logger;
@@ -24,6 +25,7 @@ namespace HouseDB.Controllers.VeraExport
 			_logger = logger;
 		}
 
+		[HttpPost]
 		public async Task<JsonResult> Test([FromQuery] string localPath)
 		{
 			await ImportKwhDeviceValues(localPath);
@@ -31,6 +33,7 @@ namespace HouseDB.Controllers.VeraExport
 			return Json(true);
 		}
 
+		[HttpPost]
 		public async Task<JsonResult> Upload(ICollection<IFormFile> files)
 		{
 			_logger.LogWarning("VeraExportController files count {0}", files.Count);
@@ -84,6 +87,7 @@ namespace HouseDB.Controllers.VeraExport
 			return Json(true);
 		}
 
+		[HttpGet]
 		public JsonResult GetExportFileStats()
 		{
 			var last10Stats = _dataContext.ExportFiles

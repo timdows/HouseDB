@@ -3,10 +3,10 @@ using HouseDB.Data.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using System;
 
 namespace HouseDB.Controllers.SevenSegment
 {
+	[Route("[controller]/[action]")]
 	public class SevenSegmentController : HouseDBController
 	{
 		private readonly VeraSettings _veraSettings;
@@ -25,12 +25,7 @@ namespace HouseDB.Controllers.SevenSegment
 			_dataMineSettings = dataMineSettings.Value;
 		}
 
-		public void InsertCurrentPowerImportValue([FromForm] PowerImportValueClientModel clientModel)
-		{
-			clientModel.DateTimeAdded = DateTime.Now;
-			_memoryCache.Set($"{nameof(SevenSegmentController)}_{clientModel.Type}", clientModel);
-		}
-
+		[HttpGet]
 		public JsonResult GetClientModel()
 		{
 			var clientModel = new SevenSegmentClientModel(_dataContext, _memoryCache, _veraSettings, _dataMineSettings);
@@ -38,6 +33,7 @@ namespace HouseDB.Controllers.SevenSegment
 			return Json(clientModel);
 		}
 
+		[HttpGet]
 		public JsonResult GetDebugCacheData()
 		{
 			var watt = _memoryCache.Get($"{nameof(SevenSegmentController)}_WattValue");

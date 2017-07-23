@@ -4,12 +4,14 @@ using System.Linq;
 
 namespace HouseDB.Controllers.Device
 {
+	[Route("[controller]/[action]")]
 	public class DeviceController : HouseDBController
 	{
 		public DeviceController(DataContext dataContext) : base(dataContext)
 		{
 		}
 
+		[HttpGet]
 		public JsonResult GetDevice([FromQuery] long deviceID)
 		{
 			var device = _dataContext.Devices
@@ -18,6 +20,8 @@ namespace HouseDB.Controllers.Device
 			return Json(device);
 		}
 
+		[HttpGet]
+		[Produces(typeof(Data.Models.Device))]
 		public JsonResult GetAllKwhExportDevices()
 		{
 			var devices = _dataContext.Devices
