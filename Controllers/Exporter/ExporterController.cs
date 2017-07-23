@@ -59,8 +59,8 @@ namespace HouseDB.Controllers.Exporter
 
 			foreach (var domoticzKwhUsage in clientModel.DomoticzKwhUsages)
 			{
-				// Skip value if it is already in the database
-				if (existing.Any(a_item => a_item.Date == domoticzKwhUsage.Date))
+				// Skip value if it is already in the database or if it is today
+				if (existing.Any(a_item => a_item.Date == domoticzKwhUsage.Date) || domoticzKwhUsage.Date.Date == DateTime.Today)
 				{
 					continue;
 				}
@@ -74,6 +74,12 @@ namespace HouseDB.Controllers.Exporter
 			}
 
 			await _dataContext.SaveChangesAsync();
+		}
+
+		[HttpPost]
+		public void InsertValuesForCaching([FromBody] DomoticzValuesForCachingClientModel clientModel)
+		{
+			_memoryCache.Set(nameof(DomoticzValuesForCachingClientModel), clientModel);
 		}
 
 		[HttpPost]

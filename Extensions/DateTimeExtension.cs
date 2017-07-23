@@ -74,5 +74,13 @@ namespace HouseDB.Extensions
 			var result = firstThursday.AddDays(weekNum * 7);
 			return result.AddDays(-3);
 		}
+
+		public static int GetWeeksInYear(int year)
+		{
+			DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+			DateTime date1 = new DateTime(year, 12, 31);
+			Calendar cal = dfi.Calendar;
+			return cal.GetWeekOfYear(date1, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+		}
 	}
 }
