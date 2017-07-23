@@ -47,6 +47,12 @@ namespace HouseDB.Controllers.Exporter
 		}
 
 		[HttpPost]
+		public void InsertDomoticzKwhValues([FromBody] DomoticzKwhValuesClientModel clientModel)
+		{
+			_memoryCache.Set(nameof(List<DomoticzKwhValuesClientModel>), clientModel);
+		}
+
+		[HttpPost]
 		public async Task<JsonResult> UploadDatabase(ICollection<IFormFile> files)
 		{
 			Log.Debug("ExporterController files count {0}", files.Count);

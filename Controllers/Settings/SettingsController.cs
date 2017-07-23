@@ -27,24 +27,28 @@ namespace HouseDB.Controllers.Settings
 		}
 
 		[HttpGet]
+		[Produces(typeof(VeraSettings))]
 		public JsonResult GetVeraSettings()
 		{
 			return Json(_veraSettings);
 		}
 
 		[HttpGet]
+		[Produces(typeof(DataMineSettings))]
 		public JsonResult GetDataMineSettings()
 		{
 			return Json(_dataMineSettings);
 		}
 
 		[HttpGet]
+		[Produces(typeof(RaspicamSettings))]
 		public JsonResult GetRaspicamSettings()
 		{
 			return Json(_raspicamSettings);
 		}
 
 		[HttpGet]
+		[Produces(typeof(DomoticzSettings))]
 		public JsonResult GetDomoticzSettings()
 		{
 			return Json(_domoticzSettings);

@@ -1,5 +1,6 @@
 ﻿using HouseDB.Data;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace HouseDB.Controllers.Device
@@ -12,6 +13,7 @@ namespace HouseDB.Controllers.Device
 		}
 
 		[HttpGet]
+		[Produces(typeof(Data.Models.Device))]
 		public JsonResult GetDevice([FromQuery] long deviceID)
 		{
 			var device = _dataContext.Devices
@@ -21,7 +23,7 @@ namespace HouseDB.Controllers.Device
 		}
 
 		[HttpGet]
-		[Produces(typeof(Data.Models.Device))]
+		[Produces(typeof(List<Data.Models.Device>))]
 		public JsonResult GetAllKwhExportDevices()
 		{
 			var devices = _dataContext.Devices

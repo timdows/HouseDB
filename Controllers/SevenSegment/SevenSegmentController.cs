@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace HouseDB.Controllers.SevenSegment
 {
-	[Route("[controller]/[action]")]
+	[Route("[controller]/[action].json")]
 	public class SevenSegmentController : HouseDBController
 	{
 		private readonly VeraSettings _veraSettings;
