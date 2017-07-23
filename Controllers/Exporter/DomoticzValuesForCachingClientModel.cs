@@ -6,6 +6,7 @@ namespace HouseDB.Controllers.Exporter
 	public class DomoticzValuesForCachingClientModel
 	{
 		public DateTime DateTime { get; set; }
+		public DomoticzValuesForCachingValue P1Values { get; set; }
 		public List<DomoticzValuesForCachingValue> DomoticzValuesForCachingValues { get; set; }
 	}
 
