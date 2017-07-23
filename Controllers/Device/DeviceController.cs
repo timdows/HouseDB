@@ -28,7 +28,19 @@ namespace HouseDB.Controllers.Device
 		{
 			var devices = _dataContext.Devices
 				.Where(a_item => a_item.IsForKwhImport &&
-								 a_item.DomoticzIdx != 0)
+								 a_item.DomoticzKwhIdx != 0)
+				.ToList();
+
+			return Json(devices);
+		}
+
+		[HttpGet]
+		[Produces(typeof(List<Data.Models.Device>))]
+		public JsonResult GetAllDevicesForCachingValues()
+		{
+			var devices = _dataContext.Devices
+				.Where(a_item => a_item.IsForKwhImport &&
+								 (a_item.DomoticzWattIdx != 0 || a_item.DomoticzKwhIdx != 0))
 				.ToList();
 
 			return Json(devices);

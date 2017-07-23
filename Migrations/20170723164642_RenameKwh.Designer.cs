@@ -8,9 +8,10 @@ using HouseDB.Data;
 namespace HouseDB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20170723164642_RenameKwh")]
+    partial class RenameKwh
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");
@@ -41,8 +42,6 @@ namespace HouseDB.Migrations
                     b.Property<DateTime?>("DateDeleted");
 
                     b.Property<int>("DomoticzKwhIdx");
-
-                    b.Property<int>("DomoticzWattIdx");
 
                     b.Property<bool>("IsForKwhImport");
 
