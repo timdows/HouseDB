@@ -65,45 +65,45 @@ namespace HouseDB.Controllers.Exporter
 		}
 
 		[HttpPost]
-		public async Task<JsonResult> UploadDatabase(ICollection<IFormFile> files)
+		public async Task UploadDatabase([FromBody] DomoticzPostDatabaseFile domoticzPostDatabaseFile)
 		{
-			Log.Debug("ExporterController files count {0}", files.Count);
+			var a = domoticzPostDatabaseFile;
 
-			foreach (var file in files)
-			{
-				Log.Warning(file.FileName);
-				if (file.Length > 0)
-				{
-					// Save the information to database
-					var dateTime = DateTime.Now;
-					var exportFile = new ExportFile
-					{
-						ContentType = file.ContentType,
-						Length = file.Length,
-						DateAdded = dateTime,
-						OriginalFileName = file.FileName,
-						FileName = $"{dateTime.ToString("yyyyMMdd-HHmmss")}-{file.FileName}"
-					};
+			//Log.Debug("ExporterController files count {0}", files.Count);
 
-					await _dataContext.AddAsync(exportFile);
-					await _dataContext.SaveChangesAsync();
+			//foreach (var file in files)
+			//{
+			//	Log.Warning(file.FileName);
+			//	if (file.Length > 0)
+			//	{
+			//		// Save the information to database
+			//		var dateTime = DateTime.Now;
+			//		var exportFile = new ExportFile
+			//		{
+			//			ContentType = file.ContentType,
+			//			Length = file.Length,
+			//			DateAdded = dateTime,
+			//			OriginalFileName = file.FileName,
+			//			FileName = $"{dateTime.ToString("yyyyMMdd-HHmmss")}-{file.FileName}"
+			//		};
 
-					// Save file to disk
-					var exportPath = Path.Combine(Directory.GetCurrentDirectory(), "exports");
-					if (!Directory.Exists(exportPath))
-					{
-						Directory.CreateDirectory(exportPath);
-					}
+			//		await _dataContext.AddAsync(exportFile);
+			//		await _dataContext.SaveChangesAsync();
 
-					var diskFileName = Path.Combine(exportPath, file.FileName);
-					using (var fileStream = new FileStream(diskFileName, FileMode.Create))
-					{
-						await file.CopyToAsync(fileStream);
-					}
-				}
-			}
+			//		// Save file to disk
+			//		var exportPath = Path.Combine(Directory.GetCurrentDirectory(), "exports");
+			//		if (!Directory.Exists(exportPath))
+			//		{
+			//			Directory.CreateDirectory(exportPath);
+			//		}
 
-			return Json(true);
+			//		var diskFileName = Path.Combine(exportPath, file.FileName);
+			//		using (var fileStream = new FileStream(diskFileName, FileMode.Create))
+			//		{
+			//			await file.CopyToAsync(fileStream);
+			//		}
+			//	}
+			//}
 		}
 	}
 }
