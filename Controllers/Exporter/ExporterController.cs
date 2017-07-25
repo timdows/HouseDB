@@ -65,9 +65,9 @@ namespace HouseDB.Controllers.Exporter
 		}
 
 		[HttpPost]
-		public async Task UploadDatabase([FromBody] DomoticzPostDatabaseFile domoticzPostDatabaseFile)
+		public async Task UploadDatabase([FromBody] ExportFile exportFile)
 		{
-			var a = domoticzPostDatabaseFile;
+			var a = exportFile;
 
 			//Log.Debug("ExporterController files count {0}", files.Count);
 
