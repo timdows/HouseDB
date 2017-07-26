@@ -1,10 +1,8 @@
 ﻿using HouseDB.Data;
 using HouseDB.Data.Exporter;
 using HouseDB.Data.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -65,44 +63,38 @@ namespace HouseDB.Controllers.Exporter
 		}
 
 		[HttpPost]
-		public async Task UploadDatabase([FromBody] ExportFile exportFile)
+		public async Task UploadDatabase([FromBody] DomoticzPostDatabaseFile domoticzPostDatabaseFile)
 		{
-			var a = exportFile;
+			if (domoticzPostDatabaseFile.ByteArray.Length == 0)
+			{
+				return;
+			}
 
-			//Log.Debug("ExporterController files count {0}", files.Count);
+			// Save the information to database
+			var dateTime = DateTime.Now;
+			var fileName = $"{dateTime.ToString("yyyyMMdd-HHmmss")}-{domoticzPostDatabaseFile.FileName}";
+			var exportFile = new ExportFile
+			{
+				Length = domoticzPostDatabaseFile.ByteArray.Length,
+				DateAdded = dateTime,
+				FileName = fileName
+			};
 
-			//foreach (var file in files)
+			await _dataContext.AddAsync(exportFile);
+			await _dataContext.SaveChangesAsync();
+
+			// Save file to disk
+			var exportPath = Path.Combine(Directory.GetCurrentDirectory(), "exports");
+			if (!Directory.Exists(exportPath))
+			{
+				Directory.CreateDirectory(exportPath);
+			}
+
+			var diskFileName = Path.Combine(exportPath, fileName);
+			//using (var fileStream = new FileStream(diskFileName, FileMode.Create))
 			//{
-			//	Log.Warning(file.FileName);
-			//	if (file.Length > 0)
-			//	{
-			//		// Save the information to database
-			//		var dateTime = DateTime.Now;
-			//		var exportFile = new ExportFile
-			//		{
-			//			ContentType = file.ContentType,
-			//			Length = file.Length,
-			//			DateAdded = dateTime,
-			//			OriginalFileName = file.FileName,
-			//			FileName = $"{dateTime.ToString("yyyyMMdd-HHmmss")}-{file.FileName}"
-			//		};
-
-			//		await _dataContext.AddAsync(exportFile);
-			//		await _dataContext.SaveChangesAsync();
-
-			//		// Save file to disk
-			//		var exportPath = Path.Combine(Directory.GetCurrentDirectory(), "exports");
-			//		if (!Directory.Exists(exportPath))
-			//		{
-			//			Directory.CreateDirectory(exportPath);
-			//		}
-
-			//		var diskFileName = Path.Combine(exportPath, file.FileName);
-			//		using (var fileStream = new FileStream(diskFileName, FileMode.Create))
-			//		{
-			//			await file.CopyToAsync(fileStream);
-			//		}
-			//	}
+			//await file.CopyToAsync(fileStream);
+			System.IO.File.WriteAllBytes(diskFileName, domoticzPostDatabaseFile.ByteArray);
 			//}
 		}
 	}
