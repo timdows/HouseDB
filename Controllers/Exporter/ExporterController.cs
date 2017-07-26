@@ -91,11 +91,7 @@ namespace HouseDB.Controllers.Exporter
 			}
 
 			var diskFileName = Path.Combine(exportPath, fileName);
-			//using (var fileStream = new FileStream(diskFileName, FileMode.Create))
-			//{
-			//await file.CopyToAsync(fileStream);
 			System.IO.File.WriteAllBytes(diskFileName, domoticzPostDatabaseFile.ByteArray);
-			//}
 		}
 	}
 }
