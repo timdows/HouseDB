@@ -22,7 +22,7 @@ namespace HouseDB.Controllers.VeraExport
 		{
 			// Define the directory to work from
 			var exportPath = Path.Combine(Directory.GetCurrentDirectory(), "exports");
-			var extractPath = Path.Combine(exportPath, Path.Combine("extract", "20170609-010458"));
+			var extractPath = Path.Combine(exportPath, Path.Combine("extract", "20170327-222355"));
 
 			var devices = _dataContext.Devices
 				.Where(a_item => a_item.DataMineChannel != 0 &&
@@ -30,9 +30,9 @@ namespace HouseDB.Controllers.VeraExport
 				.ToList();
 
 			var dataMineConfigFiles = new List<DataMineConfigFile>();
-			var kwhDateUsagesList = new List<List<KwhDateUsage>>();
 
-			// Go over every directory in the export path
+			// Go over every directory in the export path and use async tasks for database savings
+			var saveChangesTasks = new List<Task>();
 			foreach (var directoryName in Directory.GetDirectories(extractPath))
 			{
 				var directory = Path.Combine(extractPath, directoryName);
@@ -41,6 +41,7 @@ namespace HouseDB.Controllers.VeraExport
 				var dataMineConfigFile = await GetDataMineConfigFile(directory);
 				dataMineConfigFiles.Add(dataMineConfigFile);
 
+				// Check if we know the dataMine configuration
 				var device = devices.SingleOrDefault(a_item => a_item.DataMineChannel == dataMineConfigFile.ID);
 				if (device == null)
 				{
@@ -48,10 +49,31 @@ namespace HouseDB.Controllers.VeraExport
 				}
 
 				var kwhDateUsages = await GetKwhDateUsages(dataMineConfigFile, device);
-				kwhDateUsagesList.Add(kwhDateUsages);
+
+				// Check if values are already in the database
+				var oldestDate = kwhDateUsages.Min(a_item => a_item.Date);
+				var newestDate = kwhDateUsages.Max(a_item => a_item.Date);
+				var existingDates = _dataContext.KwhDateUsages
+					.Where(a_item => a_item.DeviceID == device.ID &&
+									 a_item.Date >= oldestDate &&
+									 a_item.Date <= newestDate)
+					.Select(a_item => a_item.Date)
+					.ToList();
+
+				foreach(var kwhDateUsage in kwhDateUsages)
+				{
+					if (!existingDates.Contains(kwhDateUsage.Date))
+					{
+						_dataContext.KwhDateUsages.Add(kwhDateUsage);
+					}
+				}
+
+				saveChangesTasks.Add(_dataContext.SaveChangesAsync());
 			}
 
-			return Json(new { dataMineConfigFiles, kwhDateUsagesList });
+			await Task.WhenAll(saveChangesTasks);
+
+			return Json(new { dataMineConfigFiles });
 		}
 
 		private async Task<DataMineConfigFile> GetDataMineConfigFile(string directory)
