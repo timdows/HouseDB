@@ -31,20 +31,27 @@ namespace HouseDB.Controllers.Exporter
 		[HttpPost]
 		public async Task InsertDomoticzKwhValues([FromBody] DomoticzKwhValuesClientModel clientModel)
 		{
+			// Check if there is something to import
+			if (clientModel.Device?.ID == null || !clientModel.DomoticzKwhUsages.Any())
+			{
+				return;
+			}
+
 			var minDate = clientModel.DomoticzKwhUsages.Min(b_item => b_item.Date);
 			var maxDate = clientModel.DomoticzKwhUsages.Max(b_item => b_item.Date);
 
 			// Get the existing values from this device between the clientModel dates
-			var existing = _dataContext.KwhDateUsages
+			var existingDates = _dataContext.KwhDateUsages
 				.Where(a_item => a_item.DeviceID == clientModel.Device.ID &&
 								 a_item.Date >= minDate &&
 								 a_item.Date <= maxDate)
+				.Select(a_item => a_item.Date)
 				.ToList();
 
 			foreach (var domoticzKwhUsage in clientModel.DomoticzKwhUsages)
 			{
 				// Skip value if it is already in the database or if it is today
-				if (existing.Any(a_item => a_item.Date == domoticzKwhUsage.Date) || domoticzKwhUsage.Date.Date == DateTime.Today)
+				if (existingDates.Any(a_item => a_item == domoticzKwhUsage.Date) || domoticzKwhUsage.Date == DateTime.Today)
 				{
 					continue;
 				}
@@ -69,20 +76,29 @@ namespace HouseDB.Controllers.Exporter
 		[HttpPost]
 		public async Task InsertMotionDetectionValues([FromBody] DomoticzMotionDetectionClientModel clientModel)
 		{
+			// Check if there is something to import
+			if (clientModel.Device?.ID == null || !clientModel.MotionDetections.Any())
+			{
+				return;
+			}
+
 			var minDate = clientModel.MotionDetections.Min(b_item => b_item.Date);
 			var maxDate = clientModel.MotionDetections.Max(b_item => b_item.Date);
 
 			// Get the existing values from this device between the clientModel dates
-			var motionDetections = _dataContext.MotionDetections
+			var motionDetectionDates = _dataContext.MotionDetections
 				.Where(a_item => a_item.DeviceID == clientModel.Device.ID &&
 								 a_item.DateTimeDetection >= minDate &&
 								 a_item.DateTimeDetection <= maxDate)
+				.Select(a_item => a_item.DateTimeDetection)
 				.ToList();
 
+			var saveTasks = new List<Task>();
+			var count = 0;
 			foreach (var motionDetection in clientModel.MotionDetections)
 			{
 				// Skip value if it is already in the database
-				if (motionDetections.Any(a_item => a_item.DateTimeDetection == motionDetection.Date))
+				if (motionDetectionDates.Any(a_item => a_item == motionDetection.Date))
 				{
 					continue;
 				}
@@ -93,9 +109,16 @@ namespace HouseDB.Controllers.Exporter
 					DateTimeDetection = motionDetection.Date,
 					Status = motionDetection.Status.Equals("On", StringComparison.CurrentCultureIgnoreCase)
 				});
+
+				if (++count == 500)
+				{
+					saveTasks.Add(_dataContext.SaveChangesAsync());
+					count = 0;
+				}
 			}
 
-			await _dataContext.SaveChangesAsync();
+			saveTasks.Add(_dataContext.SaveChangesAsync());
+			await Task.WhenAll(saveTasks);
 		}
 
 		[HttpPost]
