@@ -8,12 +8,13 @@ using HouseDB.Data;
 namespace HouseDB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20170730113907_MotionDetection")]
+    partial class MotionDetection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.2");
+                .HasAnnotation("ProductVersion", "1.1.1");
 
             modelBuilder.Entity("HouseDB.Data.Models.ConfigurationValue", b =>
                 {
@@ -41,8 +42,6 @@ namespace HouseDB.Migrations
                     b.Property<DateTime?>("DateDeleted");
 
                     b.Property<int>("DomoticzKwhIdx");
-
-                    b.Property<int>("DomoticzMotionDetectionIdx");
 
                     b.Property<int>("DomoticzWattIdx");
 
@@ -222,9 +221,7 @@ namespace HouseDB.Migrations
 
                     b.Property<DateTime>("DateTimeDetection");
 
-                    b.Property<long>("DeviceID");
-
-                    b.Property<bool>("Status");
+                    b.Property<long?>("DeviceID");
 
                     b.HasKey("ID");
 
@@ -275,8 +272,7 @@ namespace HouseDB.Migrations
                 {
                     b.HasOne("HouseDB.Data.Models.Device", "Device")
                         .WithMany()
-                        .HasForeignKey("DeviceID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DeviceID");
                 });
         }
     }

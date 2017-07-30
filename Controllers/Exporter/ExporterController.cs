@@ -24,17 +24,21 @@ namespace HouseDB.Controllers.Exporter
 		[HttpPost]
 		public void InsertDomoticzP1Consumption([FromBody] List<DomoticzP1Consumption> domoticzP1Consumptions)
 		{
+			// Save in memory cache to be used by sevensegment
 			_memoryCache.Set(nameof(List<DomoticzP1Consumption>), domoticzP1Consumptions);
 		}
 
 		[HttpPost]
 		public async Task InsertDomoticzKwhValues([FromBody] DomoticzKwhValuesClientModel clientModel)
 		{
+			var minDate = clientModel.DomoticzKwhUsages.Min(b_item => b_item.Date);
+			var maxDate = clientModel.DomoticzKwhUsages.Max(b_item => b_item.Date);
+
 			// Get the existing values from this device between the clientModel dates
 			var existing = _dataContext.KwhDateUsages
 				.Where(a_item => a_item.DeviceID == clientModel.Device.ID &&
-								 a_item.Date >= clientModel.DomoticzKwhUsages.Min(b_item => b_item.Date) &&
-								 a_item.Date <= clientModel.DomoticzKwhUsages.Max(b_item => b_item.Date))
+								 a_item.Date >= minDate &&
+								 a_item.Date <= maxDate)
 				.ToList();
 
 			foreach (var domoticzKwhUsage in clientModel.DomoticzKwhUsages)
@@ -60,6 +64,38 @@ namespace HouseDB.Controllers.Exporter
 		public void InsertValuesForCaching([FromBody] DomoticzValuesForCachingClientModel clientModel)
 		{
 			_memoryCache.Set(nameof(DomoticzValuesForCachingClientModel), clientModel);
+		}
+
+		[HttpPost]
+		public async Task InsertMotionDetectionValues([FromBody] DomoticzMotionDetectionClientModel clientModel)
+		{
+			var minDate = clientModel.MotionDetections.Min(b_item => b_item.Date);
+			var maxDate = clientModel.MotionDetections.Max(b_item => b_item.Date);
+
+			// Get the existing values from this device between the clientModel dates
+			var motionDetections = _dataContext.MotionDetections
+				.Where(a_item => a_item.DeviceID == clientModel.Device.ID &&
+								 a_item.DateTimeDetection >= minDate &&
+								 a_item.DateTimeDetection <= maxDate)
+				.ToList();
+
+			foreach (var motionDetection in clientModel.MotionDetections)
+			{
+				// Skip value if it is already in the database
+				if (motionDetections.Any(a_item => a_item.DateTimeDetection == motionDetection.Date))
+				{
+					continue;
+				}
+
+				_dataContext.MotionDetections.Add(new MotionDetection
+				{
+					DeviceID = clientModel.Device.ID,
+					DateTimeDetection = motionDetection.Date,
+					Status = motionDetection.Status.Equals("On", StringComparison.CurrentCultureIgnoreCase)
+				});
+			}
+
+			await _dataContext.SaveChangesAsync();
 		}
 
 		[HttpPost]

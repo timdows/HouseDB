@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using HouseDB.Data.Models;
+﻿using HouseDB.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HouseDB.Data
 {
@@ -17,5 +17,8 @@ namespace HouseDB.Data
 		public DbSet<ExportFile> ExportFiles { get; set; }
 		public DbSet<KwhDeviceValue> KwhDeviceValues { get; set; }
 		public DbSet<KwhDateUsage> KwhDateUsages { get; set; }
+		public DbSet<ExpenseType> ExpenseTypes { get; set; }
+		public DbSet<ExpenseRecord> ExpenseRecords { get; set; }
+		public DbSet<MotionDetection> MotionDetections { get; set; }
 	}
 }

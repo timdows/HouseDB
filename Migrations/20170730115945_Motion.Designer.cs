@@ -8,9 +8,10 @@ using HouseDB.Data;
 namespace HouseDB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20170730115945_Motion")]
+    partial class Motion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -222,9 +223,7 @@ namespace HouseDB.Migrations
 
                     b.Property<DateTime>("DateTimeDetection");
 
-                    b.Property<long>("DeviceID");
-
-                    b.Property<bool>("Status");
+                    b.Property<long?>("DeviceID");
 
                     b.HasKey("ID");
 
@@ -275,8 +274,7 @@ namespace HouseDB.Migrations
                 {
                     b.HasOne("HouseDB.Data.Models.Device", "Device")
                         .WithMany()
-                        .HasForeignKey("DeviceID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DeviceID");
                 });
         }
     }

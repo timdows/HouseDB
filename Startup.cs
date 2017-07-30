@@ -52,9 +52,9 @@ namespace HouseDB
 			services.Configure<DomoticzSettings>(Configuration.GetSection("DomoticzSettings"));
 
 			// Register the Swagger generator, defining one or more Swagger documents
-			services.AddSwaggerGen(c =>
+			services.AddSwaggerGen(options =>
 			{
-				c.SwaggerDoc("v1", new Info { Title = "HouseDB API", Version = "v1" });
+				options.SwaggerDoc("v1", new Info { Title = "HouseDB API", Version = "v1" });
 			});
 		}
 

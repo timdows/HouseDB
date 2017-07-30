@@ -45,5 +45,16 @@ namespace HouseDB.Controllers.Device
 
 			return Json(devices);
 		}
+
+		[HttpGet]
+		[Produces(typeof(List<Data.Models.Device>))]
+		public JsonResult GetAllMotionDetectionDevices()
+		{
+			var devices = _dataContext.Devices
+				.Where(a_item => a_item.DomoticzMotionDetectionIdx != 0)
+				.ToList();
+
+			return Json(devices);
+		}
 	}
 }

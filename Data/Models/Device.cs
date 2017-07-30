@@ -11,5 +11,7 @@
 
 		public bool IsForKwhImport { get; set; }
 		public bool IsForTemperatureImport { get; set; }
+
+		public int DomoticzMotionDetectionIdx { get; set; }
 	}
 }

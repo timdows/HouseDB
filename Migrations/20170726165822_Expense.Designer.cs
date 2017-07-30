@@ -8,12 +8,13 @@ using HouseDB.Data;
 namespace HouseDB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20170726165822_Expense")]
+    partial class Expense
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.2");
+                .HasAnnotation("ProductVersion", "1.1.1");
 
             modelBuilder.Entity("HouseDB.Data.Models.ConfigurationValue", b =>
                 {
@@ -41,8 +42,6 @@ namespace HouseDB.Migrations
                     b.Property<DateTime?>("DateDeleted");
 
                     b.Property<int>("DomoticzKwhIdx");
-
-                    b.Property<int>("DomoticzMotionDetectionIdx");
 
                     b.Property<int>("DomoticzWattIdx");
 
@@ -213,26 +212,6 @@ namespace HouseDB.Migrations
                     b.ToTable("KwhDeviceValue");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.MotionDetection", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("DateDeleted");
-
-                    b.Property<DateTime>("DateTimeDetection");
-
-                    b.Property<long>("DeviceID");
-
-                    b.Property<bool>("Status");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("DeviceID");
-
-                    b.ToTable("MotionDetection");
-                });
-
             modelBuilder.Entity("HouseDB.Data.Models.ExpenseRecord", b =>
                 {
                     b.HasOne("HouseDB.Data.Models.ExpenseType", "ExpenseType")
@@ -264,14 +243,6 @@ namespace HouseDB.Migrations
                 });
 
             modelBuilder.Entity("HouseDB.Data.Models.KwhDeviceValue", b =>
-                {
-                    b.HasOne("HouseDB.Data.Models.Device", "Device")
-                        .WithMany()
-                        .HasForeignKey("DeviceID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("HouseDB.Data.Models.MotionDetection", b =>
                 {
                     b.HasOne("HouseDB.Data.Models.Device", "Device")
                         .WithMany()

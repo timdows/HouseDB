@@ -18,6 +18,7 @@ namespace HouseDB.Controllers.VeraExport
 		{
 		}
 
+		[HttpGet]
 		public async Task<JsonResult> Migrate()
 		{
 			// Define the directory to work from
