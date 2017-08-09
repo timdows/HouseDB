@@ -1,4 +1,4 @@
-﻿using System;
+﻿using HouseDB.Data.Models;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -11,7 +11,7 @@ namespace HouseDB.Controllers.Statistics
 		public decimal YearUsage { get; set; }
 		public List<KwhMonthUsageValue> MonthValues { get; set; } = new List<KwhMonthUsageValue>();
 		public List<KwhWeekUsageValue> WeekValues { get; set; } = new List<KwhWeekUsageValue>();
-		public List<KwhDayUsageValue> DayValues { get; set; } = new List<KwhDayUsageValue>();
+		public List<KwhDateUsage> DayValues { get; set; } = new List<KwhDateUsage>();
 	}
 
 	public class KwhMonthUsageValue
@@ -24,12 +24,6 @@ namespace HouseDB.Controllers.Statistics
 	public class KwhWeekUsageValue
 	{
 		public int Week { get; set; }
-		public decimal Usage { get; set; }
-	}
-
-	public class KwhDayUsageValue
-	{
-		public DateTime Date { get; set; }
 		public decimal Usage { get; set; }
 	}
 }

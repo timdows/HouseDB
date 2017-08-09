@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HouseDB.Data.Models
 {
 	public class KwhDateUsage : SqlBase
 	{
+		[JsonIgnore]
 		public Device Device { get; set; }
 		public DateTime Date { get; set; }
-		public Decimal Usage { get; set; }
+		public decimal Usage { get; set; }
 
 		[ForeignKey("Device")]
 		public long DeviceID { get; set; }

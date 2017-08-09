@@ -57,18 +57,19 @@ namespace HouseDB.Controllers.Statistics
 			}
 
 			// Fill the days
-			for (DateTime day = new DateTime(postGetKwhYearUsage.Year, 1, 1); day <= new DateTime(postGetKwhYearUsage.Year, 12, 31); day = day.AddDays(1))
-			{
-				var dayUsage = kwhDateUsages.SingleOrDefault(a_item => a_item.Date == day)?.Usage;
-
-				clientModel.DayValues.Add(new KwhDayUsageValue
-				{
-					Date = day,
-					Usage = dayUsage.GetValueOrDefault()
-				});
-			}
+			var dayValues = kwhDateUsages
+				.Where(a_item => a_item.Date >= new DateTime(postGetKwhYearUsage.Year, 1, 1) &&
+								 a_item.Date <= new DateTime(postGetKwhYearUsage.Year, 12, 31))
+				.ToList();
+			clientModel.DayValues = dayValues;
 
 			return Json(clientModel);
+		}
+
+		[HttpPost]
+		public JsonResult GetMotionDetections([FromBody] PostGetMotionDetections postGetMotionDetections)
+		{
+			return Json(true);
 		}
 	}
 }
