@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Serilog;
 using HouseDB.Data.Settings;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
 
 namespace HouseDB
 {
@@ -44,6 +45,18 @@ namespace HouseDB
 
 			services.AddCors();
 
+			//services.AddAuthorization(options =>
+			//{
+			//	options.AddPolicy("houseDB", policyRead =>
+			//	{
+			//		policyRead.RequireClaim("scope", "houseDB");
+			//	});
+			//	options.AddPolicy("houseDBWrite", policyRead =>
+			//	{
+			//		policyRead.RequireClaim("scope", "houseDB.write");
+			//	});
+			//});
+
 			var connection = Configuration["Database:ConnectionString"];
 			services.AddDbContext<DataContext>(options => options.UseMySQL(connection));
 			services.Configure<VeraSettings>(Configuration.GetSection("VeraSettings"));
@@ -65,6 +78,14 @@ namespace HouseDB
 			appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 
 			app.UseCors(builder => builder.AllowAnyOrigin());
+
+			app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+			{
+				Authority = "https://tis.timdows.com",
+				RequireHttpsMetadata = true,
+				ApiName = "houseDB",
+				AllowedScopes = new List<string> { "houseDB" }
+			});
 
 			app.UseMvc(routes =>
 			{
