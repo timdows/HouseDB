@@ -4,12 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using HouseDB.Data;
-using MySQL.Data.Entity.Extensions;
 using Newtonsoft.Json;
 using Serilog;
 using HouseDB.Data.Settings;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace HouseDB
 {
@@ -23,7 +23,7 @@ namespace HouseDB
 				.AddEnvironmentVariables();
 			Configuration = builder.Build();
 
-			builder.AddEntityFrameworkConfig(options => options.UseMySQL(Configuration["Database:ConnectionString"]));
+			builder.AddEntityFrameworkConfig(options => options.UseMySql(Configuration["Database:ConnectionString"]));
 			Configuration = builder.Build();
 
 			Log.Logger = new LoggerConfiguration()
@@ -58,7 +58,7 @@ namespace HouseDB
 			//});
 
 			var connection = Configuration["Database:ConnectionString"];
-			services.AddDbContext<DataContext>(options => options.UseMySQL(connection));
+			services.AddDbContext<DataContext>(options => options.UseMySql(connection));
 			services.Configure<VeraSettings>(Configuration.GetSection("VeraSettings"));
 			services.Configure<DataMineSettings>(Configuration.GetSection("DataMineSettings"));
 			services.Configure<RaspicamSettings>(Configuration.GetSection("RaspicamSettings"));

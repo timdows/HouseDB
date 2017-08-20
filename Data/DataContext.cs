@@ -1,5 +1,6 @@
 ﻿using HouseDB.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace HouseDB.Data
 {
@@ -20,5 +21,16 @@ namespace HouseDB.Data
 		public DbSet<ExpenseType> ExpenseTypes { get; set; }
 		public DbSet<ExpenseRecord> ExpenseRecords { get; set; }
 		public DbSet<MotionDetection> MotionDetections { get; set; }
+	}
+
+	public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
+	{
+		public DataContext CreateDbContext(string[] args)
+		{
+			var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
+			optionsBuilder.UseMySql("");
+
+			return new DataContext(optionsBuilder.Options);
+		}
 	}
 }
