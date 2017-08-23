@@ -53,3 +53,5 @@ Temporary Items
 /.vs/HouseDB/v15
 /logs
 /exports
+/bin/Release/PublishOutput
+/bin/Release

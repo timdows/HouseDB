@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+	  <RuntimeIdentifiers>debian.8-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,10 +14,6 @@
     <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="exports\**" />
     <None Remove="wwwroot\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\Data\" />
   </ItemGroup>
 
   <ItemGroup>
