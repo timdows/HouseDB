@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "095e0d5a03d8f877289e214c4431bccd8c4563ef"
+    "signature": "993c273500317413ec4063eec81e4fcb496bde5a"
   },
   "compilationOptions": {
     "defines": [
@@ -30,7 +30,7 @@
           "Microsoft.EntityFrameworkCore.Tools": "2.0.0",
           "Microsoft.Extensions.Logging.Debug": "2.0.0",
           "Microsoft.NETCore.App": "2.0.0",
-          "Pomelo.EntityFrameworkCore.MySql": "2.0.0-rtm-10057",
+          "Pomelo.EntityFrameworkCore.MySql": "2.0.0-rtm-10058",
           "Serilog.Extensions.Logging.File": "1.1.0",
           "Serilog.Settings.Configuration": "2.4.0",
           "Serilog.Sinks.Literate": "2.1.0",
@@ -1519,7 +1519,7 @@
           "lib/netstandard1.3/Newtonsoft.Json.Bson.dll": {}
         }
       },
-      "Pomelo.EntityFrameworkCore.MySql/2.0.0-rtm-10057": {
+      "Pomelo.EntityFrameworkCore.MySql/2.0.0-rtm-10058": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Design": "2.0.0",
           "Microsoft.EntityFrameworkCore.Relational": "2.0.0",
@@ -3904,12 +3904,12 @@
       "path": "newtonsoft.json.bson/1.0.1",
       "hashPath": "newtonsoft.json.bson.1.0.1.nupkg.sha512"
     },
-    "Pomelo.EntityFrameworkCore.MySql/2.0.0-rtm-10057": {
+    "Pomelo.EntityFrameworkCore.MySql/2.0.0-rtm-10058": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-AGWWwUtYJCWRhiPLBaZuIFdbJ4zIoUtbWtiv+QZ0OAsZ80FHQWlDh3bVsKqE9Cui+Ls8ywDVB8MAPuF6cyHllw==",
-      "path": "pomelo.entityframeworkcore.mysql/2.0.0-rtm-10057",
-      "hashPath": "pomelo.entityframeworkcore.mysql.2.0.0-rtm-10057.nupkg.sha512"
+      "sha512": "sha512-8kTKtgbQRQA65jBnxQ8oVH+Exk42tmms9Bl+E6VhbQdWrK8KtrXtKkUXkvJwQ0QsCYCMyqWkUETkV4XxjUfHfA==",
+      "path": "pomelo.entityframeworkcore.mysql/2.0.0-rtm-10058",
+      "hashPath": "pomelo.entityframeworkcore.mysql.2.0.0-rtm-10058.nupkg.sha512"
     },
     "Pomelo.JsonObject/1.1.1": {
       "type": "package",
