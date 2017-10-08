@@ -3,3 +3,8 @@
 ################################################################################
 
 /.vs/HouseDB/v15
+/IS4/bin/Debug/netcoreapp2.0
+/IS4/obj
+/IS4/logs
+/IS4/appsettings.json
+/IS4/tis.timdows.pfx
