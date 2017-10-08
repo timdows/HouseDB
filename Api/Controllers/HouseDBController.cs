@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using HouseDB.Data;
+﻿using HouseDB.Data;
 using HouseDB.Filters;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HouseDB.Controllers
 {
 	[ElapsedTimeFilter]
-	//[Authorize]
+	[Authorize]
 	public class HouseDBController : Controller
 	{
 		public HouseDBController(DataContext dataContext)

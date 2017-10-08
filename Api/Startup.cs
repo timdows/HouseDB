@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Api.Data.Settings;
+using HouseDB.Data;
+using HouseDB.Data.Settings;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using HouseDB.Data;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Serilog;
-using HouseDB.Data.Settings;
 using Swashbuckle.AspNetCore.Swagger;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 
 namespace HouseDB
 {
@@ -19,7 +20,7 @@ namespace HouseDB
 		{
 			var builder = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
-				.AddJsonFile("appsettings.Prod.json", optional: false, reloadOnChange: true)
+				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
 				.AddEnvironmentVariables();
 			Configuration = builder.Build();
 
@@ -39,23 +40,12 @@ namespace HouseDB
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddMvc().AddJsonOptions(options => {
-				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-			});
+			services.AddMvc()
+				.AddJsonOptions(options => {
+					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+				});
 
 			services.AddCors();
-
-			//services.AddAuthorization(options =>
-			//{
-			//	options.AddPolicy("houseDB", policyRead =>
-			//	{
-			//		policyRead.RequireClaim("scope", "houseDB");
-			//	});
-			//	options.AddPolicy("houseDBWrite", policyRead =>
-			//	{
-			//		policyRead.RequireClaim("scope", "houseDB.write");
-			//	});
-			//});
 
 			var connection = Configuration["Database:ConnectionString"];
 			services.AddDbContext<DataContext>(options => options.UseMySql(connection));
@@ -63,6 +53,7 @@ namespace HouseDB
 			services.Configure<DataMineSettings>(Configuration.GetSection("DataMineSettings"));
 			services.Configure<RaspicamSettings>(Configuration.GetSection("RaspicamSettings"));
 			services.Configure<DomoticzSettings>(Configuration.GetSection("DomoticzSettings"));
+			services.Configure<IdentityServerSettings>(Configuration.GetSection("IdentityServerSettings"));
 
 			// Register the Swagger generator, defining one or more Swagger documents
 			services.AddSwaggerGen(options =>
@@ -72,7 +63,7 @@ namespace HouseDB
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime, IOptions<IdentityServerSettings> identityServerSettings)
 		{
 			loggerFactory.AddSerilog();
 			appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
@@ -81,10 +72,10 @@ namespace HouseDB
 
 			app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
 			{
-				Authority = "https://tis.timdows.com",
+				Authority = identityServerSettings.Value.Host,
 				RequireHttpsMetadata = true,
-				ApiName = "houseDB",
-				AllowedScopes = new List<string> { "houseDB" }
+				ApiName = identityServerSettings.Value.ApiName
+				//AllowedScopes = new List<string> { "houseDB" }
 			});
 
 			app.UseMvc(routes =>
