@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
 
 namespace HouseDB
 {
@@ -74,8 +75,8 @@ namespace HouseDB
 			{
 				Authority = identityServerSettings.Value.Host,
 				RequireHttpsMetadata = true,
-				ApiName = identityServerSettings.Value.ApiName
-				//AllowedScopes = new List<string> { "houseDB" }
+				ApiName = identityServerSettings.Value.ApiName,
+				AllowedScopes = new List<string> { identityServerSettings.Value.ApiName }
 			});
 
 			app.UseMvc(routes =>
