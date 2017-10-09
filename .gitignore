@@ -9,3 +9,9 @@
 /IS4/appsettings.json
 /IS4/tis.timdows.pfx
 /Api/appsettings.json
+/Exporter/.vs
+/Exporter/bin
+/.vs/config
+/Exporter/logs
+/Exporter/obj
+/Exporter/appsettings.json

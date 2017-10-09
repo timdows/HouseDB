@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RuntimeIdentifiers>linux-arm</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="exports\**" />
+    <EmbeddedResource Remove="exports\**" />
+    <None Remove="exports\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="IdentityModel" Version="2.12.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0-preview2-final" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0-preview2-final" />
+	  <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0-preview2-final" />
+	  <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.8" />
+	  <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.1-dev-00019" />
+	  <PackageReference Include="Serilog.Settings.Configuration" Version="2.4.0" />
+	  <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.1-dev-00044" />
+	  <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.1-dev-00771" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="HouseDBService\" />
+  </ItemGroup>
+
+</Project>

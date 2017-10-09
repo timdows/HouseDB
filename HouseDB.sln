@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{90A2D962-473E-49EF-A4BC-1C56139910B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IS4", "IS4\IS4.csproj", "{ADBD9F10-3821-445C-84CB-7421B37CCE13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IS4", "IS4\IS4.csproj", "{ADBD9F10-3821-445C-84CB-7421B37CCE13}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exporter", "Exporter\Exporter.csproj", "{0B872160-56B1-45FC-90B4-77CA30411CCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{ADBD9F10-3821-445C-84CB-7421B37CCE13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADBD9F10-3821-445C-84CB-7421B37CCE13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADBD9F10-3821-445C-84CB-7421B37CCE13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B872160-56B1-45FC-90B4-77CA30411CCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B872160-56B1-45FC-90B4-77CA30411CCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B872160-56B1-45FC-90B4-77CA30411CCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B872160-56B1-45FC-90B4-77CA30411CCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
