@@ -1,9 +1,6 @@
 ﻿using IdentityModel.Client;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Porxy.Models.Settings;
-using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -20,30 +17,15 @@ namespace Proxy.Controllers
 		}
 
 		[HttpGet]
-		public async Task<JsonResult> Index()
+		public async Task<string> Index()
 		{
-			var client = new HttpClient();
-			var request = new HttpRequestMessage()
-			{
-				RequestUri = new Uri($"{_houseDBSettings.ApiUrl}sevensegment/getclientmodel.json"),
-				Method = HttpMethod.Get,
-			};
 			var token = await GetJWTAccessToken(_houseDBSettings);
-			//request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
-			request.Headers.Add("Authorization", $"Bearer {token}");
-			var response = await client.SendAsync(request);
-			//var task = client.SendAsync(request)
-			//	.ContinueWith((taskwithmsg) =>
-			//	{
-			//		var response = taskwithmsg.Result;
-
-			//		var jsonTask = response.Content.ReadAsAsync<string>();
-			//		jsonTask.Wait();
-			//		var jsonObject = jsonTask.Result;
-			//	});
-			//task.Wait();
-
-			return Json(response);
+			using (var client = new HttpClient())
+			{
+				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+				var response = await client.GetStringAsync($"{_houseDBSettings.ApiUrl}sevensegment/getclientmodel.json");
+				return response;
+			}
 		}
 
 		private static async Task<string> GetJWTAccessToken(HouseDBSettings houseDBSettings)
