@@ -45,7 +45,6 @@ namespace Exporter
 			// Get other settings via API
 			using (var client = new HouseDBAPI(new Uri(houseDBSettings.ApiUrl)))
 			{
-				
 				var domoticzSettings = await client.SettingsGetDomoticzSettingsGetAsync();
 				services.AddSingleton(domoticzSettings);
 			}
