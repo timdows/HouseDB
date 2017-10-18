@@ -30,6 +30,7 @@ namespace Exporter.Exporters
 
 			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 			{
+
 				_devices = api.DeviceGetAllKwhExportDevicesGet();
 			}
 		}

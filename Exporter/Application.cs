@@ -20,6 +20,7 @@ namespace Exporter
 		public async Task Run()
 		{
 			Log.Information("Starting Application.Run()");
+			var jwtToken = await Program.GetJWTAccessToken(_houseDBSettings);
 
 			var exportP1Consumption = new ExportP1Consumption(_houseDBSettings, _domoticzSettings);
 			var exportKwhDeviceValues = new ExportKwhDeviceValues(_houseDBSettings, _domoticzSettings);

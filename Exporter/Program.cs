@@ -2,11 +2,11 @@
 using Exporter.Models.Settings;
 using IdentityModel.Client;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Rest;
 using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.IO;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Exporter
@@ -35,17 +35,18 @@ namespace Exporter
 			// Support typed Options
 			services.AddOptions();
 
+			Log.Information("Getting HouseDBSettings");
 			var houseDBSettings = await GetHouseDBSettings();
 			services.AddSingleton(houseDBSettings);
 
+			Log.Information("Getting JWTAccessToken");
 			var jwtToken = await GetJWTAccessToken(houseDBSettings);
 
-			var svcClientCreds = new TokenCredentials(jwtToken, "Bearer");
-
-			// Get other settings via API
-			using (var client = new HouseDBAPI(new Uri(houseDBSettings.ApiUrl)))
+			Log.Information("Getting other settings via API");
+			using (var api = new HouseDBAPI(new Uri(houseDBSettings.ApiUrl)))
 			{
-				var domoticzSettings = await client.SettingsGetDomoticzSettingsGetAsync();
+				api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+				var domoticzSettings = await api.SettingsGetDomoticzSettingsGetAsync();
 				services.AddSingleton(domoticzSettings);
 			}
 			
@@ -60,7 +61,7 @@ namespace Exporter
 			return JsonConvert.DeserializeObject<HouseDBSettings>(appsettings.HouseDBSettings.ToString());
 		}
 
-		private static async Task<string> GetJWTAccessToken(HouseDBSettings houseDBSettings)
+		public static async Task<string> GetJWTAccessToken(HouseDBSettings houseDBSettings)
 		{
 			var disco = await DiscoveryClient.GetAsync(houseDBSettings.IS4Url);
 
