@@ -1,5 +1,6 @@
 ﻿using Exporter.Exporters;
 using Exporter.HouseDBService.Models;
+using Exporter.Models;
 using Exporter.Models.Settings;
 using Serilog;
 using System.Threading.Tasks;
@@ -10,23 +11,27 @@ namespace Exporter
     {
 		private HouseDBSettings _houseDBSettings;
 		private DomoticzSettings _domoticzSettings;
+		private JwtTokenManager _jwtTokenManager;
 
-		public Application(HouseDBSettings houseDBSettings, DomoticzSettings domoticzSettings)
+		public Application(
+			HouseDBSettings houseDBSettings,
+			JwtTokenManager jwtTokenManager,
+			DomoticzSettings domoticzSettings)
 		{
 			_houseDBSettings = houseDBSettings;
+			_jwtTokenManager = jwtTokenManager;
 			_domoticzSettings = domoticzSettings;
 		}
 
 		public async Task Run()
 		{
 			Log.Information("Starting Application.Run()");
-			var jwtToken = await Program.GetJWTAccessToken(_houseDBSettings);
 
 			var exportP1Consumption = new ExportP1Consumption(_houseDBSettings, _domoticzSettings);
-			var exportKwhDeviceValues = new ExportKwhDeviceValues(_houseDBSettings, _domoticzSettings);
-			var exportValuesForCaching = new ExportValuesForCaching(_houseDBSettings, _domoticzSettings);
+			var exportKwhDeviceValues = new ExportKwhDeviceValues(_houseDBSettings, _jwtTokenManager, _domoticzSettings);
+			var exportValuesForCaching = new ExportValuesForCaching(_houseDBSettings, _jwtTokenManager, _domoticzSettings);
 			var exportDatabase = new ExportDatabase(_houseDBSettings, _domoticzSettings);
-			var exportMotionDetection = new ExportMotionDetection(_houseDBSettings, _domoticzSettings);
+			var exportMotionDetection = new ExportMotionDetection(_houseDBSettings, _jwtTokenManager, _domoticzSettings);
 
 			while (true)
 			{

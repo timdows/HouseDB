@@ -1,5 +1,6 @@
 ﻿using Exporter.HouseDBService;
 using Exporter.HouseDBService.Models;
+using Exporter.Models;
 using Exporter.Models.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Exporter.Exporters
@@ -16,15 +18,22 @@ namespace Exporter.Exporters
     {
 		private HouseDBSettings _houseDBSettings;
 		private DomoticzSettings _domoticzSettings;
+		private JwtTokenManager _jwtTokenManager;
 		private IList<Device> _devices;
 
-		public ExportMotionDetection(HouseDBSettings houseDBSettings, DomoticzSettings domoticzSettings)
+		public ExportMotionDetection(
+			HouseDBSettings houseDBSettings,
+			JwtTokenManager jwtTokenManager,
+			DomoticzSettings domoticzSettings)
 		{
 			_houseDBSettings = houseDBSettings;
 			_domoticzSettings = domoticzSettings;
+			_jwtTokenManager = jwtTokenManager;
 
 			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 			{
+				var token = _jwtTokenManager.GetToken(_houseDBSettings).GetAwaiter().GetResult();
+				api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 				_devices = api.DeviceGetAllMotionDetectionDevicesGet();
 			}
 		}

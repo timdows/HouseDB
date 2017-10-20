@@ -1,4 +1,5 @@
 ﻿using Exporter.HouseDBService;
+using Exporter.Models;
 using Exporter.Models.Settings;
 using IdentityModel.Client;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,12 +36,16 @@ namespace Exporter
 			// Support typed Options
 			services.AddOptions();
 
-			Log.Information("Getting HouseDBSettings");
+			// Create singleton of jwtTokenManager instance
+			var jwtTokenManager = new JwtTokenManager();
+			services.AddSingleton(jwtTokenManager);
+
+			Log.Information("Getting HouseDBSettings from appsettings.json");
 			var houseDBSettings = await GetHouseDBSettings();
 			services.AddSingleton(houseDBSettings);
 
 			Log.Information("Getting JWTAccessToken");
-			var jwtToken = await GetJWTAccessToken(houseDBSettings);
+			var jwtToken = await jwtTokenManager.GetToken(houseDBSettings);
 
 			Log.Information("Getting other settings via API");
 			using (var api = new HouseDBAPI(new Uri(houseDBSettings.ApiUrl)))
@@ -59,17 +64,6 @@ namespace Exporter
 			var appsettingsString = await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"));
 			var appsettings = JsonConvert.DeserializeObject<dynamic>(appsettingsString);
 			return JsonConvert.DeserializeObject<HouseDBSettings>(appsettings.HouseDBSettings.ToString());
-		}
-
-		public static async Task<string> GetJWTAccessToken(HouseDBSettings houseDBSettings)
-		{
-			var disco = await DiscoveryClient.GetAsync(houseDBSettings.IS4Url);
-
-			// request token
-			var tokenClient = new TokenClient(disco.TokenEndpoint, houseDBSettings.ClientID, houseDBSettings.Password);
-			var tokenResponse = await tokenClient.RequestClientCredentialsAsync(houseDBSettings.Scope);
-
-			return tokenResponse.AccessToken;
 		}
 	}
 }

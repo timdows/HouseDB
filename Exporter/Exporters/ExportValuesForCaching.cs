@@ -1,11 +1,13 @@
 ﻿using Exporter.HouseDBService;
 using Exporter.HouseDBService.Models;
+using Exporter.Models;
 using Exporter.Models.Settings;
 using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Exporter.Exporters
@@ -13,18 +15,25 @@ namespace Exporter.Exporters
 	public class ExportValuesForCaching
     {
 		private HouseDBSettings _houseDBSettings;
+		private JwtTokenManager _jwtTokenManager;
 		private DomoticzSettings _domoticzSettings;
 		private DateTime _lastExportDateTime;
 		private IList<Device> _devices;
 
-		public ExportValuesForCaching(HouseDBSettings houseDBSettings, DomoticzSettings domoticzSettings)
+		public ExportValuesForCaching(
+			HouseDBSettings houseDBSettings,
+			JwtTokenManager jwtTokenManager,
+			DomoticzSettings domoticzSettings)
 		{
 			_houseDBSettings = houseDBSettings;
 			_domoticzSettings = domoticzSettings;
+			_jwtTokenManager = jwtTokenManager;
 			_lastExportDateTime = DateTime.Today.AddDays(-1);
 
 			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 			{
+				var token = _jwtTokenManager.GetToken(_houseDBSettings).GetAwaiter().GetResult();
+				api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 				_devices = api.DeviceGetAllDevicesForCachingValuesGet();
 			}
 		}
