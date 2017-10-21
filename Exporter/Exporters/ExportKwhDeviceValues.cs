@@ -52,6 +52,9 @@ namespace Exporter.Exporters
 
 				using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 				{
+					var token = _jwtTokenManager.GetToken(_houseDBSettings).GetAwaiter().GetResult();
+					api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
 					foreach (var device in _devices)
 					{
 						var clientModel = await GetDomoticzKwhValuesClientModel(device);

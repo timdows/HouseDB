@@ -52,6 +52,8 @@ namespace Exporter.Exporters
 						continue;
 					}
 
+					var token = _jwtTokenManager.GetToken(_houseDBSettings).GetAwaiter().GetResult();
+					api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 					await api.ExporterInsertMotionDetectionValuesPostAsync(clientModel);
 				}
 			}

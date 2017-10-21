@@ -1,5 +1,6 @@
 ﻿using Exporter.HouseDBService;
 using Exporter.HouseDBService.Models;
+using Exporter.Models;
 using Exporter.Models.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -7,6 +8,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Exporter.Exporters
@@ -19,11 +21,16 @@ namespace Exporter.Exporters
     {
 		private HouseDBSettings _houseDBSettings;
 		private DomoticzSettings _domoticzSettings;
+		private JwtTokenManager _jwtTokenManager;
 
-		public ExportP1Consumption(HouseDBSettings houseDBSettings, DomoticzSettings domoticzSettings)
+		public ExportP1Consumption(
+			HouseDBSettings houseDBSettings,
+			JwtTokenManager jwtTokenManager,
+			DomoticzSettings domoticzSettings)
 		{
 			_houseDBSettings = houseDBSettings;
 			_domoticzSettings = domoticzSettings;
+			_jwtTokenManager = jwtTokenManager;
 		}
 
 		public async Task DoExport()
@@ -39,11 +46,13 @@ namespace Exporter.Exporters
 				JArray resultList = data.result;
 
 				// Cast resultList to objects
-				var values = resultList.ToObject<List<DomoticzP1Consumption>>();
+				var values = resultList.ToObject<IList<HouseDBService.Models.DomoticzP1Consumption>>();
 
 				// Post it away
 				using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 				{
+					var token = _jwtTokenManager.GetToken(_houseDBSettings).GetAwaiter().GetResult();
+					api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 					await api.ExporterInsertDomoticzP1ConsumptionPostAsync(values);
 				}
 			}

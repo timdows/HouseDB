@@ -1,9 +1,11 @@
 ﻿using Exporter.HouseDBService;
 using Exporter.HouseDBService.Models;
+using Exporter.Models;
 using Exporter.Models.Settings;
 using Serilog;
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Exporter.Exporters
@@ -12,12 +14,17 @@ namespace Exporter.Exporters
     {
 		private HouseDBSettings _houseDBSettings;
 		private DomoticzSettings _domoticzSettings;
+		private JwtTokenManager _jwtTokenManager;
 		private DateTime _lastExportDatabase;
 
-		public ExportDatabase(HouseDBSettings houseDBSettings, DomoticzSettings domoticzSettings)
+		public ExportDatabase(
+			HouseDBSettings houseDBSettings,
+			JwtTokenManager jwtTokenManager,
+			DomoticzSettings domoticzSettings)
 		{
 			_houseDBSettings = houseDBSettings;
 			_domoticzSettings = domoticzSettings;
+			_jwtTokenManager = jwtTokenManager;
 			_lastExportDatabase = DateTime.Today.AddDays(-1);
 		}
 
@@ -49,6 +56,8 @@ namespace Exporter.Exporters
 			// Post the database to the HouseDBAPI
 			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 			{
+				var token = _jwtTokenManager.GetToken(_houseDBSettings).GetAwaiter().GetResult();
+				api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 				await api.ExporterUploadDatabasePostAsync(new DomoticzPostDatabaseFile
 				{
 					ByteArray = byteArray,
