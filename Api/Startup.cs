@@ -1,17 +1,16 @@
 ﻿using Api.Data.Settings;
 using HouseDB.Data;
 using HouseDB.Data.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
-using System.Collections.Generic;
 
 namespace HouseDB
 {
@@ -42,7 +41,8 @@ namespace HouseDB
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc()
-				.AddJsonOptions(options => {
+				.AddJsonOptions(options =>
+				{
 					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 				});
 
@@ -61,23 +61,34 @@ namespace HouseDB
 			{
 				options.SwaggerDoc("v1", new Info { Title = "HouseDB API", Version = "v1" });
 			});
+
+			// Fancypants
+			IConfigurationSection sectionData = Configuration.GetSection("IdentityServerSettings");
+			var identityServerSettings = new IdentityServerSettings();
+			sectionData.Bind(identityServerSettings);
+
+			services.AddAuthentication(options =>
+			{
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+
+			}).AddJwtBearer(options =>
+			{
+				options.Authority = identityServerSettings.Host;
+				options.Audience = identityServerSettings.ApiName;
+				options.RequireHttpsMetadata = true;
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime, IOptions<IdentityServerSettings> identityServerSettings)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
 		{
 			loggerFactory.AddSerilog();
 			appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 
 			app.UseCors(builder => builder.AllowAnyOrigin());
 
-			app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
-			{
-				Authority = identityServerSettings.Value.Host,
-				RequireHttpsMetadata = true,
-				ApiName = identityServerSettings.Value.ApiName,
-				AllowedScopes = new List<string> { identityServerSettings.Value.ApiName }
-			});
+			app.UseAuthentication();
 
 			app.UseMvc(routes =>
 			{
