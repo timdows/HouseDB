@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using System.Net;
 
 namespace HouseDB
 {
@@ -13,8 +14,10 @@ namespace HouseDB
 
 		public static IWebHost BuildWebHost(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)
-				.UseKestrel()
-				.UseUrls("http://localhost:5002")
+				.UseKestrel(options =>
+				{
+					options.Listen(IPAddress.Loopback, 5002);
+				})
 				.UseStartup<Startup>()
 				.Build();
 	}
