@@ -1,7 +1,7 @@
 ﻿using Exporter.HouseDBService;
 using Exporter.HouseDBService.Models;
 using Exporter.Models;
-using Exporter.Models.Settings;
+using HouseDBCore.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -17,7 +17,7 @@ namespace Exporter.Exporters
 	/// Export the complete year stats from P1
 	/// This is stored in cache by the HouseDBAPI, and later used for seven segment
 	/// </summary>
-    public class ExportP1Consumption
+	public class ExportP1Consumption
     {
 		private HouseDBSettings _houseDBSettings;
 		private DomoticzSettings _domoticzSettings;

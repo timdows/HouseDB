@@ -1,7 +1,7 @@
 ﻿using Exporter.HouseDBService;
 using Exporter.HouseDBService.Models;
 using Exporter.Models;
-using Exporter.Models.Settings;
+using HouseDBCore.Settings;
 using Serilog;
 using System;
 using System.Net.Http;

@@ -1,4 +1,4 @@
-﻿namespace Porxy.Models.Settings
+﻿namespace HouseDBCore.Settings
 {
 	public class HouseDBSettings
     {

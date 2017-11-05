@@ -20,3 +20,5 @@
 /Proxy/appsettings.json
 /Proxy/bin/Release
 /Proxy/Properties/PublishProfiles
+/HouseDBCore/obj
+/HouseDBCore/bin

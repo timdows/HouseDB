@@ -1,4 +1,4 @@
-﻿using Exporter.Models.Settings;
+﻿using HouseDBCore.Settings;
 using IdentityModel.Client;
 using System.Threading.Tasks;
 

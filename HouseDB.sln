@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IS4", "IS4\IS4.csproj", "{A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exporter", "Exporter\Exporter.csproj", "{0B872160-56B1-45FC-90B4-77CA30411CCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxy", "Proxy\Proxy.csproj", "{88DED330-0844-41D2-A422-8EF82AB8D642}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proxy", "Proxy\Proxy.csproj", "{88DED330-0844-41D2-A422-8EF82AB8D642}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseDBCore", "HouseDBCore\HouseDBCore.csproj", "{0ABB44ED-D146-447F-8C09-78D0077205D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{88DED330-0844-41D2-A422-8EF82AB8D642}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88DED330-0844-41D2-A422-8EF82AB8D642}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88DED330-0844-41D2-A422-8EF82AB8D642}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ABB44ED-D146-447F-8C09-78D0077205D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ABB44ED-D146-447F-8C09-78D0077205D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ABB44ED-D146-447F-8C09-78D0077205D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ABB44ED-D146-447F-8C09-78D0077205D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

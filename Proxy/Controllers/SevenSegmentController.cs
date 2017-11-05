@@ -1,6 +1,6 @@
-﻿using IdentityModel.Client;
+﻿using HouseDBCore.Settings;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Mvc;
-using Porxy.Models.Settings;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
