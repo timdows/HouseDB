@@ -1,6 +1,6 @@
 ﻿using Exporter.HouseDBService;
 using Exporter.Models;
-using Exporter.Models.Settings;
+using HouseDBCore.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Serilog;
