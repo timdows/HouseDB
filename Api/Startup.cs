@@ -99,7 +99,7 @@ namespace HouseDB
 			// Enable middleware to serve generated Swagger as a JSON endpoint.
 			app.UseSwagger(options =>
 			{
-				options.RouteTemplate = "api/swagger/{documentName}/swagger.json";
+				options.RouteTemplate = "swagger/{documentName}/swagger.json";
 			});
 
 			// Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
