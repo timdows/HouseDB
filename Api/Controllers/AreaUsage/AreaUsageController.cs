@@ -19,6 +19,7 @@ namespace Api.Controllers.AreaUsage
 			_memoryCache = memoryCache;
 		}
 
+		[HttpGet]
 		public JsonResult Test()
 		{
 			// Get cached objects

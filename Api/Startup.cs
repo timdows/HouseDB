@@ -97,12 +97,16 @@ namespace HouseDB
 			});
 
 			// Enable middleware to serve generated Swagger as a JSON endpoint.
-			app.UseSwagger();
+			app.UseSwagger(options =>
+			{
+				options.RouteTemplate = "api/swagger/{documentName}/swagger.json";
+			});
 
 			// Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
-			app.UseSwaggerUI(c =>
+			app.UseSwaggerUI(options =>
 			{
-				c.SwaggerEndpoint("/swagger/v1/swagger.json", "HouseDB API v1");
+				options.SwaggerEndpoint("/api/swagger/v1/swagger.json", "HouseDB API v1");
+				options.RoutePrefix = "api/swagger";
 			});
 		}
 	}
