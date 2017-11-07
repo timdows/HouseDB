@@ -1,0 +1,2 @@
+cd Proxy
+dotnet run
