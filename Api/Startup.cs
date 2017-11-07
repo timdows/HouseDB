@@ -106,7 +106,7 @@ namespace HouseDB
 			app.UseSwaggerUI(options =>
 			{
 				options.SwaggerEndpoint("/api/swagger/v1/swagger.json", "HouseDB API v1");
-				options.RoutePrefix = "api/swagger";
+				options.RoutePrefix = "swagger";
 			});
 		}
 	}
