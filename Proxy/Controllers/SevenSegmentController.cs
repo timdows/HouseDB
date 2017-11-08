@@ -1,5 +1,5 @@
-﻿using HouseDBCore.Settings;
-using IdentityModel.Client;
+﻿using HouseDBCore;
+using HouseDBCore.Settings;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -10,33 +10,26 @@ namespace Proxy.Controllers
 	public class SevenSegmentController : Controller
     {
 		private readonly HouseDBSettings _houseDBSettings;
+		private readonly JwtTokenManager _jwtTokenManager;
 
-		public SevenSegmentController(HouseDBSettings houseDBSettings)
+		public SevenSegmentController(
+			HouseDBSettings houseDBSettings,
+			JwtTokenManager jwtTokenManager)
 		{
 			_houseDBSettings = houseDBSettings;
+			_jwtTokenManager = jwtTokenManager;
 		}
 
 		[HttpGet]
 		public async Task<string> Index()
 		{
-			var token = await GetJWTAccessToken(_houseDBSettings);
+			var token = await _jwtTokenManager.GetToken(_houseDBSettings);
 			using (var client = new HttpClient())
 			{
 				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 				var response = await client.GetStringAsync($"{_houseDBSettings.ApiUrl}sevensegment/getclientmodel.json");
 				return response;
 			}
-		}
-
-		private static async Task<string> GetJWTAccessToken(HouseDBSettings houseDBSettings)
-		{
-			var disco = await DiscoveryClient.GetAsync(houseDBSettings.IS4Url);
-
-			// request token
-			var tokenClient = new TokenClient(disco.TokenEndpoint, houseDBSettings.ClientID, houseDBSettings.Password);
-			var tokenResponse = await tokenClient.RequestClientCredentialsAsync(houseDBSettings.Scope);
-
-			return tokenResponse.AccessToken;
 		}
 	}
 }

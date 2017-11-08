@@ -1,4 +1,5 @@
-﻿using HouseDBCore.Settings;
+﻿using HouseDBCore;
+using HouseDBCore.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,10 @@ namespace Proxy
         {
 			var houseDBSettings = GetHouseDBSettings().GetAwaiter().GetResult();
 			services.AddSingleton(houseDBSettings);
+
+			// Create singleton of jwtTokenManager instance
+			var jwtTokenManager = new JwtTokenManager();
+			services.AddSingleton(jwtTokenManager);
 
 			services.AddMvc();
         }

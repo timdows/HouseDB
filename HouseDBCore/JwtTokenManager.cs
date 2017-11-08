@@ -2,7 +2,7 @@
 using IdentityModel.Client;
 using System.Threading.Tasks;
 
-namespace Exporter.Models
+namespace HouseDBCore
 {
 	public class JwtTokenManager
     {

@@ -1,6 +1,6 @@
 ﻿using Exporter.Exporters;
 using Exporter.HouseDBService.Models;
-using Exporter.Models;
+using HouseDBCore;
 using HouseDBCore.Settings;
 using Serilog;
 using System.Threading.Tasks;

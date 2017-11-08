@@ -1,6 +1,6 @@
 ﻿using Exporter.HouseDBService;
 using Exporter.HouseDBService.Models;
-using Exporter.Models;
+using HouseDBCore;
 using HouseDBCore.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
