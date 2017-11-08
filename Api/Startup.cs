@@ -60,6 +60,7 @@ namespace HouseDB
 			services.AddSwaggerGen(options =>
 			{
 				options.SwaggerDoc("v1", new Info { Title = "HouseDB API", Version = "v1" });
+				options.AddSecurityDefinition("Bearer", new ApiKeyScheme() { In = "header", Description = "Please insert JWT with Bearer into field", Name = "Authorization", Type = "apiKey" });
 			});
 
 			// Fancypants
