@@ -34,7 +34,7 @@ namespace Api.Controllers.AreaUsage
 			// Get cached objects
 			var domoticzValuesForCachingClientModelCache = _memoryCache.Get(nameof(DomoticzValuesForCachingClientModel));
 
-			DomoticzValuesForCachingClientModel domoticzValuesForCachingClientModel;
+			DomoticzValuesForCachingClientModel domoticzValuesForCachingClientModel = null;
 			if (domoticzValuesForCachingClientModelCache != null)
 			{
 				domoticzValuesForCachingClientModel = domoticzValuesForCachingClientModelCache as DomoticzValuesForCachingClientModel;
@@ -59,7 +59,25 @@ namespace Api.Controllers.AreaUsage
 
 				foreach (var value in dbValues)
 				{
-					weekDeviceOverview.Values.Add(value.Usage);
+					// Add the database day values
+					weekDeviceOverview.Values.Add(new DayValue
+					{
+						Date = value.Date,
+						Value = value.Usage
+					});
+
+					// Add the cached day value
+					var cachedValue = domoticzValuesForCachingClientModel?.DomoticzValuesForCachingValues
+						.SingleOrDefault(a_item => a_item.DeviceID == device.ID);
+						
+					if (cachedValue != null)
+					{
+						weekDeviceOverview.Values.Add(new DayValue
+						{
+							Date = DateTime.Today,
+							Value = cachedValue.TodayKwhUsage
+						});
+					}
 				}
 
 				weekDeviceOverviews.Add(weekDeviceOverview);
@@ -72,6 +90,12 @@ namespace Api.Controllers.AreaUsage
 	public class WeekDeviceOverview
 	{
 		public Device Device { get; set; }
-		public List<decimal> Values { get; set; } = new List<decimal>();
+		public List<DayValue> Values { get; set; } = new List<DayValue>();
+	}
+
+	public class DayValue
+	{
+		public DateTime Date { get; set; }
+		public decimal Value { get; set; }
 	}
 }
