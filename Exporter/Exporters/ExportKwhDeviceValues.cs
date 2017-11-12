@@ -46,7 +46,7 @@ namespace Exporter.Exporters
 		public async Task DoExport()
 		{
 			var totalHours = (DateTime.Now - _lastExportDateTime).TotalHours;
-			if (DateTime.Now.Hour == 12 && totalHours > 23)
+			if (DateTime.Now.Hour == 0 && totalHours > 23)
 			{
 				_lastExportDateTime = DateTime.Now;
 				Log.Debug("Starting ExportKwhDeviceValues - DoExport");
