@@ -1,4 +1,5 @@
-﻿using HouseDB.Controllers;
+﻿using Api.Data.AreaUsage;
+using HouseDB.Controllers;
 using HouseDB.Controllers.Exporter;
 using HouseDB.Data;
 using HouseDB.Data.Models;
@@ -25,11 +26,12 @@ namespace Api.Controllers.AreaUsage
 			_devices = _dataContext.Devices
 				.Where(a_item => a_item.IsForKwhImport &&
 								 (a_item.DomoticzWattIdx != 0 || a_item.DomoticzKwhIdx != 0))
+				.OrderBy(a_item => a_item.Name)
 				.ToList();
 		}
 
 		[HttpGet]
-		public JsonResult WeekOverview()
+		public JsonResult WeekDeviceOverview()
 		{
 			// Get cached objects
 			var domoticzValuesForCachingClientModelCache = _memoryCache.Get(nameof(DomoticzValuesForCachingClientModel));
@@ -41,11 +43,11 @@ namespace Api.Controllers.AreaUsage
 			}
 
 			var oneWeekAgo = DateTime.Today.AddDays(-7);
-			var weekDeviceOverviews = new List<WeekDeviceOverview>();
+			var deviceOverviews = new List<DeviceOverview>();
 
 			foreach (var device in _devices)
 			{
-				var weekDeviceOverview = new WeekDeviceOverview
+				var deviceOverview = new DeviceOverview
 				{
 					Device = device
 				};
@@ -60,10 +62,10 @@ namespace Api.Controllers.AreaUsage
 				foreach (var value in dbValues)
 				{
 					// Add the database day values
-					weekDeviceOverview.Values.Add(new DayValue
+					deviceOverview.Values.Add(new DayValue
 					{
 						Date = value.Date,
-						Value = value.Usage
+						Usage = value.Usage
 					});
 
 					// Add the cached day value
@@ -72,30 +74,89 @@ namespace Api.Controllers.AreaUsage
 						
 					if (cachedValue != null)
 					{
-						weekDeviceOverview.Values.Add(new DayValue
+						deviceOverview.Values.Add(new DayValue
 						{
 							Date = DateTime.Today,
-							Value = cachedValue.TodayKwhUsage
+							Usage = cachedValue.TodayKwhUsage
 						});
 					}
 				}
 
-				weekDeviceOverviews.Add(weekDeviceOverview);
+				deviceOverviews.Add(deviceOverview);
 			}
 
-			return Json(weekDeviceOverviews);
+			return Json(deviceOverviews);
 		}
-	}
 
-	public class WeekDeviceOverview
-	{
-		public Device Device { get; set; }
-		public List<DayValue> Values { get; set; } = new List<DayValue>();
-	}
+		[HttpGet]
+		public JsonResult WeekDayOverview()
+		{
+			// Get cached objects
+			var domoticzValuesForCachingClientModelCache = _memoryCache.Get(nameof(DomoticzValuesForCachingClientModel));
 
-	public class DayValue
-	{
-		public DateTime Date { get; set; }
-		public decimal Value { get; set; }
+			DomoticzValuesForCachingClientModel domoticzValuesForCachingClientModel = null;
+			if (domoticzValuesForCachingClientModelCache != null)
+			{
+				domoticzValuesForCachingClientModel = domoticzValuesForCachingClientModelCache as DomoticzValuesForCachingClientModel;
+			}
+
+			var oneWeekAgo = DateTime.Today.AddDays(-7);
+			var dayOverviews = new List<DayOverview>();
+
+			var deviceIDs = _devices.Select(a_item => a_item.ID).ToList();
+
+			// Get last weeks values from database to use later
+			var dbValues = _dataContext.KwhDateUsages
+				.Where(a_item => deviceIDs.Contains(a_item.DeviceID) &&
+								 a_item.Date > oneWeekAgo)
+				.OrderBy(a_item => a_item.Date)
+				.ToList();
+
+			for (var date = DateTime.Today.AddDays(-7); date <= DateTime.Today; date = date.AddDays(1))
+			{
+				var dayOverview = new DayOverview
+				{
+					Date = date
+				};
+
+				foreach (var device in _devices)
+				{
+					if (date == DateTime.Today)
+					{
+						// Add the cached day value
+						var cachedValue = domoticzValuesForCachingClientModel?.DomoticzValuesForCachingValues
+							.SingleOrDefault(a_item => a_item.DeviceID == device.ID);
+
+						if (cachedValue != null)
+						{
+							dayOverview.DeviceValues.Add(new DeviceValue
+							{
+								DeviceName = device.Name,
+								Usage = cachedValue.TodayKwhUsage
+							});
+						}
+
+						continue;
+					}
+
+					var value = dbValues
+						.SingleOrDefault(a_item => a_item.DeviceID == device.ID &&
+												   a_item.Date == date);
+
+					if (value != null)
+					{
+						dayOverview.DeviceValues.Add(new DeviceValue
+						{
+							DeviceName = device.Name,
+							Usage = value.Usage
+						});
+					}
+				}
+
+				dayOverviews.Add(dayOverview);
+			}
+
+			return Json(dayOverviews);
+		}
 	}
 }
