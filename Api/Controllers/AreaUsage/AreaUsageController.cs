@@ -2,6 +2,7 @@
 using HouseDB.Controllers;
 using HouseDB.Controllers.Exporter;
 using HouseDB.Data;
+using HouseDB.Data.Exporter;
 using HouseDB.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -112,11 +113,25 @@ namespace Api.Controllers.AreaUsage
 				.OrderBy(a_item => a_item.Date)
 				.ToList();
 
-			for (var date = DateTime.Today.AddDays(-7); date <= DateTime.Today; date = date.AddDays(1))
+			var domoticzP1ConsumptionsCache = _memoryCache.Get(nameof(List<DomoticzP1Consumption>));
+			List<DomoticzP1Consumption> domoticzP1Consumption = null;
+			if (domoticzP1ConsumptionsCache != null)
 			{
+				domoticzP1Consumption = domoticzP1ConsumptionsCache as List<DomoticzP1Consumption>;
+			}
+
+			for (var date = DateTime.Today.AddDays(-6); date <= DateTime.Today; date = date.AddDays(1))
+			{
+				var p1Usage = 0.0;
+				if (domoticzP1Consumption != null)
+				{
+					p1Usage = domoticzP1Consumption.SingleOrDefault(a_item => a_item.Date == date)?.DayUsage ?? 0;
+				}
+
 				var dayOverview = new DayOverview
 				{
-					Date = date
+					Date = date,
+					P1Usage = p1Usage
 				};
 
 				foreach (var device in _devices)

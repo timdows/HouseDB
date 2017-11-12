@@ -7,5 +7,6 @@ namespace Api.Data.AreaUsage
 	{
 		public DateTime Date { get; set; }
 		public List<DeviceValue> DeviceValues { get; set; } = new List<DeviceValue>();
+		public double P1Usage { get; set; }
 	}
 }

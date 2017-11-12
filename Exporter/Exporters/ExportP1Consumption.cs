@@ -46,7 +46,7 @@ namespace Exporter.Exporters
 				JArray resultList = data.result;
 
 				// Cast resultList to objects
-				var values = resultList.ToObject<IList<HouseDBService.Models.DomoticzP1Consumption>>();
+				var values = resultList.ToObject<IList<DomoticzP1Consumption>>();
 
 				// Post it away
 				using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
