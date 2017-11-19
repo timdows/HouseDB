@@ -173,5 +173,88 @@ namespace Api.Controllers.AreaUsage
 
 			return Json(dayOverviews);
 		}
+
+		[HttpGet]
+		public JsonResult YearMonthOverview(int year)
+		{
+			// Get cached objects
+			var domoticzValuesForCachingClientModelCache = _memoryCache.Get(nameof(DomoticzValuesForCachingClientModel));
+
+			DomoticzValuesForCachingClientModel domoticzValuesForCachingClientModel = null;
+			if (domoticzValuesForCachingClientModelCache != null)
+			{
+				domoticzValuesForCachingClientModel = domoticzValuesForCachingClientModelCache as DomoticzValuesForCachingClientModel;
+			}
+
+			var beginningOfYear = new DateTime(year, 1, 1);
+			var endOfYear = new DateTime(year, 12, 31);
+			var monthOverviews = new List<MonthOverview>();
+
+			var deviceIDs = _devices.Select(a_item => a_item.ID).ToList();
+
+			// Get last weeks values from database to use later
+			var dbValues = _dataContext.KwhDateUsages
+				.Where(a_item => deviceIDs.Contains(a_item.DeviceID) &&
+								 a_item.Date >= beginningOfYear &&
+								 a_item.Date <= endOfYear)
+				.OrderBy(a_item => a_item.Date)
+				.ToList();
+
+			var domoticzP1ConsumptionsCache = _memoryCache.Get(nameof(List<DomoticzP1Consumption>));
+			List<DomoticzP1Consumption> domoticzP1Consumption = null;
+			if (domoticzP1ConsumptionsCache != null)
+			{
+				domoticzP1Consumption = domoticzP1ConsumptionsCache as List<DomoticzP1Consumption>;
+			}
+
+			for (var month = 1; month <= 12; month++)
+			{
+				var p1Usage = 0.0;
+				if (domoticzP1Consumption != null)
+				{
+					p1Usage = domoticzP1Consumption
+						.Where(a_item => a_item.Date.Month == month)?
+						.Sum(a_item => a_item.DayUsage) ?? 0;
+				}
+
+				var monthOverview = new MonthOverview
+				{
+					Month = month,
+					P1Usage = p1Usage
+				};
+
+				foreach (var device in _devices)
+				{
+					decimal usage = 0;
+					// Get the usage from cache if the month is now
+					if (month == DateTime.Today.Month)
+					{
+						// Add the cached day value
+						var cachedValue = domoticzValuesForCachingClientModel?.DomoticzValuesForCachingValues
+							.SingleOrDefault(a_item => a_item.DeviceID == device.ID);
+
+						if (cachedValue != null)
+						{
+							usage = cachedValue.TodayKwhUsage;
+						}
+					}
+
+					usage += dbValues
+						.Where(a_item => a_item.DeviceID == device.ID &&
+										 a_item.Date.Month == month)?
+						.Sum(a_item => a_item.Usage) ?? 0;
+
+					monthOverview.DeviceValues.Add(new DeviceValue
+					{
+						DeviceName = device.Name,
+						Usage = usage
+					});
+				}
+
+				monthOverviews.Add(monthOverview);
+			}
+
+			return Json(monthOverviews);
+		}
 	}
 }
