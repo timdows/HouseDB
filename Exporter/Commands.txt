@@ -3,3 +3,9 @@
 
 AutoRest -Input http://localhost:5002/swagger/v1/swagger.json -Namespace Exporter.HouseDBService -OutputDirectory HouseDBService
 AutoRest -Input https://housedb.timdows.com/api/swagger/v1/swagger.json -Namespace Exporter.HouseDBService -OutputDirectory HouseDBService
+
+
+--Publish steps
+https://github.com/dotnet/core/blob/master/samples/RaspberryPiInstructions.md
+1. dotnet publish -r linux-arm
+2. Copy directory to pi (\\192.168.1.26\pi\Exporter)
