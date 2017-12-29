@@ -35,6 +35,8 @@ namespace Exporter.Exporters
 			_jwtTokenManager = jwtTokenManager;
 			_lastExportDateTime = DateTime.Today.AddDays(-2);
 
+			Log.Debug("Setup ExportKwhDeviceValues");
+
 			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 			{
 				var token = _jwtTokenManager.GetToken(_houseDBSettings).GetAwaiter().GetResult();
@@ -46,7 +48,7 @@ namespace Exporter.Exporters
 		public async Task DoExport()
 		{
 			var totalHours = (DateTime.Now - _lastExportDateTime).TotalHours;
-			if (DateTime.Now.Hour == 0 && totalHours > 23)
+			if ((DateTime.Now.Hour == 0 && totalHours > 23) || totalHours > 40)
 			{
 				_lastExportDateTime = DateTime.Now;
 				Log.Debug("Starting ExportKwhDeviceValues - DoExport");

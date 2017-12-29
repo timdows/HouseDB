@@ -1,4 +1,5 @@
-﻿using HouseDB.Data.Models;
+﻿using Api.Data.Models;
+using HouseDB.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -21,6 +22,7 @@ namespace HouseDB.Data
 		public DbSet<ExpenseType> ExpenseTypes { get; set; }
 		public DbSet<ExpenseRecord> ExpenseRecords { get; set; }
 		public DbSet<MotionDetection> MotionDetections { get; set; }
+		public DbSet<P1Consumption> P1Consumptions { get; set; }
 	}
 
 	public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
