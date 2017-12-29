@@ -37,7 +37,7 @@ namespace Exporter.Exporters
 			}
 
 			_lastExportDatabase = DateTime.Now;
-			Log.Debug("Starting ExportDatabase");
+			Log.Information("Starting ExportDatabase");
 			byte[] byteArray;
 
 			// Get the database

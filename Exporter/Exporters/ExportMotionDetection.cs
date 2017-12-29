@@ -40,7 +40,7 @@ namespace Exporter.Exporters
 
 		public async Task DoExport()
 		{
-			Log.Debug("Starting ExportMotionDetection - DoExport");
+			Log.Information("Starting ExportMotionDetection - DoExport");
 
 			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 			{

@@ -7,6 +7,7 @@ using Serilog;
 using System;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Exporter
@@ -34,6 +35,8 @@ namespace Exporter
 
 			// Support typed Options
 			services.AddOptions();
+
+			Log.Information($"-----Configure services for Exporter {Assembly.GetExecutingAssembly().GetName().Version}");
 
 			// Create singleton of jwtTokenManager instance
 			var jwtTokenManager = new JwtTokenManager();

@@ -30,12 +30,12 @@ namespace Exporter.Exporters
 			JwtTokenManager jwtTokenManager,
 			DomoticzSettings domoticzSettings)
 		{
+			Log.Information("Setup ExportKwhDeviceValues");
+
 			_houseDBSettings = houseDBSettings;
 			_domoticzSettings = domoticzSettings;
 			_jwtTokenManager = jwtTokenManager;
 			_lastExportDateTime = DateTime.Today.AddDays(-2);
-
-			Log.Debug("Setup ExportKwhDeviceValues");
 
 			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 			{
@@ -51,7 +51,7 @@ namespace Exporter.Exporters
 			if ((DateTime.Now.Hour == 0 && totalHours > 23) || totalHours > 40)
 			{
 				_lastExportDateTime = DateTime.Now;
-				Log.Debug("Starting ExportKwhDeviceValues - DoExport");
+				Log.Information("Starting ExportKwhDeviceValues - DoExport");
 
 				using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 				{
