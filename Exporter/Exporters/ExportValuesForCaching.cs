@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -116,7 +117,7 @@ namespace Exporter.Exporters
 			var data = JsonConvert.DeserializeObject<dynamic>(response);
 
 			string valueString = data.result[0][nameInObject].ToString().Replace(replaceString, string.Empty);
-			double value = double.Parse(valueString);
+			double value = double.Parse(valueString, CultureInfo.InvariantCulture);
 
 			return value;
 		}
