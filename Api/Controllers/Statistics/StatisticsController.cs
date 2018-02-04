@@ -1,7 +1,9 @@
-﻿using HouseDB.Data;
+﻿using Api.Controllers.Statistics;
+using HouseDB.Data;
 using HouseDB.Data.Statistics;
 using HouseDB.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Linq;
 
@@ -10,8 +12,13 @@ namespace HouseDB.Controllers.Statistics
 	[Route("[controller]/[action]")]
 	public class StatisticsController : HouseDBController
 	{
-		public StatisticsController(DataContext dataContext) : base(dataContext)
+		private readonly IMemoryCache _memoryCache;
+
+		public StatisticsController(
+			DataContext dataContext,
+			IMemoryCache memoryCache) : base(dataContext)
 		{
+			_memoryCache = memoryCache;
 		}
 
 		[HttpPost]
@@ -70,6 +77,14 @@ namespace HouseDB.Controllers.Statistics
 		public JsonResult GetMotionDetections([FromBody] PostGetMotionDetections postGetMotionDetections)
 		{
 			return Json(true);
+		}
+
+		[HttpGet]
+		public JsonResult GetCurrentUsages()
+		{
+			var clientModel = new CurrentUsagesClientModel();
+			clientModel.Load(_dataContext, _memoryCache);
+			return Json(clientModel);
 		}
 	}
 }
