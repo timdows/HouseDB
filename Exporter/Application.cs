@@ -3,6 +3,7 @@ using Exporter.HouseDBService.Models;
 using HouseDBCore;
 using HouseDBCore.Settings;
 using Serilog;
+using System;
 using System.Threading.Tasks;
 
 namespace Exporter
@@ -35,13 +36,20 @@ namespace Exporter
 
 			while (true)
 			{
-				await Task.WhenAll(
-					exportP1Consumption.DoExport(),
-					exportKwhDeviceValues.DoExport(),
-					exportValuesForCaching.DoExport(),
-					exportDatabase.DoExport(),
-					exportMotionDetection.DoExport(),
-					Task.Delay(5000));
+				try
+				{
+					await Task.WhenAll(
+						exportP1Consumption.DoExport(),
+						exportKwhDeviceValues.DoExport(),
+						exportValuesForCaching.DoExport(),
+						exportDatabase.DoExport(),
+						exportMotionDetection.DoExport(),
+						Task.Delay(5000));
+				}
+				catch (Exception excep)
+				{
+					Log.Fatal(excep.Message);
+				}
 			}
 		}
 	}
