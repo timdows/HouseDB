@@ -22,6 +22,7 @@ namespace HouseDB.Controllers.Statistics
 		}
 
 		[HttpPost]
+		[Produces(typeof(KwhYearUsageClientModel))]
 		public JsonResult GetKwhYearUsage([FromBody] PostGetKwhYearUsage postGetKwhYearUsage)
 		{
 			var device = _dataContext.Devices.Single(a_item => a_item.ID == postGetKwhYearUsage.DeviceID);
@@ -80,6 +81,7 @@ namespace HouseDB.Controllers.Statistics
 		}
 
 		[HttpGet]
+		[Produces(typeof(JsonResult))]
 		public JsonResult GetCurrentUsages()
 		{
 			var clientModel = new CurrentUsagesClientModel();
