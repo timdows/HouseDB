@@ -24,11 +24,12 @@ namespace Proxy.HouseDBService.Models
         /// Initializes a new instance of the DomoticzValuesForCachingValue
         /// class.
         /// </summary>
-        public DomoticzValuesForCachingValue(long? deviceID = default(long?), double? currentWattValue = default(double?), double? todayKwhUsage = default(double?))
+        public DomoticzValuesForCachingValue(long? deviceID = default(long?), double? currentWattValue = default(double?), double? todayKwhUsage = default(double?), System.DateTime? lastUpdate = default(System.DateTime?))
         {
             DeviceID = deviceID;
             CurrentWattValue = currentWattValue;
             TodayKwhUsage = todayKwhUsage;
+            LastUpdate = lastUpdate;
             CustomInit();
         }
 
@@ -51,6 +52,11 @@ namespace Proxy.HouseDBService.Models
         /// </summary>
         [JsonProperty(PropertyName = "todayKwhUsage")]
         public double? TodayKwhUsage { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "lastUpdate")]
+        public System.DateTime? LastUpdate { get; set; }
 
     }
 }

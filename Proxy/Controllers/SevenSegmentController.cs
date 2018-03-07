@@ -1,6 +1,8 @@
 ﻿using HouseDBCore;
 using HouseDBCore.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Proxy.HouseDBService;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -21,14 +23,14 @@ namespace Proxy.Controllers
 		}
 
 		[HttpGet]
-		public async Task<string> Index()
+		public async Task<IActionResult> Index()
 		{
-			var token = await _jwtTokenManager.GetToken(_houseDBSettings);
-			using (var client = new HttpClient())
+			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 			{
-				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-				var response = await client.GetStringAsync($"{_houseDBSettings.ApiUrl}sevensegment/getclientmodel.json");
-				return response;
+				var token = await _jwtTokenManager.GetToken(_houseDBSettings);
+				api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+				var response = await api.SevenSegmentGetClientModelGetAsync();
+				return Json(response);
 			}
 		}
 	}

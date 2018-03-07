@@ -20,9 +20,9 @@ namespace Proxy.HouseDBService
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static void AreaUsageWeekDeviceOverviewGet(this IHouseDBAPI operations)
+            public static IList<DeviceOverview> AreaUsageWeekDeviceOverviewGet(this IHouseDBAPI operations)
             {
-                operations.AreaUsageWeekDeviceOverviewGetAsync().GetAwaiter().GetResult();
+                return operations.AreaUsageWeekDeviceOverviewGetAsync().GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -31,17 +31,20 @@ namespace Proxy.HouseDBService
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task AreaUsageWeekDeviceOverviewGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<DeviceOverview>> AreaUsageWeekDeviceOverviewGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.AreaUsageWeekDeviceOverviewGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.AreaUsageWeekDeviceOverviewGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static void AreaUsageWeekDayOverviewGet(this IHouseDBAPI operations)
+            public static IList<DayOverview> AreaUsageWeekDayOverviewGet(this IHouseDBAPI operations)
             {
-                operations.AreaUsageWeekDayOverviewGetAsync().GetAwaiter().GetResult();
+                return operations.AreaUsageWeekDayOverviewGetAsync().GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -50,9 +53,12 @@ namespace Proxy.HouseDBService
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task AreaUsageWeekDayOverviewGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<DayOverview>> AreaUsageWeekDayOverviewGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.AreaUsageWeekDayOverviewGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.AreaUsageWeekDayOverviewGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -60,9 +66,9 @@ namespace Proxy.HouseDBService
             /// </param>
             /// <param name='year'>
             /// </param>
-            public static void AreaUsageYearMonthOverviewGet(this IHouseDBAPI operations, int? year = default(int?))
+            public static IList<MonthOverview> AreaUsageYearMonthOverviewGet(this IHouseDBAPI operations, int? year = default(int?))
             {
-                operations.AreaUsageYearMonthOverviewGetAsync(year).GetAwaiter().GetResult();
+                return operations.AreaUsageYearMonthOverviewGetAsync(year).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -73,9 +79,12 @@ namespace Proxy.HouseDBService
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task AreaUsageYearMonthOverviewGetAsync(this IHouseDBAPI operations, int? year = default(int?), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<MonthOverview>> AreaUsageYearMonthOverviewGetAsync(this IHouseDBAPI operations, int? year = default(int?), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.AreaUsageYearMonthOverviewGetWithHttpMessagesAsync(year, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.AreaUsageYearMonthOverviewGetWithHttpMessagesAsync(year, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -433,9 +442,9 @@ namespace Proxy.HouseDBService
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static void SevenSegmentGetClientModeljsonGet(this IHouseDBAPI operations)
+            public static SevenSegmentClientModel SevenSegmentGetClientModelGet(this IHouseDBAPI operations)
             {
-                operations.SevenSegmentGetClientModeljsonGetAsync().GetAwaiter().GetResult();
+                return operations.SevenSegmentGetClientModelGetAsync().GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -444,17 +453,20 @@ namespace Proxy.HouseDBService
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task SevenSegmentGetClientModeljsonGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<SevenSegmentClientModel> SevenSegmentGetClientModelGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.SevenSegmentGetClientModeljsonGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.SevenSegmentGetClientModelGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static void SevenSegmentGetDebugCacheDatajsonGet(this IHouseDBAPI operations)
+            public static void SevenSegmentGetDebugCacheDataGet(this IHouseDBAPI operations)
             {
-                operations.SevenSegmentGetDebugCacheDatajsonGetAsync().GetAwaiter().GetResult();
+                operations.SevenSegmentGetDebugCacheDataGetAsync().GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -463,9 +475,9 @@ namespace Proxy.HouseDBService
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task SevenSegmentGetDebugCacheDatajsonGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task SevenSegmentGetDebugCacheDataGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.SevenSegmentGetDebugCacheDatajsonGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false)).Dispose();
+                (await operations.SevenSegmentGetDebugCacheDataGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
             /// <param name='operations'>

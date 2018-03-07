@@ -24,7 +24,6 @@ namespace Proxy.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetCurrentUsages()
 		{
-			// Post it away
 			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 			{
 				var token = await _jwtTokenManager.GetToken(_houseDBSettings);
