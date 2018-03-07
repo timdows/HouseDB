@@ -15,5 +15,6 @@ namespace HouseDB.Controllers.Exporter
 		public long DeviceID { get; set; }
 		public decimal CurrentWattValue { get; set; }
 		public decimal TodayKwhUsage { get; set; }
+		public DateTime LastUpdate { get; set; }
 	}
 }
