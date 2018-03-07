@@ -32,6 +32,7 @@ namespace Api.Controllers.AreaUsage
 		}
 
 		[HttpGet]
+		[Produces(typeof(List<DeviceOverview>))]
 		public JsonResult WeekDeviceOverview()
 		{
 			// Get cached objects
@@ -90,6 +91,7 @@ namespace Api.Controllers.AreaUsage
 		}
 
 		[HttpGet]
+		[Produces(typeof(List<DayOverview>))]
 		public JsonResult WeekDayOverview()
 		{
 			// Get cached objects
@@ -175,6 +177,7 @@ namespace Api.Controllers.AreaUsage
 		}
 
 		[HttpGet]
+		[Produces(typeof(List<MonthOverview>))]
 		public JsonResult YearMonthOverview(int year)
 		{
 			// Get cached objects

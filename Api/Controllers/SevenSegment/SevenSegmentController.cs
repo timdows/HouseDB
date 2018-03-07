@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace HouseDB.Controllers.SevenSegment
 {
-	[Route("[controller]/[action].json")]
+	[Route("[controller]/[action]")]
 	public class SevenSegmentController : HouseDBController
 	{
 		private readonly VeraSettings _veraSettings;
@@ -26,6 +26,7 @@ namespace HouseDB.Controllers.SevenSegment
 		}
 
 		[HttpGet]
+		[Produces(typeof(SevenSegmentClientModel))]
 		public JsonResult GetClientModel()
 		{
 			var clientModel = new SevenSegmentClientModel(_dataContext, _memoryCache, _veraSettings, _dataMineSettings);
