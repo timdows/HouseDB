@@ -6,5 +6,6 @@
   <PropertyGroup>
     <ActiveDebugProfile>Proxy</ActiveDebugProfile>
     <NameOfLastUsedPublishProfile>FolderProfile</NameOfLastUsedPublishProfile>
+    <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
 </Project>
