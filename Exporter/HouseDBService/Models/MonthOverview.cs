@@ -11,25 +11,24 @@ namespace Exporter.HouseDBService.Models
     using System.Collections.Generic;
     using System.Linq;
 
-    public partial class DomoticzKwhValuesClientModel
+    public partial class MonthOverview
     {
         /// <summary>
-        /// Initializes a new instance of the DomoticzKwhValuesClientModel
-        /// class.
+        /// Initializes a new instance of the MonthOverview class.
         /// </summary>
-        public DomoticzKwhValuesClientModel()
+        public MonthOverview()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the DomoticzKwhValuesClientModel
-        /// class.
+        /// Initializes a new instance of the MonthOverview class.
         /// </summary>
-        public DomoticzKwhValuesClientModel(Device device = default(Device), IList<DomoticzKwhUsage> domoticzKwhUsages = default(IList<DomoticzKwhUsage>))
+        public MonthOverview(int? month = default(int?), IList<DeviceValue> deviceValues = default(IList<DeviceValue>), double? p1Usage = default(double?))
         {
-            Device = device;
-            DomoticzKwhUsages = domoticzKwhUsages;
+            Month = month;
+            DeviceValues = deviceValues;
+            P1Usage = p1Usage;
             CustomInit();
         }
 
@@ -40,13 +39,18 @@ namespace Exporter.HouseDBService.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "device")]
-        public Device Device { get; set; }
+        [JsonProperty(PropertyName = "month")]
+        public int? Month { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "domoticzKwhUsages")]
-        public IList<DomoticzKwhUsage> DomoticzKwhUsages { get; set; }
+        [JsonProperty(PropertyName = "deviceValues")]
+        public IList<DeviceValue> DeviceValues { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "p1Usage")]
+        public double? P1Usage { get; set; }
 
     }
 }

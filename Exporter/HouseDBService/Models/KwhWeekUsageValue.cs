@@ -9,24 +9,23 @@ namespace Exporter.HouseDBService.Models
     using Newtonsoft.Json;
     using System.Linq;
 
-    public partial class DomoticzSettings
+    public partial class KwhWeekUsageValue
     {
         /// <summary>
-        /// Initializes a new instance of the DomoticzSettings class.
+        /// Initializes a new instance of the KwhWeekUsageValue class.
         /// </summary>
-        public DomoticzSettings()
+        public KwhWeekUsageValue()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the DomoticzSettings class.
+        /// Initializes a new instance of the KwhWeekUsageValue class.
         /// </summary>
-        public DomoticzSettings(string host = default(string), int? port = default(int?), int? wattIdx = default(int?))
+        public KwhWeekUsageValue(int? week = default(int?), double? usage = default(double?))
         {
-            Host = host;
-            Port = port;
-            WattIdx = wattIdx;
+            Week = week;
+            Usage = usage;
             CustomInit();
         }
 
@@ -37,18 +36,13 @@ namespace Exporter.HouseDBService.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "host")]
-        public string Host { get; set; }
+        [JsonProperty(PropertyName = "week")]
+        public int? Week { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "port")]
-        public int? Port { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "wattIdx")]
-        public int? WattIdx { get; set; }
+        [JsonProperty(PropertyName = "usage")]
+        public double? Usage { get; set; }
 
     }
 }

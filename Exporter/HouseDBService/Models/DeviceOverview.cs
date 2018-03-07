@@ -7,26 +7,27 @@
 namespace Exporter.HouseDBService.Models
 {
     using Newtonsoft.Json;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
 
-    public partial class DomoticzSettings
+    public partial class DeviceOverview
     {
         /// <summary>
-        /// Initializes a new instance of the DomoticzSettings class.
+        /// Initializes a new instance of the DeviceOverview class.
         /// </summary>
-        public DomoticzSettings()
+        public DeviceOverview()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the DomoticzSettings class.
+        /// Initializes a new instance of the DeviceOverview class.
         /// </summary>
-        public DomoticzSettings(string host = default(string), int? port = default(int?), int? wattIdx = default(int?))
+        public DeviceOverview(Device device = default(Device), IList<DayValue> values = default(IList<DayValue>))
         {
-            Host = host;
-            Port = port;
-            WattIdx = wattIdx;
+            Device = device;
+            Values = values;
             CustomInit();
         }
 
@@ -37,18 +38,13 @@ namespace Exporter.HouseDBService.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "host")]
-        public string Host { get; set; }
+        [JsonProperty(PropertyName = "device")]
+        public Device Device { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "port")]
-        public int? Port { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "wattIdx")]
-        public int? WattIdx { get; set; }
+        [JsonProperty(PropertyName = "values")]
+        public IList<DayValue> Values { get; set; }
 
     }
 }

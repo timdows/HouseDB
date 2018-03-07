@@ -9,24 +9,23 @@ namespace Exporter.HouseDBService.Models
     using Newtonsoft.Json;
     using System.Linq;
 
-    public partial class DomoticzSettings
+    public partial class ElapsedTime
     {
         /// <summary>
-        /// Initializes a new instance of the DomoticzSettings class.
+        /// Initializes a new instance of the ElapsedTime class.
         /// </summary>
-        public DomoticzSettings()
+        public ElapsedTime()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the DomoticzSettings class.
+        /// Initializes a new instance of the ElapsedTime class.
         /// </summary>
-        public DomoticzSettings(string host = default(string), int? port = default(int?), int? wattIdx = default(int?))
+        public ElapsedTime(long? milliseconds = default(long?), int? seconds = default(int?))
         {
-            Host = host;
-            Port = port;
-            WattIdx = wattIdx;
+            Milliseconds = milliseconds;
+            Seconds = seconds;
             CustomInit();
         }
 
@@ -37,18 +36,13 @@ namespace Exporter.HouseDBService.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "host")]
-        public string Host { get; set; }
+        [JsonProperty(PropertyName = "milliseconds")]
+        public long? Milliseconds { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "port")]
-        public int? Port { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "wattIdx")]
-        public int? WattIdx { get; set; }
+        [JsonProperty(PropertyName = "seconds")]
+        public int? Seconds { get; set; }
 
     }
 }

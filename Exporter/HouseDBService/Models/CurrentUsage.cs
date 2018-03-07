@@ -9,27 +9,24 @@ namespace Exporter.HouseDBService.Models
     using Newtonsoft.Json;
     using System.Linq;
 
-    public partial class DomoticzValuesForCachingValue
+    public partial class CurrentUsage
     {
         /// <summary>
-        /// Initializes a new instance of the DomoticzValuesForCachingValue
-        /// class.
+        /// Initializes a new instance of the CurrentUsage class.
         /// </summary>
-        public DomoticzValuesForCachingValue()
+        public CurrentUsage()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the DomoticzValuesForCachingValue
-        /// class.
+        /// Initializes a new instance of the CurrentUsage class.
         /// </summary>
-        public DomoticzValuesForCachingValue(long? deviceID = default(long?), double? currentWattValue = default(double?), double? todayKwhUsage = default(double?), System.DateTime? lastUpdate = default(System.DateTime?))
+        public CurrentUsage(string deviceName = default(string), double? currentWattValue = default(double?), double? todayKwhUsage = default(double?))
         {
-            DeviceID = deviceID;
+            DeviceName = deviceName;
             CurrentWattValue = currentWattValue;
             TodayKwhUsage = todayKwhUsage;
-            LastUpdate = lastUpdate;
             CustomInit();
         }
 
@@ -40,8 +37,8 @@ namespace Exporter.HouseDBService.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "deviceID")]
-        public long? DeviceID { get; set; }
+        [JsonProperty(PropertyName = "deviceName")]
+        public string DeviceName { get; set; }
 
         /// <summary>
         /// </summary>
@@ -52,11 +49,6 @@ namespace Exporter.HouseDBService.Models
         /// </summary>
         [JsonProperty(PropertyName = "todayKwhUsage")]
         public double? TodayKwhUsage { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "lastUpdate")]
-        public System.DateTime? LastUpdate { get; set; }
 
     }
 }

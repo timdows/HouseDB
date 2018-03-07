@@ -9,24 +9,23 @@ namespace Exporter.HouseDBService.Models
     using Newtonsoft.Json;
     using System.Linq;
 
-    public partial class DomoticzSettings
+    public partial class DayValue
     {
         /// <summary>
-        /// Initializes a new instance of the DomoticzSettings class.
+        /// Initializes a new instance of the DayValue class.
         /// </summary>
-        public DomoticzSettings()
+        public DayValue()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the DomoticzSettings class.
+        /// Initializes a new instance of the DayValue class.
         /// </summary>
-        public DomoticzSettings(string host = default(string), int? port = default(int?), int? wattIdx = default(int?))
+        public DayValue(System.DateTime? date = default(System.DateTime?), double? usage = default(double?))
         {
-            Host = host;
-            Port = port;
-            WattIdx = wattIdx;
+            Date = date;
+            Usage = usage;
             CustomInit();
         }
 
@@ -37,18 +36,13 @@ namespace Exporter.HouseDBService.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "host")]
-        public string Host { get; set; }
+        [JsonProperty(PropertyName = "date")]
+        public System.DateTime? Date { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "port")]
-        public int? Port { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "wattIdx")]
-        public int? WattIdx { get; set; }
+        [JsonProperty(PropertyName = "usage")]
+        public double? Usage { get; set; }
 
     }
 }

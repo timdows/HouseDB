@@ -9,24 +9,23 @@ namespace Exporter.HouseDBService.Models
     using Newtonsoft.Json;
     using System.Linq;
 
-    public partial class DomoticzSettings
+    public partial class PostGetMotionDetections
     {
         /// <summary>
-        /// Initializes a new instance of the DomoticzSettings class.
+        /// Initializes a new instance of the PostGetMotionDetections class.
         /// </summary>
-        public DomoticzSettings()
+        public PostGetMotionDetections()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the DomoticzSettings class.
+        /// Initializes a new instance of the PostGetMotionDetections class.
         /// </summary>
-        public DomoticzSettings(string host = default(string), int? port = default(int?), int? wattIdx = default(int?))
+        public PostGetMotionDetections(int? week = default(int?), int? deviceID = default(int?))
         {
-            Host = host;
-            Port = port;
-            WattIdx = wattIdx;
+            Week = week;
+            DeviceID = deviceID;
             CustomInit();
         }
 
@@ -37,18 +36,13 @@ namespace Exporter.HouseDBService.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "host")]
-        public string Host { get; set; }
+        [JsonProperty(PropertyName = "week")]
+        public int? Week { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "port")]
-        public int? Port { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "wattIdx")]
-        public int? WattIdx { get; set; }
+        [JsonProperty(PropertyName = "deviceID")]
+        public int? DeviceID { get; set; }
 
     }
 }

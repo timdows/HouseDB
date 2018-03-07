@@ -7,27 +7,28 @@
 namespace Exporter.HouseDBService.Models
 {
     using Newtonsoft.Json;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
 
-    public partial class DomoticzMotionDetection
+    public partial class DayOverview
     {
         /// <summary>
-        /// Initializes a new instance of the DomoticzMotionDetection class.
+        /// Initializes a new instance of the DayOverview class.
         /// </summary>
-        public DomoticzMotionDetection()
+        public DayOverview()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the DomoticzMotionDetection class.
+        /// Initializes a new instance of the DayOverview class.
         /// </summary>
-        public DomoticzMotionDetection(string data = default(string), System.DateTime? date = default(System.DateTime?), int? level = default(int?), string status = default(string))
+        public DayOverview(System.DateTime? date = default(System.DateTime?), IList<DeviceValue> deviceValues = default(IList<DeviceValue>), double? p1Usage = default(double?))
         {
-            Data = data;
             Date = date;
-            Level = level;
-            Status = status;
+            DeviceValues = deviceValues;
+            P1Usage = p1Usage;
             CustomInit();
         }
 
@@ -38,23 +39,18 @@ namespace Exporter.HouseDBService.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "data")]
-        public string Data { get; set; }
-
-        /// <summary>
-        /// </summary>
         [JsonProperty(PropertyName = "date")]
         public System.DateTime? Date { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "level")]
-        public int? Level { get; set; }
+        [JsonProperty(PropertyName = "deviceValues")]
+        public IList<DeviceValue> DeviceValues { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "status")]
-        public string Status { get; set; }
+        [JsonProperty(PropertyName = "p1Usage")]
+        public double? P1Usage { get; set; }
 
     }
 }

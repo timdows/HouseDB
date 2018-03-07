@@ -7,25 +7,26 @@
 namespace Exporter.HouseDBService.Models
 {
     using Newtonsoft.Json;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
 
-    public partial class PostGetKwhYearUsage
+    public partial class CurrentUsagesClientModel
     {
         /// <summary>
-        /// Initializes a new instance of the PostGetKwhYearUsage class.
+        /// Initializes a new instance of the CurrentUsagesClientModel class.
         /// </summary>
-        public PostGetKwhYearUsage()
+        public CurrentUsagesClientModel()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the PostGetKwhYearUsage class.
+        /// Initializes a new instance of the CurrentUsagesClientModel class.
         /// </summary>
-        public PostGetKwhYearUsage(int? year = default(int?), int? deviceID = default(int?))
+        public CurrentUsagesClientModel(IList<CurrentUsage> currentUsages = default(IList<CurrentUsage>))
         {
-            Year = year;
-            DeviceID = deviceID;
+            CurrentUsages = currentUsages;
             CustomInit();
         }
 
@@ -36,13 +37,8 @@ namespace Exporter.HouseDBService.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "year")]
-        public int? Year { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "deviceID")]
-        public int? DeviceID { get; set; }
+        [JsonProperty(PropertyName = "currentUsages")]
+        public IList<CurrentUsage> CurrentUsages { get; set; }
 
     }
 }
