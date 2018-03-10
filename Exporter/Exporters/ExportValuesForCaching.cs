@@ -18,7 +18,6 @@ namespace Exporter.Exporters
 		private HouseDBSettings _houseDBSettings;
 		private JwtTokenManager _jwtTokenManager;
 		private DomoticzSettings _domoticzSettings;
-		private DateTime _lastExportDateTime;
 		private IList<Device> _devices;
 
 		public ExportValuesForCaching(
@@ -29,7 +28,6 @@ namespace Exporter.Exporters
 			_houseDBSettings = houseDBSettings;
 			_domoticzSettings = domoticzSettings;
 			_jwtTokenManager = jwtTokenManager;
-			_lastExportDateTime = DateTime.Today.AddDays(-1);
 
 			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 			{
@@ -96,7 +94,7 @@ namespace Exporter.Exporters
 
 			if (device.DomoticzWattIdx.HasValue && device.DomoticzWattIdx.Value != 0)
 			{
-				var domoticzData = await GetDomoticzResponse(device.DomoticzKwhIdx.Value, client);
+				var domoticzData = await GetDomoticzResponse(device.DomoticzWattIdx.Value, client);
 				watt = GetDoubleResultValue(domoticzData, "Data", " Watt");
 				lastUpdate = GetDateTimeResultValue(domoticzData, "LastUpdate");
 			}
