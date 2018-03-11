@@ -1,29 +1,33 @@
 ﻿using HouseDBCore.Settings;
 using IdentityModel.Client;
+using System;
 using System.Threading.Tasks;
 
 namespace HouseDBCore
 {
 	public class JwtTokenManager
     {
-		private TokenResponse TokenResponse { get; set; }
+		private TokenResponse _tokenResponse;
+		private DateTime _tokenEpoch;
 
 		public async Task<string> GetToken(HouseDBSettings houseDBSettings)
 		{
-			if (TokenResponse == null)
+			if (_tokenResponse == null)
 			{
-				TokenResponse = await GetJWTAccessToken(houseDBSettings);
+				_tokenResponse = await GetJWTAccessToken(houseDBSettings);
+				_tokenEpoch = DateTime.Now;
 			}
 			else
 			{
 				// Check if token is expiered (in seconds)
-				if (TokenResponse.ExpiresIn < 10 * 60)
+				if ((DateTime.Now - _tokenEpoch).TotalSeconds > _tokenResponse.ExpiresIn)
 				{
-					TokenResponse = await GetJWTAccessToken(houseDBSettings);
+					_tokenResponse = await GetJWTAccessToken(houseDBSettings);
+					_tokenEpoch = DateTime.Now;
 				}
 			}
 
-			return TokenResponse.AccessToken;
+			return _tokenResponse.AccessToken;
 		}
 
 		private static async Task<TokenResponse> GetJWTAccessToken(HouseDBSettings houseDBSettings)
