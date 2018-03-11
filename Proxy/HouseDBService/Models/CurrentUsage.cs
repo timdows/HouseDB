@@ -22,11 +22,12 @@ namespace Proxy.HouseDBService.Models
         /// <summary>
         /// Initializes a new instance of the CurrentUsage class.
         /// </summary>
-        public CurrentUsage(string deviceName = default(string), double? currentWattValue = default(double?), double? todayKwhUsage = default(double?))
+        public CurrentUsage(string deviceName = default(string), double? currentWattValue = default(double?), double? todayKwhUsage = default(double?), System.DateTime? lastUpdate = default(System.DateTime?))
         {
             DeviceName = deviceName;
             CurrentWattValue = currentWattValue;
             TodayKwhUsage = todayKwhUsage;
+            LastUpdate = lastUpdate;
             CustomInit();
         }
 
@@ -49,6 +50,11 @@ namespace Proxy.HouseDBService.Models
         /// </summary>
         [JsonProperty(PropertyName = "todayKwhUsage")]
         public double? TodayKwhUsage { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "lastUpdate")]
+        public System.DateTime? LastUpdate { get; set; }
 
     }
 }
