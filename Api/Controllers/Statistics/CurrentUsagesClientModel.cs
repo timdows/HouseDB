@@ -1,6 +1,7 @@
 ﻿using HouseDB.Controllers.Exporter;
 using HouseDB.Data;
 using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,7 +27,8 @@ namespace Api.Controllers.Statistics
 			{
 				DeviceName = "P1",
 				TodayKwhUsage = domoticzValuesForCachingClientModel.P1Values.TodayKwhUsage,
-				CurrentWattValue = domoticzValuesForCachingClientModel.P1Values.CurrentWattValue
+				CurrentWattValue = domoticzValuesForCachingClientModel.P1Values.CurrentWattValue,
+				LastUpdate = domoticzValuesForCachingClientModel.P1Values.LastUpdate
 			});
 
 			var devices = dataContext.Devices.ToList();
@@ -37,7 +39,8 @@ namespace Api.Controllers.Statistics
 				{
 					DeviceName = devices.First(a_item => a_item.ID == cacheValue.DeviceID)?.Name ?? "Unknown",
 					TodayKwhUsage = cacheValue.TodayKwhUsage,
-					CurrentWattValue = cacheValue.CurrentWattValue
+					CurrentWattValue = cacheValue.CurrentWattValue,
+					LastUpdate = cacheValue.LastUpdate
 				});
 			}
 		}
@@ -48,5 +51,6 @@ namespace Api.Controllers.Statistics
 		public string DeviceName { get; set; }
 		public decimal CurrentWattValue { get; set; }
 		public decimal TodayKwhUsage { get; set; }
+		public DateTime LastUpdate { get; set; }
 	}
 }
