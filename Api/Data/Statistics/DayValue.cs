@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Api.Data.AreaUsage
+namespace Api.Data.Statistics
 {
 	public class DayValue
     {

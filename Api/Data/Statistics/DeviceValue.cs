@@ -1,4 +1,4 @@
-﻿namespace Api.Data.AreaUsage
+﻿namespace Api.Data.Statistics
 {
 	public class DeviceValue
     {

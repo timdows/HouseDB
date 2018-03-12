@@ -1,7 +1,7 @@
 ﻿using HouseDB.Data.Models;
 using System.Collections.Generic;
 
-namespace Api.Data.AreaUsage
+namespace Api.Data.Statistics
 {
 	public class DeviceOverview
     {
