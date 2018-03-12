@@ -22,13 +22,13 @@ namespace Proxy.HouseDBService.Models
         /// <summary>
         /// Initializes a new instance of the SevenSegmentClientModel class.
         /// </summary>
-        public SevenSegmentClientModel(string watt = default(string), string lastWeekTotal = default(string), string thisWeekTotal = default(string), string lastMonthTotal = default(string), string thisMonthTotal = default(string), ElapsedTime elapsedTime = default(ElapsedTime))
+        public SevenSegmentClientModel(int? watt = default(int?), double? today = default(double?), double? thisWeek = default(double?), double? thisMonth = default(double?), double? lastMonth = default(double?), ElapsedTime elapsedTime = default(ElapsedTime))
         {
             Watt = watt;
-            LastWeekTotal = lastWeekTotal;
-            ThisWeekTotal = thisWeekTotal;
-            LastMonthTotal = lastMonthTotal;
-            ThisMonthTotal = thisMonthTotal;
+            Today = today;
+            ThisWeek = thisWeek;
+            ThisMonth = thisMonth;
+            LastMonth = lastMonth;
             ElapsedTime = elapsedTime;
             CustomInit();
         }
@@ -41,27 +41,27 @@ namespace Proxy.HouseDBService.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "watt")]
-        public string Watt { get; set; }
+        public int? Watt { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "lastWeekTotal")]
-        public string LastWeekTotal { get; set; }
+        [JsonProperty(PropertyName = "today")]
+        public double? Today { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "thisWeekTotal")]
-        public string ThisWeekTotal { get; set; }
+        [JsonProperty(PropertyName = "thisWeek")]
+        public double? ThisWeek { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "lastMonthTotal")]
-        public string LastMonthTotal { get; set; }
+        [JsonProperty(PropertyName = "thisMonth")]
+        public double? ThisMonth { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "thisMonthTotal")]
-        public string ThisMonthTotal { get; set; }
+        [JsonProperty(PropertyName = "lastMonth")]
+        public double? LastMonth { get; set; }
 
         /// <summary>
         /// </summary>

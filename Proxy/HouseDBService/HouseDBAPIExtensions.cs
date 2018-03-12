@@ -394,25 +394,6 @@ namespace Proxy.HouseDBService
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static void SevenSegmentGetDebugCacheDataGet(this IHouseDBAPI operations)
-            {
-                operations.SevenSegmentGetDebugCacheDataGetAsync().GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task SevenSegmentGetDebugCacheDataGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                (await operations.SevenSegmentGetDebugCacheDataGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false)).Dispose();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
             /// <param name='postGetKwhYearUsage'>
             /// </param>
             public static KwhYearUsageClientModel StatisticsGetKwhYearUsagePost(this IHouseDBAPI operations, PostGetKwhYearUsage postGetKwhYearUsage = default(PostGetKwhYearUsage))
