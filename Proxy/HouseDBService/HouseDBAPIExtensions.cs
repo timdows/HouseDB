@@ -20,76 +20,6 @@ namespace Proxy.HouseDBService
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static IList<DeviceOverview> AreaUsageWeekDeviceOverviewGet(this IHouseDBAPI operations)
-            {
-                return operations.AreaUsageWeekDeviceOverviewGetAsync().GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<IList<DeviceOverview>> AreaUsageWeekDeviceOverviewGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.AreaUsageWeekDeviceOverviewGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            public static IList<DayOverview> AreaUsageWeekDayOverviewGet(this IHouseDBAPI operations)
-            {
-                return operations.AreaUsageWeekDayOverviewGetAsync().GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<IList<DayOverview>> AreaUsageWeekDayOverviewGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.AreaUsageWeekDayOverviewGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='year'>
-            /// </param>
-            public static IList<MonthOverview> AreaUsageYearMonthOverviewGet(this IHouseDBAPI operations, int? year = default(int?))
-            {
-                return operations.AreaUsageYearMonthOverviewGetAsync(year).GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='year'>
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<IList<MonthOverview>> AreaUsageYearMonthOverviewGetAsync(this IHouseDBAPI operations, int? year = default(int?), CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.AreaUsageYearMonthOverviewGetWithHttpMessagesAsync(year, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
             /// <param name='deviceID'>
             /// </param>
             public static Device DeviceGetDeviceGet(this IHouseDBAPI operations, long? deviceID = default(long?))
@@ -546,6 +476,76 @@ namespace Proxy.HouseDBService
             public static async Task<CurrentUsagesClientModel> StatisticsGetCurrentUsagesGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.StatisticsGetCurrentUsagesGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            public static IList<DeviceOverview> StatisticsWeekDeviceOverviewGet(this IHouseDBAPI operations)
+            {
+                return operations.StatisticsWeekDeviceOverviewGetAsync().GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<IList<DeviceOverview>> StatisticsWeekDeviceOverviewGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.StatisticsWeekDeviceOverviewGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            public static IList<DayOverview> StatisticsWeekDayOverviewGet(this IHouseDBAPI operations)
+            {
+                return operations.StatisticsWeekDayOverviewGetAsync().GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<IList<DayOverview>> StatisticsWeekDayOverviewGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.StatisticsWeekDayOverviewGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='year'>
+            /// </param>
+            public static IList<MonthOverview> StatisticsYearMonthOverviewGet(this IHouseDBAPI operations, int? year = default(int?))
+            {
+                return operations.StatisticsYearMonthOverviewGetAsync(year).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='year'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<IList<MonthOverview>> StatisticsYearMonthOverviewGetAsync(this IHouseDBAPI operations, int? year = default(int?), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.StatisticsYearMonthOverviewGetWithHttpMessagesAsync(year, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
