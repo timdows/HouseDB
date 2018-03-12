@@ -38,7 +38,7 @@ namespace HouseDB.Controllers.SevenSegment
 			{
 				var domoticzValuesForCachingClientModel = domoticzValuesForCachingClientModelCache as DomoticzValuesForCachingClientModel;
 				Watt = Convert.ToInt32(domoticzValuesForCachingClientModel.P1Values.CurrentWattValue);
-				Today = domoticzValuesForCachingClientModel.P1Values.TodayKwhUsage;
+				Today = Math.Round(domoticzValuesForCachingClientModel.P1Values.TodayKwhUsage, 2);
 			}
 
 			if (domoticzP1ConsumptionsCache != null)
@@ -54,21 +54,21 @@ namespace HouseDB.Controllers.SevenSegment
 				var previousMonthLastDay = thisMonthFirstDay.AddDays(-1);
 
 				// Calculate week values
-				ThisWeek = domoticzP1Consumption
+				ThisWeek = Math.Round(domoticzP1Consumption
 					.Where(a_item => a_item.Date >= thisWeekMonday &&
 									 a_item.Date <= thisWeekSunday)
-					.Sum(a_item => a_item.DayUsage);
+					.Sum(a_item => a_item.DayUsage), 2);
 
 				// Calculate Month values
-				ThisMonth = domoticzP1Consumption
+				ThisMonth = Math.Round(domoticzP1Consumption
 					.Where(a_item => a_item.Date >= thisMonthFirstDay &&
 									 a_item.Date <= thisMonthLastDay)
-					.Sum(a_item => a_item.DayUsage);
+					.Sum(a_item => a_item.DayUsage), 2);
 
-				LastMonth = domoticzP1Consumption
+				LastMonth = Math.Round(domoticzP1Consumption
 					.Where(a_item => a_item.Date >= previousMonthFirstDay &&
 									 a_item.Date <= previousMonthLastDay)
-					.Sum(a_item => a_item.DayUsage);
+					.Sum(a_item => a_item.DayUsage), 2);
 			}
 		}
 	}
