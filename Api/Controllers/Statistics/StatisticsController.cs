@@ -86,7 +86,7 @@ namespace Api.Controllers.Statistics
 			return Json(clientModel);
 		}
 
-		[HttpPost]
+		[HttpGet]
 		[Produces(typeof(LastMotionDetectionsClientModel))]
 		public JsonResult GetLastMotionDetections()
 		{
