@@ -87,9 +87,12 @@ namespace Api.Controllers.Statistics
 		}
 
 		[HttpPost]
-		public JsonResult GetMotionDetections([FromBody] PostGetMotionDetections postGetMotionDetections)
+		[Produces(typeof(LastMotionDetectionsClientModel))]
+		public JsonResult GetLastMotionDetections()
 		{
-			return Json(true);
+			var clientModel = new LastMotionDetectionsClientModel();
+			clientModel.Load(_dataContext);
+			return Json(clientModel);
 		}
 
 		[HttpGet]

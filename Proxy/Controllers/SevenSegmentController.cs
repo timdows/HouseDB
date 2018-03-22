@@ -3,7 +3,6 @@ using HouseDBCore.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Proxy.HouseDBService;
 using System;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 

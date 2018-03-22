@@ -44,7 +44,6 @@ namespace HouseDB
 				.AddJsonOptions(options =>
 				{
 					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-					options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
 				});
 
 			services.AddCors();
