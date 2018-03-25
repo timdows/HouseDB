@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{90A2D962-473E-49EF-A4BC-1C56139910B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HouseDB.Api", "Api\HouseDB.Api.csproj", "{90A2D962-473E-49EF-A4BC-1C56139910B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IS4", "IS4\IS4.csproj", "{ADBD9F10-3821-445C-84CB-7421B37CCE13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HouseDB.IS4", "IS4\HouseDB.IS4.csproj", "{ADBD9F10-3821-445C-84CB-7421B37CCE13}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exporter", "Exporter\Exporter.csproj", "{0B872160-56B1-45FC-90B4-77CA30411CCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HouseDB.Exporter", "Exporter\HouseDB.Exporter.csproj", "{0B872160-56B1-45FC-90B4-77CA30411CCC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proxy", "Proxy\Proxy.csproj", "{88DED330-0844-41D2-A422-8EF82AB8D642}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HouseDB.Proxy", "Proxy\HouseDB.Proxy.csproj", "{88DED330-0844-41D2-A422-8EF82AB8D642}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HouseDBCore", "HouseDBCore\HouseDBCore.csproj", "{0ABB44ED-D146-447F-8C09-78D0077205D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HouseDB.Core", "HouseDBCore\HouseDB.Core.csproj", "{0ABB44ED-D146-447F-8C09-78D0077205D3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3F135034-7E71-4656-A135-3729767B3150}"
 	ProjectSection(SolutionItems) = preProject

@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HouseDBCore\HouseDBCore.csproj" />
+    <ProjectReference Include="..\HouseDBCore\HouseDB.Core.csproj" />
   </ItemGroup>
 
 </Project>
