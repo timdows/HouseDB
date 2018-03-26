@@ -1,7 +1,7 @@
-﻿using HouseDB.Exporter.HouseDBService;
-using HouseDB.Exporter.HouseDBService.Models;
-using HouseDB.Core;
+﻿using HouseDB.Core;
 using HouseDB.Core.Settings;
+using HouseDB.Services.Api;
+using HouseDB.Services.Api.Models;
 using Newtonsoft.Json;
 using Serilog;
 using System;

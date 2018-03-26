@@ -1,7 +1,7 @@
 ﻿using HouseDB.Core;
 using HouseDB.Core.Settings;
+using HouseDB.Services.Api;
 using Microsoft.AspNetCore.Mvc;
-using HouseDB.Proxy.HouseDBService;
 using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;

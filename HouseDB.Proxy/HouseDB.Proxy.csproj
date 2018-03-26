@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HouseDB.Core\HouseDB.Core.csproj" />
+    <ProjectReference Include="..\HouseDB.Services\HouseDB.Services.csproj" />
   </ItemGroup>
 
 </Project>

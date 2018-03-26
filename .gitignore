@@ -39,3 +39,5 @@
 /HouseDB.Proxy/bin
 /HouseDB.Proxy/obj
 /HouseDB.Proxy/appsettings.json
+/HouseDB.Services/bin/Debug/netstandard2.0
+/HouseDB.Services/obj
