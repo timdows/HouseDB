@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace HouseDB.Services.Api
+namespace HouseDB.Services.HouseDBApi
 {
     using Models;
     using System.Collections;
@@ -22,7 +22,7 @@ namespace HouseDB.Services.Api
             /// </param>
             /// <param name='deviceID'>
             /// </param>
-            public static Device DeviceGetDeviceGet(this IHouseDBAPI operations, long? deviceID = default(long?))
+            public static Device DeviceGetDeviceGet(this IHouseDBAPI operations, long deviceID)
             {
                 return operations.DeviceGetDeviceGetAsync(deviceID).GetAwaiter().GetResult();
             }
@@ -35,7 +35,7 @@ namespace HouseDB.Services.Api
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<Device> DeviceGetDeviceGetAsync(this IHouseDBAPI operations, long? deviceID = default(long?), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<Device> DeviceGetDeviceGetAsync(this IHouseDBAPI operations, long deviceID, CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.DeviceGetDeviceGetWithHttpMessagesAsync(deviceID, null, cancellationToken).ConfigureAwait(false))
                 {
@@ -265,25 +265,6 @@ namespace HouseDB.Services.Api
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static void MigrateInformationMigrateGet(this IHouseDBAPI operations)
-            {
-                operations.MigrateInformationMigrateGetAsync().GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task MigrateInformationMigrateGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                (await operations.MigrateInformationMigrateGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false)).Dispose();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
             public static VeraSettings SettingsGetVeraSettingsGet(this IHouseDBAPI operations)
             {
                 return operations.SettingsGetVeraSettingsGetAsync().GetAwaiter().GetResult();
@@ -420,9 +401,9 @@ namespace HouseDB.Services.Api
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static LastMotionDetectionsClientModel StatisticsGetLastMotionDetectionsPost(this IHouseDBAPI operations)
+            public static LastMotionDetectionsClientModel StatisticsGetLastMotionDetectionsGet(this IHouseDBAPI operations)
             {
-                return operations.StatisticsGetLastMotionDetectionsPostAsync().GetAwaiter().GetResult();
+                return operations.StatisticsGetLastMotionDetectionsGetAsync().GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -431,9 +412,9 @@ namespace HouseDB.Services.Api
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<LastMotionDetectionsClientModel> StatisticsGetLastMotionDetectionsPostAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<LastMotionDetectionsClientModel> StatisticsGetLastMotionDetectionsGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.StatisticsGetLastMotionDetectionsPostWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.StatisticsGetLastMotionDetectionsGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -442,7 +423,7 @@ namespace HouseDB.Services.Api
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static CurrentUsagesClientModel StatisticsGetCurrentUsagesGet(this IHouseDBAPI operations)
+            public static IList<CurrentUsage> StatisticsGetCurrentUsagesGet(this IHouseDBAPI operations)
             {
                 return operations.StatisticsGetCurrentUsagesGetAsync().GetAwaiter().GetResult();
             }
@@ -453,7 +434,7 @@ namespace HouseDB.Services.Api
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<CurrentUsagesClientModel> StatisticsGetCurrentUsagesGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<CurrentUsage>> StatisticsGetCurrentUsagesGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.StatisticsGetCurrentUsagesGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
                 {
@@ -510,7 +491,7 @@ namespace HouseDB.Services.Api
             /// </param>
             /// <param name='year'>
             /// </param>
-            public static IList<MonthOverview> StatisticsYearMonthOverviewGet(this IHouseDBAPI operations, int? year = default(int?))
+            public static IList<MonthOverview> StatisticsYearMonthOverviewGet(this IHouseDBAPI operations, int year)
             {
                 return operations.StatisticsYearMonthOverviewGetAsync(year).GetAwaiter().GetResult();
             }
@@ -523,77 +504,12 @@ namespace HouseDB.Services.Api
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IList<MonthOverview>> StatisticsYearMonthOverviewGetAsync(this IHouseDBAPI operations, int? year = default(int?), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<MonthOverview>> StatisticsYearMonthOverviewGetAsync(this IHouseDBAPI operations, int year, CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.StatisticsYearMonthOverviewGetWithHttpMessagesAsync(year, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='localPath'>
-            /// </param>
-            public static void VeraExportTestPost(this IHouseDBAPI operations, string localPath = default(string))
-            {
-                operations.VeraExportTestPostAsync(localPath).GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='localPath'>
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task VeraExportTestPostAsync(this IHouseDBAPI operations, string localPath = default(string), CancellationToken cancellationToken = default(CancellationToken))
-            {
-                (await operations.VeraExportTestPostWithHttpMessagesAsync(localPath, null, cancellationToken).ConfigureAwait(false)).Dispose();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='files'>
-            /// </param>
-            public static void VeraExportUploadPost(this IHouseDBAPI operations, IList<object> files = default(IList<object>))
-            {
-                operations.VeraExportUploadPostAsync(files).GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='files'>
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task VeraExportUploadPostAsync(this IHouseDBAPI operations, IList<object> files = default(IList<object>), CancellationToken cancellationToken = default(CancellationToken))
-            {
-                (await operations.VeraExportUploadPostWithHttpMessagesAsync(files, null, cancellationToken).ConfigureAwait(false)).Dispose();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            public static void VeraExportGetExportFileStatsGet(this IHouseDBAPI operations)
-            {
-                operations.VeraExportGetExportFileStatsGetAsync().GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task VeraExportGetExportFileStatsGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                (await operations.VeraExportGetExportFileStatsGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
     }

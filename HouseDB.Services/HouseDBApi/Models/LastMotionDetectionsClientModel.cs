@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace HouseDB.Services.Api.Models
+namespace HouseDB.Services.HouseDBApi.Models
 {
     using Newtonsoft.Json;
     using System.Collections;
@@ -26,9 +26,10 @@ namespace HouseDB.Services.Api.Models
         /// Initializes a new instance of the LastMotionDetectionsClientModel
         /// class.
         /// </summary>
-        public LastMotionDetectionsClientModel(IList<LastMotionDetectionDetail> lastMotionDetectionDetails = default(IList<LastMotionDetectionDetail>))
+        public LastMotionDetectionsClientModel(IList<LastMotionDetectionDetail> lastMotionDetectionDetails = default(IList<LastMotionDetectionDetail>), ElapsedTime elapsedTime = default(ElapsedTime))
         {
             LastMotionDetectionDetails = lastMotionDetectionDetails;
+            ElapsedTime = elapsedTime;
             CustomInit();
         }
 
@@ -41,6 +42,11 @@ namespace HouseDB.Services.Api.Models
         /// </summary>
         [JsonProperty(PropertyName = "lastMotionDetectionDetails")]
         public IList<LastMotionDetectionDetail> LastMotionDetectionDetails { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "elapsedTime")]
+        public ElapsedTime ElapsedTime { get; set; }
 
     }
 }

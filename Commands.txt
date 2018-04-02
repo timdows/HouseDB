@@ -4,7 +4,7 @@
 AutoRest -Input http://localhost:5002/swagger/v1/swagger.json -namespace HouseDB.Exporter.HouseDBService -OutputDirectory HouseDBService
 AutoRest -Input https://housedb.timdows.com/api/swagger/v1/swagger.json -namespace HouseDB.Exporter.HouseDBService -OutputDirectory HouseDBService
 
-autorest --input-file=https://housedb.timdows.com/api/swagger/v1/swagger.json --csharp --output-folder=HouseDBService --namespace=Proxy.HouseDBService
+autorest --input-file=https://housedb.timdows.com/api/swagger/v1/swagger.json --csharp --output-folder=HouseDBApi --namespace=HouseDB.Services.HouseDBApi
 
 --Publish steps
 https://github.com/dotnet/core/blob/master/samples/RaspberryPiInstructions.md

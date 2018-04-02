@@ -4,7 +4,7 @@
 // regenerated.
 // </auto-generated>
 
-namespace HouseDB.Services.Api.Models
+namespace HouseDB.Services.HouseDBApi.Models
 {
     using Newtonsoft.Json;
     using System.Linq;
