@@ -1,6 +1,8 @@
 ﻿using HouseDB.Api.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace HouseDB.Api.Data
 {
@@ -28,8 +30,14 @@ namespace HouseDB.Api.Data
 	{
 		public DataContext CreateDbContext(string[] args)
 		{
+			var builder = new ConfigurationBuilder()
+				.SetBasePath(Directory.GetCurrentDirectory())
+				.AddJsonFile("appsettings.json");
+
+			var config = builder.Build();
+
 			var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-			optionsBuilder.UseMySql("");
+			optionsBuilder.UseMySql(config["Database:ConnectionString"]);
 
 			return new DataContext(optionsBuilder.Options);
 		}
