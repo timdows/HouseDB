@@ -22,7 +22,7 @@ namespace HouseDB.Services.HouseDBApi.Models
         /// <summary>
         /// Initializes a new instance of the CurrentP1Item class.
         /// </summary>
-        public CurrentP1Item(string name = default(string), double? value = default(double?))
+        public CurrentP1Item(string name = default(string), string value = default(string))
         {
             Name = name;
             Value = value;
@@ -42,7 +42,7 @@ namespace HouseDB.Services.HouseDBApi.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "value")]
-        public double? Value { get; set; }
+        public string Value { get; set; }
 
     }
 }
