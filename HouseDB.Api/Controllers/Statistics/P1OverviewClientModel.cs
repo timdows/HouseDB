@@ -17,27 +17,27 @@ namespace HouseDB.Api.Controllers.Statistics
 			Items.Add(new CurrentP1Item
 			{
 				Name = nameof(helperClientModel.Watt),
-				Value = helperClientModel.Watt
+				Value = $"{helperClientModel.Watt} Watt"
 			});
 			Items.Add(new CurrentP1Item
 			{
 				Name = nameof(helperClientModel.Today),
-				Value = helperClientModel.Today
+				Value = $"{helperClientModel.Today} kWh"
 			});
 			Items.Add(new CurrentP1Item
 			{
 				Name = nameof(helperClientModel.ThisWeek),
-				Value = helperClientModel.ThisWeek
+				Value = $"{helperClientModel.ThisWeek} kWh"
 			});
 			Items.Add(new CurrentP1Item
 			{
 				Name = nameof(helperClientModel.ThisMonth),
-				Value = helperClientModel.ThisMonth
+				Value = $"{helperClientModel.ThisMonth} kWh"
 			});
 			Items.Add(new CurrentP1Item
 			{
 				Name = nameof(helperClientModel.LastMonth),
-				Value = helperClientModel.LastMonth
+				Value = $"{helperClientModel.LastMonth} kWh"
 			});
 		}
 
@@ -46,7 +46,7 @@ namespace HouseDB.Api.Controllers.Statistics
 	public class CurrentP1Item
 	{
 		public string Name { get; set; }
-		public decimal Value { get; set; }
+		public string Value { get; set; }
 
 	}
 }
