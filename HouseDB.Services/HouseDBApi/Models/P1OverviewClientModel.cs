@@ -11,22 +11,22 @@ namespace HouseDB.Services.HouseDBApi.Models
     using System.Collections.Generic;
     using System.Linq;
 
-    public partial class CurrentUsagesClientModel
+    public partial class P1OverviewClientModel
     {
         /// <summary>
-        /// Initializes a new instance of the CurrentUsagesClientModel class.
+        /// Initializes a new instance of the P1OverviewClientModel class.
         /// </summary>
-        public CurrentUsagesClientModel()
+        public P1OverviewClientModel()
         {
             CustomInit();
         }
 
         /// <summary>
-        /// Initializes a new instance of the CurrentUsagesClientModel class.
+        /// Initializes a new instance of the P1OverviewClientModel class.
         /// </summary>
-        public CurrentUsagesClientModel(IList<CurrentUsage> currentUsages = default(IList<CurrentUsage>), ElapsedTime elapsedTime = default(ElapsedTime))
+        public P1OverviewClientModel(IList<CurrentP1Item> items = default(IList<CurrentP1Item>), ElapsedTime elapsedTime = default(ElapsedTime))
         {
-            CurrentUsages = currentUsages;
+            Items = items;
             ElapsedTime = elapsedTime;
             CustomInit();
         }
@@ -38,8 +38,8 @@ namespace HouseDB.Services.HouseDBApi.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "currentUsages")]
-        public IList<CurrentUsage> CurrentUsages { get; set; }
+        [JsonProperty(PropertyName = "items")]
+        public IList<CurrentP1Item> Items { get; set; }
 
         /// <summary>
         /// </summary>

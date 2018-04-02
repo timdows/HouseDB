@@ -445,6 +445,28 @@ namespace HouseDB.Services.HouseDBApi
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            public static P1OverviewClientModel StatisticsGetP1OverviewGet(this IHouseDBAPI operations)
+            {
+                return operations.StatisticsGetP1OverviewGetAsync().GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<P1OverviewClientModel> StatisticsGetP1OverviewGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.StatisticsGetP1OverviewGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
             public static IList<DeviceOverview> StatisticsWeekDeviceOverviewGet(this IHouseDBAPI operations)
             {
                 return operations.StatisticsWeekDeviceOverviewGetAsync().GetAwaiter().GetResult();
