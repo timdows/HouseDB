@@ -1,2 +1,2 @@
-cd Proxy
+cd HouseDB.Proxy
 dotnet run

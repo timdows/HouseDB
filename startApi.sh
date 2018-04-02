@@ -1,2 +1,2 @@
-cd Api
+cd HouseDB.Api
 dotnet run

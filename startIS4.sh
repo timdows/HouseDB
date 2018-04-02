@@ -1,2 +1,2 @@
-cd IS4
+cd HouseDB.IS4
 dotnet run
