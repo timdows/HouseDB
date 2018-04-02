@@ -1,5 +1,4 @@
-﻿using HouseDB.Api.Data.Models;
-using System;
+﻿using System;
 
 namespace HouseDB.Api.Data.Models
 {

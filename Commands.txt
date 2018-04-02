@@ -10,3 +10,9 @@ autorest --input-file=https://housedb.timdows.com/api/swagger/v1/swagger.json --
 https://github.com/dotnet/core/blob/master/samples/RaspberryPiInstructions.md
 1. dotnet publish -r linux-arm
 2. Copy directory to pi (\\192.168.1.26\pi\Exporter)
+
+--Migration steps
+Use PS commands
+Add-Migration NameOfMigration
+Update-Database
+

@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace HouseDB.Migrations
+namespace HouseDB.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20170823100958_Initial2.0")]
-    partial class Initial20
+    [Migration("20180402091423_InitialModel")]
+    partial class InitialModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace HouseDB.Migrations
                 .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452");
 
-            modelBuilder.Entity("HouseDB.Data.Models.ConfigurationValue", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.ConfigurationValue", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
@@ -37,7 +37,7 @@ namespace HouseDB.Migrations
                     b.ToTable("ConfigurationValues");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.Device", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.Device", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
@@ -65,7 +65,7 @@ namespace HouseDB.Migrations
                     b.ToTable("Devices");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.ExpenseRecord", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.ExpenseRecord", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
@@ -85,7 +85,7 @@ namespace HouseDB.Migrations
                     b.ToTable("ExpenseRecords");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.ExpenseType", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.ExpenseType", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
@@ -99,7 +99,7 @@ namespace HouseDB.Migrations
                     b.ToTable("ExpenseTypes");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.ExportFile", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.ExportFile", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
@@ -121,7 +121,7 @@ namespace HouseDB.Migrations
                     b.ToTable("ExportFiles");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.HeaterMeter", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.HeaterMeter", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
@@ -141,7 +141,7 @@ namespace HouseDB.Migrations
                     b.ToTable("HeaterMeters");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.HeaterMeterGroup", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.HeaterMeterGroup", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
@@ -155,7 +155,7 @@ namespace HouseDB.Migrations
                     b.ToTable("HeaterMeterGroups");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.HeaterValue", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.HeaterValue", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
@@ -175,7 +175,7 @@ namespace HouseDB.Migrations
                     b.ToTable("HeaterValues");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.KwhDateUsage", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.KwhDateUsage", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
@@ -195,7 +195,7 @@ namespace HouseDB.Migrations
                     b.ToTable("KwhDateUsages");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.KwhDeviceValue", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.KwhDeviceValue", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
@@ -219,7 +219,7 @@ namespace HouseDB.Migrations
                     b.ToTable("KwhDeviceValues");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.MotionDetection", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.MotionDetection", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
@@ -239,47 +239,47 @@ namespace HouseDB.Migrations
                     b.ToTable("MotionDetections");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.ExpenseRecord", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.ExpenseRecord", b =>
                 {
-                    b.HasOne("HouseDB.Data.Models.ExpenseType", "ExpenseType")
+                    b.HasOne("HouseDB.Api.Data.Models.ExpenseType", "ExpenseType")
                         .WithMany()
                         .HasForeignKey("ExpenseTypeID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.HeaterMeter", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.HeaterMeter", b =>
                 {
-                    b.HasOne("HouseDB.Data.Models.HeaterMeterGroup", "HeaterMeterGroup")
+                    b.HasOne("HouseDB.Api.Data.Models.HeaterMeterGroup", "HeaterMeterGroup")
                         .WithMany("HeaterMeters")
                         .HasForeignKey("HeaterMeterGroupID");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.HeaterValue", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.HeaterValue", b =>
                 {
-                    b.HasOne("HouseDB.Data.Models.HeaterMeter", "HeaterMeter")
+                    b.HasOne("HouseDB.Api.Data.Models.HeaterMeter", "HeaterMeter")
                         .WithMany("HeaterValues")
                         .HasForeignKey("HeaterMeterID");
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.KwhDateUsage", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.KwhDateUsage", b =>
                 {
-                    b.HasOne("HouseDB.Data.Models.Device", "Device")
+                    b.HasOne("HouseDB.Api.Data.Models.Device", "Device")
                         .WithMany()
                         .HasForeignKey("DeviceID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.KwhDeviceValue", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.KwhDeviceValue", b =>
                 {
-                    b.HasOne("HouseDB.Data.Models.Device", "Device")
+                    b.HasOne("HouseDB.Api.Data.Models.Device", "Device")
                         .WithMany()
                         .HasForeignKey("DeviceID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("HouseDB.Data.Models.MotionDetection", b =>
+            modelBuilder.Entity("HouseDB.Api.Data.Models.MotionDetection", b =>
                 {
-                    b.HasOne("HouseDB.Data.Models.Device", "Device")
+                    b.HasOne("HouseDB.Api.Data.Models.Device", "Device")
                         .WithMany()
                         .HasForeignKey("DeviceID")
                         .OnDelete(DeleteBehavior.Cascade);
