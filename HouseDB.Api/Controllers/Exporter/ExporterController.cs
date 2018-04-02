@@ -15,14 +15,10 @@ namespace HouseDB.Api.Controllers.Exporter
 	public class ExporterController : HouseDBController
 	{
 		private readonly IMemoryCache _memoryCache;
-		private List<DateTime> _inDatabaseP1Consumptinos;
 
 		public ExporterController(DataContext dataContext, IMemoryCache memoryCache) : base(dataContext)
 		{
 			_memoryCache = memoryCache;
-			_inDatabaseP1Consumptinos = _dataContext.P1Consumptions
-				.Select(a_item => a_item.Date)
-				.ToList();
 		}
 
 		[HttpPost]
@@ -31,14 +27,18 @@ namespace HouseDB.Api.Controllers.Exporter
 			// Save in memory cache to be used by sevensegment
 			_memoryCache.Set(nameof(List<DomoticzP1Consumption>), domoticzP1Consumptions);
 
-			// Save new entries in database
-			var newData = domoticzP1Consumptions
-				.Where(a_item => !_inDatabaseP1Consumptinos.Contains(a_item.Date))
+			var existingValues = _dataContext.P1Consumptions
+				.Select(a_item => a_item.Date)
 				.ToList();
 
-			if (newData.Any())
+			// Save new entries in database
+			var newItems = domoticzP1Consumptions
+				.Where(a_item => !existingValues.Contains(a_item.Date))
+				.ToList();
+
+			if (newItems.Any())
 			{
-				foreach (var item in newData)
+				foreach (var item in newItems)
 				{
 					// Skip today as the value will change
 					if (item.Date.Date == DateTime.Today)
