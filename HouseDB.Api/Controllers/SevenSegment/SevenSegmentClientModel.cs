@@ -13,9 +13,9 @@ namespace HouseDB.Api.Controllers.SevenSegment
 	{
 		public int Watt { get; set; } = 0;
 		public decimal Today { get; set; } = 0;
-		public double ThisWeek { get; set; } = 0;
-		public double ThisMonth { get; set; } = 0;
-		public double LastMonth { get; set; } = 0;
+		public decimal ThisWeek { get; set; } = 0;
+		public decimal ThisMonth { get; set; } = 0;
+		public decimal LastMonth { get; set; } = 0;
 
 		private readonly IMemoryCache _memoryCache;
 		private readonly DataContext _dataContext;
@@ -54,18 +54,18 @@ namespace HouseDB.Api.Controllers.SevenSegment
 				var previousMonthLastDay = thisMonthFirstDay.AddDays(-1);
 
 				// Calculate week values
-				ThisWeek = Math.Round(domoticzP1Consumption
+				ThisWeek = (decimal)Math.Round(domoticzP1Consumption
 					.Where(a_item => a_item.Date >= thisWeekMonday &&
 									 a_item.Date <= thisWeekSunday)
 					.Sum(a_item => a_item.DayUsage), 2);
 
 				// Calculate Month values
-				ThisMonth = Math.Round(domoticzP1Consumption
+				ThisMonth = (decimal)Math.Round(domoticzP1Consumption
 					.Where(a_item => a_item.Date >= thisMonthFirstDay &&
 									 a_item.Date <= thisMonthLastDay)
 					.Sum(a_item => a_item.DayUsage), 2);
 
-				LastMonth = Math.Round(domoticzP1Consumption
+				LastMonth = (decimal)Math.Round(domoticzP1Consumption
 					.Where(a_item => a_item.Date >= previousMonthFirstDay &&
 									 a_item.Date <= previousMonthLastDay)
 					.Sum(a_item => a_item.DayUsage), 2);

@@ -101,6 +101,15 @@ namespace HouseDB.Api.Controllers.Statistics
 		}
 
 		[HttpGet]
+		[Produces(typeof(P1OverviewClientModel))]
+		public JsonResult GetP1Overview()
+		{
+			var clientModel = new P1OverviewClientModel();
+			clientModel.Load(_dataContext, _memoryCache);
+			return Json(clientModel);
+		}
+
+		[HttpGet]
 		[Produces(typeof(List<DeviceOverview>))]
 		public JsonResult WeekDeviceOverview()
 		{

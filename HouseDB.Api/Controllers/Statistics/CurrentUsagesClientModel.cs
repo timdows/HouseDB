@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace HouseDB.Api.Controllers.Statistics
 {
-	public class CurrentUsagesClientModel
+	public class CurrentUsagesClientModel : BaseClientModel
     {
 		public List<CurrentUsage> CurrentUsages { get; set; } = new List<CurrentUsage>();
 
