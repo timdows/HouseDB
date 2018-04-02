@@ -15,10 +15,14 @@ namespace HouseDB.Api.Controllers.Exporter
 	public class ExporterController : HouseDBController
 	{
 		private readonly IMemoryCache _memoryCache;
+		private List<DateTime> _inDatabaseP1Consumptinos;
 
 		public ExporterController(DataContext dataContext, IMemoryCache memoryCache) : base(dataContext)
 		{
 			_memoryCache = memoryCache;
+			_inDatabaseP1Consumptinos = _dataContext.P1Consumptions
+				.Select(a_item => a_item.Date)
+				.ToList();
 		}
 
 		[HttpPost]
@@ -26,6 +30,25 @@ namespace HouseDB.Api.Controllers.Exporter
 		{
 			// Save in memory cache to be used by sevensegment
 			_memoryCache.Set(nameof(List<DomoticzP1Consumption>), domoticzP1Consumptions);
+
+			// Save new entries in database
+			var newData = domoticzP1Consumptions
+				.Where(a_item => !_inDatabaseP1Consumptinos.Contains(a_item.Date))
+				.ToList();
+
+			if (newData.Any())
+			{
+				foreach (var item in newData)
+				{
+					_dataContext.P1Consumptions.Add(new P1Consumption
+					{
+						Date = item.Date,
+						DayUsage = item.DayUsage
+					});
+				}
+
+				_dataContext.SaveChangesAsync();
+			}
 		}
 
 		[HttpPost]
