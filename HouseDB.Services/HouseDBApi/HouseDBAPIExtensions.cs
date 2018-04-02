@@ -423,7 +423,7 @@ namespace HouseDB.Services.HouseDBApi
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static IList<CurrentUsage> StatisticsGetCurrentUsagesGet(this IHouseDBAPI operations)
+            public static CurrentUsagesClientModel StatisticsGetCurrentUsagesGet(this IHouseDBAPI operations)
             {
                 return operations.StatisticsGetCurrentUsagesGetAsync().GetAwaiter().GetResult();
             }
@@ -434,7 +434,7 @@ namespace HouseDB.Services.HouseDBApi
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IList<CurrentUsage>> StatisticsGetCurrentUsagesGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<CurrentUsagesClientModel> StatisticsGetCurrentUsagesGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.StatisticsGetCurrentUsagesGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
                 {
