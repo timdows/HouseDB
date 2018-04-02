@@ -40,6 +40,12 @@ namespace HouseDB.Api.Controllers.Exporter
 			{
 				foreach (var item in newData)
 				{
+					// Skip today as the value will change
+					if (item.Date.Date == DateTime.Today)
+					{
+						continue;
+					}
+
 					_dataContext.P1Consumptions.Add(new P1Consumption
 					{
 						Date = item.Date,
