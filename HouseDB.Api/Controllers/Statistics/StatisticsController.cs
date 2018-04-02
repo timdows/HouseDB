@@ -92,12 +92,12 @@ namespace HouseDB.Api.Controllers.Statistics
 		}
 
 		[HttpGet]
-		[Produces(typeof(List<CurrentUsage>))]
+		[Produces(typeof(CurrentUsagesClientModel))]
 		public JsonResult GetCurrentUsages()
 		{
 			var clientModel = new CurrentUsagesClientModel();
 			clientModel.Load(_dataContext, _memoryCache);
-			return Json(clientModel.CurrentUsages);
+			return Json(clientModel);
 		}
 
 		[HttpGet]
