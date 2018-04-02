@@ -44,5 +44,17 @@ namespace HouseDB.Proxy.Controllers
 				return Json(response);
 			}
 		}
+
+		[HttpGet]
+		public async Task<IActionResult> GetWeekDayOverview()
+		{
+			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
+			{
+				var token = await _jwtTokenManager.GetToken(_houseDBSettings);
+				api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+				var response = await api.StatisticsWeekDayOverviewGetAsync();
+				return Json(response);
+			}
+		}
 	}
 }
