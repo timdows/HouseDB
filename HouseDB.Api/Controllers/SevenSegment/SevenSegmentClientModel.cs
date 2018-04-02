@@ -1,7 +1,7 @@
 ﻿using HouseDB.Api.Controllers.Exporter;
 using HouseDB.Api.Data;
 using HouseDB.Api.Data.Exporter;
-using HouseDB.Api.Extensions;
+using HouseDB.Core.Extensions;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;

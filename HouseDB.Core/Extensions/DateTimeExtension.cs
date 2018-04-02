@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace HouseDB.Api.Extensions
+namespace HouseDB.Core.Extensions
 {
 	public static class DateTimeExtension
 	{

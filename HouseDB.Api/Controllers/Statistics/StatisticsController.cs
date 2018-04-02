@@ -2,7 +2,7 @@
 using HouseDB.Api.Data;
 using HouseDB.Api.Data.Exporter;
 using HouseDB.Api.Data.Statistics;
-using HouseDB.Api.Extensions;
+using HouseDB.Core.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
