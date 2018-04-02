@@ -1,7 +1,7 @@
 ﻿using HouseDB.Core;
 using HouseDB.Core.Settings;
-using HouseDB.Services.Api;
-using HouseDB.Services.Api.Models;
+using HouseDB.Services.HouseDBApi;
+using HouseDB.Services.HouseDBApi.Models;
 using Serilog;
 using System;
 using System.Net.Http;

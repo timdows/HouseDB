@@ -1,6 +1,6 @@
 ﻿using HouseDB.Core;
 using HouseDB.Core.Settings;
-using HouseDB.Services.Api;
+using HouseDB.Services.HouseDBApi;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Serilog;

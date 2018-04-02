@@ -1,6 +1,6 @@
 ﻿using HouseDB.Core;
 using HouseDB.Core.Settings;
-using HouseDB.Services.Api;
+using HouseDB.Services.HouseDBApi;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net.Http.Headers;
