@@ -1,4 +1,4 @@
-﻿using HouseDB.IS4.Settings;
+﻿using HouseDB.Core.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;

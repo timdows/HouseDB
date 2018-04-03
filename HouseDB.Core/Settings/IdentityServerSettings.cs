@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HouseDB.IS4.Settings
+namespace HouseDB.Core.Settings
 {
 	public class IdentityServerSettings
     {

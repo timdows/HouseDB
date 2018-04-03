@@ -118,6 +118,16 @@ namespace HouseDB.Services.HouseDBApi
         /// </param>
         Task<HttpOperationResponse> ExporterUploadDatabasePostWithHttpMessagesAsync(DomoticzPostDatabaseFile domoticzPostDatabaseFile = default(DomoticzPostDatabaseFile), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
+        /// <param name='code'>
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse> FitbitInsertCallbackCodePostWithHttpMessagesAsync(string code = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>

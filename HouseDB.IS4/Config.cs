@@ -1,5 +1,5 @@
-﻿using IdentityServer4.Models;
-using HouseDB.IS4.Settings;
+﻿using HouseDB.Core.Settings;
+using IdentityServer4.Models;
 using System.Collections.Generic;
 
 namespace HouseDB.IS4

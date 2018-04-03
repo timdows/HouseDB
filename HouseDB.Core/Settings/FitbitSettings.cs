@@ -1,4 +1,4 @@
-﻿namespace HouseDB.Fitbit
+﻿namespace HouseDB.Core.Settings
 {
 	public class FitbitSettings
     {

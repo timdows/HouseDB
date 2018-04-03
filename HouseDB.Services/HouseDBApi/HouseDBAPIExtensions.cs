@@ -227,6 +227,29 @@ namespace HouseDB.Services.HouseDBApi
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='code'>
+            /// </param>
+            public static void FitbitInsertCallbackCodePost(this IHouseDBAPI operations, string code = default(string))
+            {
+                operations.FitbitInsertCallbackCodePostAsync(code).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='code'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task FitbitInsertCallbackCodePostAsync(this IHouseDBAPI operations, string code = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                (await operations.FitbitInsertCallbackCodePostWithHttpMessagesAsync(code, null, cancellationToken).ConfigureAwait(false)).Dispose();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
             public static void HeaterGetAllGet(this IHouseDBAPI operations)
             {
                 operations.HeaterGetAllGetAsync().GetAwaiter().GetResult();

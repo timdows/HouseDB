@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HouseDB.Core;
+using HouseDB.Core.Settings;
+using HouseDB.Services.HouseDBApi;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System;
@@ -13,18 +16,28 @@ namespace HouseDB.Fitbit.Controllers
 	public class CallbackController : Controller
     {
 		private readonly FitbitSettings _fitbitSettings;
+		private readonly HouseDBSettings _houseDBSettings;
+		private readonly JwtTokenManager _jwtTokenManager;
 
-		public CallbackController(IOptions<FitbitSettings> fitbitSettings)
+		public CallbackController(
+			HouseDBSettings houseDBSettings,
+			JwtTokenManager jwtTokenManager,
+			FitbitSettings fitbitSettings)
 		{
-			_fitbitSettings = fitbitSettings.Value;
+			_houseDBSettings = houseDBSettings;
+			_jwtTokenManager = jwtTokenManager;
+			_fitbitSettings = fitbitSettings;
 		}
 
-		public async Task<IActionResult> Index()
+		public async Task Index()
 		{
 			var code = Request.Query.Single(a_item => a_item.Key == "code").Value;
-			var authToken = await ExchangeAuthCodeForAccessTokenAsync(code);
-			var activity = await GetActivity(authToken);
-			return Json(activity);
+			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
+			{
+				var token = await _jwtTokenManager.GetToken(_houseDBSettings);
+				api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+				await api.FitbitInsertCallbackCodePostAsync(code);
+			}
 		}
 
 		private async Task<string> ExchangeAuthCodeForAccessTokenAsync(string code)
