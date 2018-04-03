@@ -29,8 +29,13 @@ namespace HouseDB.Proxy
 			var jwtTokenManager = new JwtTokenManager();
 			services.AddSingleton(jwtTokenManager);
 
-			services.AddMvc();
-        }
+			services.AddMvc()
+				.AddJsonOptions(options =>
+				{
+					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+					options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Unspecified;
+				});
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
