@@ -1,6 +1,7 @@
 ﻿using HouseDB.Core;
 using HouseDB.Core.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 
 namespace HouseDB.Proxy.Controllers
@@ -11,10 +12,10 @@ namespace HouseDB.Proxy.Controllers
 		private readonly JwtTokenManager _jwtTokenManager;
 
 		public TokenController(
-			HouseDBSettings houseDBSettings,
+			IOptions<HouseDBSettings> houseDBSettings,
 			JwtTokenManager jwtTokenManager)
 		{
-			_houseDBSettings = houseDBSettings;
+			_houseDBSettings = houseDBSettings.Value;
 			_jwtTokenManager = jwtTokenManager;
 		}
 

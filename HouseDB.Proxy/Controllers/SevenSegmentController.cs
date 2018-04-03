@@ -2,6 +2,7 @@
 using HouseDB.Core.Settings;
 using HouseDB.Services.HouseDBApi;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -14,10 +15,10 @@ namespace HouseDB.Proxy.Controllers
 		private readonly JwtTokenManager _jwtTokenManager;
 
 		public SevenSegmentController(
-			HouseDBSettings houseDBSettings,
+			IOptions<HouseDBSettings> houseDBSettings,
 			JwtTokenManager jwtTokenManager)
 		{
-			_houseDBSettings = houseDBSettings;
+			_houseDBSettings = houseDBSettings.Value;
 			_jwtTokenManager = jwtTokenManager;
 		}
 

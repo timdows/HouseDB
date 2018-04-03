@@ -20,11 +20,11 @@ namespace HouseDB.Fitbit.Controllers
 		private readonly JwtTokenManager _jwtTokenManager;
 
 		public CallbackController(
-			HouseDBSettings houseDBSettings,
+			IOptions<HouseDBSettings> houseDBSettings,
 			JwtTokenManager jwtTokenManager,
 			IOptions<FitbitSettings> fitbitSettings)
 		{
-			_houseDBSettings = houseDBSettings;
+			_houseDBSettings = houseDBSettings.Value;
 			_jwtTokenManager = jwtTokenManager;
 			_fitbitSettings = fitbitSettings.Value;
 		}

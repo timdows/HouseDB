@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace HouseDB.Fitbit
 {
@@ -23,14 +20,12 @@ namespace HouseDB.Fitbit
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services)
         {
-			var houseDBSettings = GetHouseDBSettings().GetAwaiter().GetResult();
-			services.AddSingleton(houseDBSettings);
-
 			// Create singleton of jwtTokenManager instance
 			var jwtTokenManager = new JwtTokenManager();
 			services.AddSingleton(jwtTokenManager);
 
 			services.Configure<FitbitSettings>(Configuration.GetSection("FitbitSettings"));
+			services.Configure<HouseDBSettings>(Configuration.GetSection("HouseDBSettings"));
 
 			services.AddMvc();
 		}
@@ -45,13 +40,5 @@ namespace HouseDB.Fitbit
 
 			app.UseMvcWithDefaultRoute();
         }
-
-		private static async Task<HouseDBSettings> GetHouseDBSettings()
-		{
-			// Get settings from appconfig.json
-			var appsettingsString = await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"));
-			var appsettings = JsonConvert.DeserializeObject<dynamic>(appsettingsString);
-			return JsonConvert.DeserializeObject<HouseDBSettings>(appsettings.HouseDBSettings.ToString());
-		}
 	}
 }
