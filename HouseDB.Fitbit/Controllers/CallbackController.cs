@@ -22,11 +22,11 @@ namespace HouseDB.Fitbit.Controllers
 		public CallbackController(
 			HouseDBSettings houseDBSettings,
 			JwtTokenManager jwtTokenManager,
-			FitbitSettings fitbitSettings)
+			IOptions<FitbitSettings> fitbitSettings)
 		{
 			_houseDBSettings = houseDBSettings;
 			_jwtTokenManager = jwtTokenManager;
-			_fitbitSettings = fitbitSettings;
+			_fitbitSettings = fitbitSettings.Value;
 		}
 
 		public async Task Index()

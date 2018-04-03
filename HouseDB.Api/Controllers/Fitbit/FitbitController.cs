@@ -19,6 +19,8 @@ namespace HouseDB.Api.Controllers.Fitbit
 				AuthCode = code,
 				DateTimeAdded = DateTime.Now
 			});
+
+			_dataContext.SaveChangesAsync();
 		}
 	}
 }
