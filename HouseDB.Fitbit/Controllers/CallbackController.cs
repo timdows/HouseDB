@@ -29,38 +29,37 @@ namespace HouseDB.Fitbit.Controllers
 
 		private async Task<string> ExchangeAuthCodeForAccessTokenAsync(string code)
 		{
-			HttpClient httpClient = new HttpClient();
-
-			//string postUrl = "https://api.fitbit.com/oauth2/token";
-
-			var content = new FormUrlEncodedContent(new[]
+			using (var httpClient = new HttpClient())
 			{
-				new KeyValuePair<string, string>("grant_type", "authorization_code"),
-				new KeyValuePair<string, string>("client_id", _fitbitSettings.ClientId),
-                //new KeyValuePair<string, string>("client_secret", AppSecret),
-                new KeyValuePair<string, string>("code", code),
-				new KeyValuePair<string, string>("redirect_uri", _fitbitSettings.CallbackUrl)
-			});
+				var content = new FormUrlEncodedContent(new[]
+				{
+					new KeyValuePair<string, string>("grant_type", "authorization_code"),
+					new KeyValuePair<string, string>("client_id", _fitbitSettings.ClientId),
+					//new KeyValuePair<string, string>("client_secret", AppSecret),
+					new KeyValuePair<string, string>("code", code),
+					new KeyValuePair<string, string>("redirect_uri", _fitbitSettings.CallbackUrl)
+				});
 
+				string clientIdConcatSecret = Base64Encode(_fitbitSettings.ClientId + ":" + _fitbitSettings.ClientSecret);
+				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", clientIdConcatSecret);
 
-			string clientIdConcatSecret = Base64Encode(_fitbitSettings.ClientId + ":" + _fitbitSettings.ClientSecret);
+				HttpResponseMessage response = await httpClient.PostAsync(_fitbitSettings.AccessAndRefreshUrl, content);
+				string responseString = await response.Content.ReadAsStringAsync();
 
-			httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", clientIdConcatSecret);
+				JObject responseObject = JObject.Parse(responseString);
 
-			HttpResponseMessage response = await httpClient.PostAsync(_fitbitSettings.AccessAndRefreshUrl, content);
-			string responseString = await response.Content.ReadAsStringAsync();
+				// Note: if user cancels the auth process Fitbit returns a 200 response, but the JSON payload is way different.
+				var error = responseObject["error"];
+				if (error != null)
+				{
+					// TODO: Actually should probably raise an exception here maybe?
+					return null;
+				}
 
-			JObject responseObject = JObject.Parse(responseString);
-
-			// Note: if user cancels the auth process Fitbit returns a 200 response, but the JSON payload is way different.
-			var error = responseObject["error"];
-			if (error != null)
-			{
-				// TODO: Actually should probably raise an exception here maybe?
-				return null;
+				return responseObject["access_token"].ToString();
 			}
 
-			return responseObject["access_token"].ToString();
+				
 
 			//OAuth2AccessToken accessToken = new OAuth2AccessToken();
 
