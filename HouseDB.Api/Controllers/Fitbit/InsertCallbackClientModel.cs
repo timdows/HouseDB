@@ -1,4 +1,4 @@
-﻿namespace HouseDB.Api.Data.Fitbit
+﻿namespace HouseDB.Api.Controllers.Fitbit
 {
 	public class InsertCallbackClientModel
     {

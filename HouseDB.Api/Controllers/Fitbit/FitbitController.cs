@@ -1,5 +1,4 @@
 ﻿using HouseDB.Api.Data;
-using HouseDB.Api.Data.Fitbit;
 using HouseDB.Api.Data.Models;
 using HouseDB.Core.Settings;
 using Microsoft.AspNetCore.Mvc;
@@ -40,21 +39,20 @@ namespace HouseDB.Api.Controllers.Fitbit
 
 			_dataContext.FitbitAuthCodes.Add(fitbitAuthCode);
 			
-			var accessToken = await ExchangeAuthCodeForAccessTokenAsync(fitbitAuthCode);
-
-			var fitbitAccessToken = new FitbitAccessToken
-			{
-				FitbitAuthCode = fitbitAuthCode,
-				AccessToken = accessToken,
-				DateTimeAdded = DateTime.Now
-			};
+			var fitbitAccessToken = await ExchangeAuthCodeForAccessTokenAsync(fitbitAuthCode);
 
 			_dataContext.FitbitAccessTokens.Add(fitbitAccessToken);
 			await _dataContext.SaveChangesAsync();
 		}
 
-		private async Task<string> ExchangeAuthCodeForAccessTokenAsync(FitbitAuthCode fitbitAuthCode)
+		private async Task<FitbitAccessToken> ExchangeAuthCodeForAccessTokenAsync(FitbitAuthCode fitbitAuthCode)
 		{
+			var fitbitAccessToken = new FitbitAccessToken
+			{
+				FitbitAuthCode = fitbitAuthCode,
+				DateTimeAdded = DateTime.Now
+			};
+
 			using (var httpClient = new HttpClient())
 			{
 				var content = new FormUrlEncodedContent(new[]
@@ -81,26 +79,20 @@ namespace HouseDB.Api.Controllers.Fitbit
 					return null;
 				}
 
-				return responseObject["access_token"].ToString();
+				var temp_access_token = responseObject["access_token"];
+				if (temp_access_token != null) fitbitAccessToken.AccessToken = temp_access_token.ToString();
+
+				var temp_expires_in = responseObject["expires_in"];
+				if (temp_expires_in != null) fitbitAccessToken.ExpiresIn = Convert.ToInt32(temp_expires_in.ToString());
+
+				var temp_token_type = responseObject["token_type"];
+				if (temp_token_type != null) fitbitAccessToken.TokenType = temp_token_type.ToString();
+
+				var temp_refresh_token = responseObject["refresh_token"];
+				if (temp_refresh_token != null) fitbitAccessToken.RefreshToken = temp_refresh_token.ToString();
+
+				return fitbitAccessToken;
 			}
-
-
-
-			//OAuth2AccessToken accessToken = new OAuth2AccessToken();
-
-			//var temp_access_token = responseObject["access_token"];
-			//if (temp_access_token != null) accessToken.Token = temp_access_token.ToString();
-
-			//var temp_expires_in = responseObject["expires_in"];
-			//if (temp_expires_in != null) accessToken.ExpiresIn = Convert.ToInt32(temp_expires_in.ToString());
-
-			//var temp_token_type = responseObject["token_type"];
-			//if (temp_token_type != null) accessToken.TokenType = temp_token_type.ToString();
-
-			//var temp_refresh_token = responseObject["refresh_token"];
-			//if (temp_refresh_token != null) accessToken.RefreshToken = temp_refresh_token.ToString();
-
-			//return accessToken;
 		}
 
 		private string Base64Encode(string v)
