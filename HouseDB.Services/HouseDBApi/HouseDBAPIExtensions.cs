@@ -227,24 +227,24 @@ namespace HouseDB.Services.HouseDBApi
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            /// <param name='code'>
+            /// <param name='insertCallbackClientModel'>
             /// </param>
-            public static void FitbitInsertCallbackCodePost(this IHouseDBAPI operations, string code = default(string))
+            public static void FitbitInsertCallbackPost(this IHouseDBAPI operations, InsertCallbackClientModel insertCallbackClientModel = default(InsertCallbackClientModel))
             {
-                operations.FitbitInsertCallbackCodePostAsync(code).GetAwaiter().GetResult();
+                operations.FitbitInsertCallbackPostAsync(insertCallbackClientModel).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            /// <param name='code'>
+            /// <param name='insertCallbackClientModel'>
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task FitbitInsertCallbackCodePostAsync(this IHouseDBAPI operations, string code = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task FitbitInsertCallbackPostAsync(this IHouseDBAPI operations, InsertCallbackClientModel insertCallbackClientModel = default(InsertCallbackClientModel), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.FitbitInsertCallbackCodePostWithHttpMessagesAsync(code, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                (await operations.FitbitInsertCallbackPostWithHttpMessagesAsync(insertCallbackClientModel, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
             /// <param name='operations'>
@@ -283,50 +283,6 @@ namespace HouseDB.Services.HouseDBApi
             public static async Task HeaterGetClientModelGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
             {
                 (await operations.HeaterGetClientModelGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false)).Dispose();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            public static VeraSettings SettingsGetVeraSettingsGet(this IHouseDBAPI operations)
-            {
-                return operations.SettingsGetVeraSettingsGetAsync().GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<VeraSettings> SettingsGetVeraSettingsGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.SettingsGetVeraSettingsGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            public static DataMineSettings SettingsGetDataMineSettingsGet(this IHouseDBAPI operations)
-            {
-                return operations.SettingsGetDataMineSettingsGetAsync().GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<DataMineSettings> SettingsGetDataMineSettingsGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.SettingsGetDataMineSettingsGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
             }
 
             /// <param name='operations'>

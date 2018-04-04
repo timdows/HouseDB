@@ -1,6 +1,7 @@
 ﻿using HouseDB.Core;
 using HouseDB.Core.Settings;
 using HouseDB.Services.HouseDBApi;
+using HouseDB.Services.HouseDBApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -25,13 +26,19 @@ namespace HouseDB.Fitbit.Controllers
 
 		public async Task Index()
 		{
-			var code = Request.Query.Single(a_item => a_item.Key == "code").Value;
+			// Get items from querystring
+			var authCode = Request.Query.Single(a_item => a_item.Key == "code").Value;
 			var clientId = Request.Query.Single(a_item => a_item.Key == "state").Value;
+
 			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
 			{
 				var token = await _jwtTokenManager.GetToken(_houseDBSettings);
 				api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-				await api.FitbitInsertCallbackCodePostAsync(code);
+				await api.FitbitInsertCallbackPostAsync(new InsertCallbackClientModel
+				{
+					AuthCode = authCode,
+					ClientId = clientId
+				});
 			}
 		}
 	}

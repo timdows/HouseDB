@@ -74,7 +74,7 @@ namespace HouseDB.Api.Controllers.Fitbit
 				JObject responseObject = JObject.Parse(responseString);
 
 				// Note: if user cancels the auth process Fitbit returns a 200 response, but the JSON payload is way different.
-				var error = responseObject["error"];
+				var error = responseObject["errors"];
 				if (error != null)
 				{
 					// TODO: Actually should probably raise an exception here maybe?
