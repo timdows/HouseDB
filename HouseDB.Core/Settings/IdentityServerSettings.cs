@@ -2,6 +2,12 @@
 
 namespace HouseDB.Core.Settings
 {
+	public class IdentityServerHostSettings
+	{
+		public string Host { get; set; }
+		public string ApiName { get; set; }
+	}
+
 	public class IdentityServerSettings
     {
 		public List<IdentityServerApi> IdentityServerApis { get; set; }

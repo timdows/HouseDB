@@ -13,12 +13,15 @@ namespace HouseDB.Fitbit.Controllers
 			_fitbitSettings = fitbitSettings.Value;
 		}
 
-		public IActionResult Index()
+		public IActionResult Index(string clientId)
 		{
-			var clientId = _fitbitSettings.ClientId;
-			var redirectUrl = _fitbitSettings.CallbackUrl;
 			var scope = "activity";
-			var redir = $"https://www.fitbit.com/oauth2/authorize?response_type=code&client_id={clientId}&display=touch&redirect_uri={redirectUrl}&scope={scope}";
+			var redir = $"{_fitbitSettings.AuthUrl}?response_type=code" +
+				$"&client_id={clientId}" +
+				$"&display=touch" +
+				$"&redirect_uri={_fitbitSettings.CallbackUrl}" +
+				$"&scope={scope}" +
+				$"&state={clientId}";
 			return Redirect(redir);
 		}
     }

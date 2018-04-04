@@ -22,6 +22,7 @@ namespace HouseDB.Api.Data
 		public DbSet<KwhDateUsage> KwhDateUsages { get; set; }
 		public DbSet<MotionDetection> MotionDetections { get; set; }
 		public DbSet<P1Consumption> P1Consumptions { get; set; }
+		public DbSet<FitbitClientDetail> FitbitClientDetails { get; set; }
 		public DbSet<FitbitAuthCode> FitbitAuthCodes { get; set; }
 		public DbSet<FitbitAccessToken> FitbitAccessTokens { get; set; }
 	}

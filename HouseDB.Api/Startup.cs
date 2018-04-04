@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
+using HouseDB.Core.Settings;
 
 namespace HouseDB.Api
 {
@@ -50,11 +51,10 @@ namespace HouseDB.Api
 
 			var connection = Configuration["Database:ConnectionString"];
 			services.AddDbContext<DataContext>(options => options.UseMySql(connection));
-			services.Configure<VeraSettings>(Configuration.GetSection("VeraSettings"));
-			services.Configure<DataMineSettings>(Configuration.GetSection("DataMineSettings"));
 			services.Configure<RaspicamSettings>(Configuration.GetSection("RaspicamSettings"));
 			services.Configure<DomoticzSettings>(Configuration.GetSection("DomoticzSettings"));
-			services.Configure<IdentityServerSettings>(Configuration.GetSection("IdentityServerSettings"));
+			services.Configure<IdentityServerHostSettings>(Configuration.GetSection("IdentityServerHostSettings"));
+			services.Configure<FitbitSettings>(Configuration.GetSection("FitbitSettings"));
 
 			// Register the Swagger generator, defining one or more Swagger documents
 			services.AddSwaggerGen(options =>
@@ -64,9 +64,9 @@ namespace HouseDB.Api
 			});
 
 			// Fancypants
-			IConfigurationSection sectionData = Configuration.GetSection("IdentityServerSettings");
-			var identityServerSettings = new IdentityServerSettings();
-			sectionData.Bind(identityServerSettings);
+			IConfigurationSection sectionData = Configuration.GetSection("IdentityServerHostSettings");
+			var identityServerHostSettings = new IdentityServerHostSettings();
+			sectionData.Bind(identityServerHostSettings);
 
 			services.AddAuthentication(options =>
 			{
@@ -75,8 +75,8 @@ namespace HouseDB.Api
 
 			}).AddJwtBearer(options =>
 			{
-				options.Authority = identityServerSettings.Host;
-				options.Audience = identityServerSettings.ApiName;
+				options.Authority = identityServerHostSettings.Host;
+				options.Audience = identityServerHostSettings.ApiName;
 				options.RequireHttpsMetadata = true;
 			});
 		}
