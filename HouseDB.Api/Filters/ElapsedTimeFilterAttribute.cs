@@ -13,11 +13,6 @@ namespace HouseDB.Api.Filters
 
 		public override void OnActionExecuting(ActionExecutingContext context)
 		{
-			// Only execute if this is a jsonRoute
-			if (context.RouteData.Routers
-				.OfType<Route>()
-				.Any(route => route.Name != "jsonRoute")) return;
-
 			_timer = Stopwatch.StartNew();
 		}
 
@@ -33,12 +28,20 @@ namespace HouseDB.Api.Filters
 				Seconds = _timer.Elapsed.Seconds
 			};
 
-			var originalJson = context.Result as JsonResult;
+			context.HttpContext.Response.Headers.Add("ElapsedMilliseconds", new string[] { _timer.ElapsedMilliseconds.ToString() });
 
-			if (originalJson?.Value is BaseClientModel)
+			// Only execute if this is a jsonRoute
+			if (context.RouteData.Routers
+				.OfType<Route>()
+				.Any(route => route.Name != "jsonRoute"))
 			{
-				dynamic clientModel = originalJson.Value;
-				clientModel.ElapsedTime = elapsedTime;
+				var originalJson = context.Result as JsonResult;
+
+				if (originalJson?.Value is BaseClientModel)
+				{
+					dynamic clientModel = originalJson.Value;
+					clientModel.ElapsedTime = elapsedTime;
+				}
 			}
 		}
 	}
