@@ -25,6 +25,7 @@ namespace HouseDB.Api.Data
 		public DbSet<FitbitClientDetail> FitbitClientDetails { get; set; }
 		public DbSet<FitbitAuthCode> FitbitAuthCodes { get; set; }
 		public DbSet<FitbitAccessToken> FitbitAccessTokens { get; set; }
+		public DbSet<FitbitActivityStep> FitbitActivitySteps { get; set; }
 	}
 
 	public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>

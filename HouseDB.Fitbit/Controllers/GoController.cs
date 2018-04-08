@@ -15,7 +15,7 @@ namespace HouseDB.Fitbit.Controllers
 
 		public IActionResult Index(string clientId)
 		{
-			var scope = "activity";
+			var scope = "activity social";
 			var redir = $"{_fitbitSettings.AuthUrl}?response_type=code" +
 				$"&client_id={clientId}" +
 				$"&display=touch" +
