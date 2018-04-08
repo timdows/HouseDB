@@ -5,6 +5,7 @@ using HouseDB.Core.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,6 +23,7 @@ namespace HouseDB.Api.Controllers.Fitbit
 		}
 
 		[HttpGet]
+		[Produces(typeof(List<FitbitActivityStep>))]
 		public async Task<IActionResult> GetActivitySteps(string clientId)
 		{
 			var existingFitbitActivitySteps = _dataContext.FitbitActivitySteps
