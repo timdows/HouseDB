@@ -2,6 +2,7 @@
 using HouseDB.Api.Data.Models;
 using HouseDB.Core.Settings;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -77,6 +78,17 @@ namespace HouseDB.Api.Controllers.Fitbit
 
 			dataContext.FitbitAccessTokens.Add(fitbitAccessToken);
 			await dataContext.SaveChangesAsync();
+		}
+
+		/// <summary>
+		/// Transforms a fitbit api response to a list of type TEntity
+		/// </summary>
+		/// <typeparam name="TEntity"></typeparam>
+		/// <param name="jToken"></param>
+		/// <returns></returns>
+		public static List<TEntity> GetResponseList<TEntity>(JToken jToken) where TEntity : class
+		{
+			return jToken.ToObject<List<TEntity>>();
 		}
 
 		/// <summary>

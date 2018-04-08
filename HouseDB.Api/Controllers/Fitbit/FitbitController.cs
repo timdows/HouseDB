@@ -1,9 +1,13 @@
 ﻿using HouseDB.Api.Data;
+using HouseDB.Api.Data.Fitbit;
+using HouseDB.Api.Data.FitbitResponse;
 using HouseDB.Api.Data.Models;
 using HouseDB.Core.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,8 +29,14 @@ namespace HouseDB.Api.Controllers.Fitbit
 		{
 			var token = await FitbitHelper.GetAccessToken(_dataContext, _fitbitSettings, clientId);
 			var response = await FitbitHelper.GetResponseFromApi(token, "https://api.fitbit.com/1/user/-/activities/steps/date/today/1y.json");
-			return Json(response);
+
+			var jToken = response["activities-steps"];
+			var activitySteps = FitbitHelper.GetResponseList<ActivityStep>(jToken);
+
+			return Json(activitySteps);
 		}
+
+		
 
 		[HttpGet]
 		public async Task<IActionResult> GetActivityDistance(string clientId)
@@ -54,6 +64,5 @@ namespace HouseDB.Api.Controllers.Fitbit
 
 			await FitbitHelper.ExchangeAuthCodeForAccessToken(_dataContext, _fitbitSettings, fitbitAuthCode);			
 		}
-		
 	}
 }
