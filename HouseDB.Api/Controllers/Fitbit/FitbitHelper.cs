@@ -2,7 +2,6 @@
 using HouseDB.Api.Data.Models;
 using HouseDB.Core.Settings;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -14,13 +13,57 @@ using System.Threading.Tasks;
 namespace HouseDB.Api.Controllers.Fitbit
 {
 	public static class FitbitHelper
-    {
+	{ 
+		/// <summary>
+		/// Get a list of type TEntity from a fitbit API response
+		/// </summary>
+		/// <typeparam name="TEntity"></typeparam>
+		/// <param name="dataContext"></param>
+		/// <param name="fitbitSettings"></param>
+		/// <param name="clientId"></param>
+		/// <param name="requestUri"></param>
+		/// <param name="jsonName"></param>
+		/// <returns></returns>
+		public static async Task<List<TEntity>> GetResponseList<TEntity>(
+			DataContext dataContext, 
+			FitbitSettings fitbitSettings, 
+			string clientId, 
+			string requestUri, 
+			string jsonName) where TEntity : class
+		{
+			var token = await GetAccessToken(dataContext, fitbitSettings, clientId);
+			var response = await GetResponseFromApi(token, requestUri);
+			var jToken = response[jsonName];
+			return jToken.ToObject<List<TEntity>>();
+		}
+
+		/// <summary>
+		/// Get an access token based on an authorizaion code
+		/// </summary>
+		/// <param name="fitbitAuthCode"></param>
+		/// <returns></returns>
+		public static async Task ExchangeAuthCodeForAccessToken(DataContext dataContext, FitbitSettings fitbitSettings, FitbitAuthCode fitbitAuthCode)
+		{
+			var formUrlEncodedContent = new FormUrlEncodedContent(new[]
+			{
+				new KeyValuePair<string, string>("grant_type", "authorization_code"),
+				new KeyValuePair<string, string>("client_id", fitbitAuthCode.FitbitClientDetail.ClientId),
+				new KeyValuePair<string, string>("code", fitbitAuthCode.AuthCode),
+				new KeyValuePair<string, string>("redirect_uri", fitbitSettings.CallbackUrl)
+			});
+
+			var fitbitAccessToken = await GetAccessOrRefreshAccessToken(fitbitAuthCode, fitbitSettings, formUrlEncodedContent);
+
+			dataContext.FitbitAccessTokens.Add(fitbitAccessToken);
+			await dataContext.SaveChangesAsync();
+		}
+
 		/// <summary>
 		/// Gets the accessToken and refreshes it if needed
 		/// </summary>
 		/// <param name="clientId"></param>
 		/// <returns></returns>
-		public static async Task<string> GetAccessToken(DataContext dataContext, FitbitSettings fitbitSettings, string clientId)
+		private static async Task<string> GetAccessToken(DataContext dataContext, FitbitSettings fitbitSettings, string clientId)
 		{
 			var fitbitAccessToken = dataContext.FitbitAccessTokens
 				.Include(a_item => a_item.FitbitAuthCode.FitbitClientDetail)
@@ -48,7 +91,7 @@ namespace HouseDB.Api.Controllers.Fitbit
 		/// <param name="token"></param>
 		/// <param name="requestUri"></param>
 		/// <returns></returns>
-		public static async Task<JObject> GetResponseFromApi(string token, string requestUri)
+		private static async Task<JObject> GetResponseFromApi(string token, string requestUri)
 		{
 			using (var client = new HttpClient())
 			{
@@ -57,38 +100,6 @@ namespace HouseDB.Api.Controllers.Fitbit
 				JObject responseObject = JObject.Parse(response);
 				return responseObject;
 			}
-		}
-
-		/// <summary>
-		/// Get an access token based on an authorizaion code
-		/// </summary>
-		/// <param name="fitbitAuthCode"></param>
-		/// <returns></returns>
-		public static async Task ExchangeAuthCodeForAccessToken(DataContext dataContext, FitbitSettings fitbitSettings, FitbitAuthCode fitbitAuthCode)
-		{
-			var formUrlEncodedContent = new FormUrlEncodedContent(new[]
-			{
-				new KeyValuePair<string, string>("grant_type", "authorization_code"),
-				new KeyValuePair<string, string>("client_id", fitbitAuthCode.FitbitClientDetail.ClientId),
-				new KeyValuePair<string, string>("code", fitbitAuthCode.AuthCode),
-				new KeyValuePair<string, string>("redirect_uri", fitbitSettings.CallbackUrl)
-			});
-
-			var fitbitAccessToken = await GetAccessOrRefreshAccessToken(fitbitAuthCode, fitbitSettings, formUrlEncodedContent);
-
-			dataContext.FitbitAccessTokens.Add(fitbitAccessToken);
-			await dataContext.SaveChangesAsync();
-		}
-
-		/// <summary>
-		/// Transforms a fitbit api response to a list of type TEntity
-		/// </summary>
-		/// <typeparam name="TEntity"></typeparam>
-		/// <param name="jToken"></param>
-		/// <returns></returns>
-		public static List<TEntity> GetResponseList<TEntity>(JToken jToken) where TEntity : class
-		{
-			return jToken.ToObject<List<TEntity>>();
 		}
 
 		/// <summary>
