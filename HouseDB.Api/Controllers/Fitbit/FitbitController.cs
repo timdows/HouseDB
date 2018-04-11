@@ -75,15 +75,55 @@ namespace HouseDB.Api.Controllers.Fitbit
 		}
 
 		[HttpGet]
+		[Produces(typeof(List<FitbitActivityDistance>))]
 		public async Task<IActionResult> GetActivityDistance(string clientId)
 		{
-			var activityDistance = await FitbitHelper.GetResponseList<ActivityDistance>(
-				_dataContext,
-				_fitbitSettings,
-				clientId,
-				"https://api.fitbit.com/1/user/-/activities/distance/date/today/1y.json",
-				"activities-distance");
-			return Json(activityDistance);
+			var existingFitbitActivityDistances = _dataContext.FitbitActivityDistances
+				.Where(item => item.FitbitClientDetail.ClientId == clientId)
+				.ToList();
+
+			var fitbitClientDetail = _dataContext.FitbitClientDetails
+				.Single(item => item.ClientId == clientId);
+
+			if (existingFitbitActivityDistances.Any(item => item.Date == DateTime.Today.AddDays(-1)))
+			{
+				// Only get today's distance
+				var activityDistance = await FitbitHelper.GetResponseList<ActivityDistance>(
+					_dataContext,
+					_fitbitSettings,
+					clientId,
+					"https://api.fitbit.com/1/user/-/activities/distance/date/today/1d.json",
+					"activities-distance");
+
+				var fitbitActivityDistances = FitbitActivityDistance.GetFitbitActivityDistances(activityDistance, fitbitClientDetail);
+				existingFitbitActivityDistances.AddRange(fitbitActivityDistances);
+
+				return Json(existingFitbitActivityDistances.OrderByDescending(item => item.Date));
+			}
+			else
+			{
+				var activityDistance = await FitbitHelper.GetResponseList<ActivityDistance>(
+					_dataContext,
+					_fitbitSettings,
+					clientId,
+					"https://api.fitbit.com/1/user/-/activities/distance/date/today/1y.json",
+					"activities-distance");
+
+				var fitbitActivityDistances = FitbitActivityDistance.GetFitbitActivityDistances(activityDistance, fitbitClientDetail);
+				var existingDates = existingFitbitActivityDistances.Select(item => item.Date).ToList();
+
+				foreach (var fitbitActivityDistance in fitbitActivityDistances)
+				{
+					if (existingDates.Contains(fitbitActivityDistance.Date)) continue;
+					if (fitbitActivityDistance.KiloMeters == 0 || fitbitActivityDistance.Date == DateTime.Today) continue;
+
+					_dataContext.FitbitActivityDistances.Add(fitbitActivityDistance);
+				}
+
+				await _dataContext.SaveChangesAsync();
+
+				return Json(fitbitActivityDistances.OrderByDescending(item => item.Date));
+			}
 		}
 
 		[HttpPost]
