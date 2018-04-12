@@ -255,9 +255,9 @@ namespace HouseDB.Services.HouseDBApi
             /// </param>
             /// <param name='clientId'>
             /// </param>
-            public static void FitbitGetActivityDistanceGet(this IHouseDBAPI operations, string clientId = default(string))
+            public static IList<FitbitActivityDistance> FitbitGetActivityDistanceGet(this IHouseDBAPI operations, string clientId = default(string))
             {
-                operations.FitbitGetActivityDistanceGetAsync(clientId).GetAwaiter().GetResult();
+                return operations.FitbitGetActivityDistanceGetAsync(clientId).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -268,9 +268,12 @@ namespace HouseDB.Services.HouseDBApi
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task FitbitGetActivityDistanceGetAsync(this IHouseDBAPI operations, string clientId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<FitbitActivityDistance>> FitbitGetActivityDistanceGetAsync(this IHouseDBAPI operations, string clientId = default(string), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.FitbitGetActivityDistanceGetWithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.FitbitGetActivityDistanceGetWithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>

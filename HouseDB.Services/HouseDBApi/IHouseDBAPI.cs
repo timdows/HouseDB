@@ -136,7 +136,7 @@ namespace HouseDB.Services.HouseDBApi
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> FitbitGetActivityDistanceGetWithHttpMessagesAsync(string clientId = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<FitbitActivityDistance>>> FitbitGetActivityDistanceGetWithHttpMessagesAsync(string clientId = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='insertCallbackClientModel'>
         /// </param>
