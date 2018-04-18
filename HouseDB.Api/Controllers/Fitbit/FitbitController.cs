@@ -58,11 +58,24 @@ namespace HouseDB.Api.Controllers.Fitbit
 					"activities-steps");
 
 				var fitbitActivitySteps = FitbitActivityStep.GetFitbitActivitySteps(activitySteps, fitbitClientDetail);
-				var existingDates = existingFitbitActivitySteps.Select(item => item.Date).ToList();
 
 				foreach (var fitbitActivityStep in fitbitActivitySteps)
 				{
-					if (existingDates.Contains(fitbitActivityStep.Date)) continue;
+					// Check if activity is already in the database
+					var sameDate = existingFitbitActivitySteps.SingleOrDefault(item => item.Date == fitbitActivityStep.Date);
+					if (sameDate != null)
+					{
+						if (sameDate.Steps == fitbitActivityStep.Steps)
+						{
+							continue;
+						}
+						else
+						{
+							// Update the steps that are already in the database
+							sameDate.Steps = fitbitActivityStep.Steps;
+						}
+					}
+					
 					if (fitbitActivityStep.Steps == 0 || fitbitActivityStep.Date == DateTime.Today) continue;
 
 					_dataContext.FitbitActivitySteps.Add(fitbitActivityStep);
@@ -110,11 +123,23 @@ namespace HouseDB.Api.Controllers.Fitbit
 					"activities-distance");
 
 				var fitbitActivityDistances = FitbitActivityDistance.GetFitbitActivityDistances(activityDistance, fitbitClientDetail);
-				var existingDates = existingFitbitActivityDistances.Select(item => item.Date).ToList();
 
 				foreach (var fitbitActivityDistance in fitbitActivityDistances)
 				{
-					if (existingDates.Contains(fitbitActivityDistance.Date)) continue;
+					// Check if activity is already in the database
+					var sameDate = existingFitbitActivityDistances.SingleOrDefault(item => item.Date == fitbitActivityDistance.Date);
+					if (sameDate != null)
+					{
+						if (sameDate.KiloMeters == fitbitActivityDistance.KiloMeters)
+						{
+							continue;
+						}
+						else
+						{
+							// Update the distance that is already in the database
+							sameDate.KiloMeters = fitbitActivityDistance.KiloMeters;
+						}
+					}
 					if (fitbitActivityDistance.KiloMeters == 0 || fitbitActivityDistance.Date == DateTime.Today) continue;
 
 					_dataContext.FitbitActivityDistances.Add(fitbitActivityDistance);
