@@ -202,7 +202,11 @@ namespace HouseDB.Api.Controllers.Fitbit
 				}
 			}
 
-			return Json(fitbitWeekOverviewReponse.FitbitWeekOverviewItems.OrderByDescending(item => item.Date));
+			fitbitWeekOverviewReponse.FitbitWeekOverviewItems = fitbitWeekOverviewReponse.FitbitWeekOverviewItems
+				.OrderByDescending(item => item.Date)
+				.ToList();
+
+			return Json(fitbitWeekOverviewReponse);
 		}
 
 		[HttpPost]
