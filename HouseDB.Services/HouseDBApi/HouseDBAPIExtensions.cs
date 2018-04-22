@@ -279,6 +279,32 @@ namespace HouseDB.Services.HouseDBApi
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            public static FitbitWeekOverviewReponse FitbitGetWeekOverviewGet(this IHouseDBAPI operations, string clientId = default(string))
+            {
+                return operations.FitbitGetWeekOverviewGetAsync(clientId).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='clientId'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<FitbitWeekOverviewReponse> FitbitGetWeekOverviewGetAsync(this IHouseDBAPI operations, string clientId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.FitbitGetWeekOverviewGetWithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
             /// <param name='insertCallbackClientModel'>
             /// </param>
             public static void FitbitInsertCallbackPost(this IHouseDBAPI operations, InsertCallbackClientModel insertCallbackClientModel = default(InsertCallbackClientModel))
