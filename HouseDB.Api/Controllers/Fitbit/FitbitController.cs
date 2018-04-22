@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -151,6 +152,59 @@ namespace HouseDB.Api.Controllers.Fitbit
 			}
 		}
 
+		[HttpGet]
+		[Produces(typeof(FitbitWeekOverviewReponse))]
+		public async Task<IActionResult> GetWeekOverview(string clientId)
+		{
+			var activityStepsTask = FitbitHelper.GetResponseList<ActivityStep>(
+				_dataContext,
+				_fitbitSettings,
+				clientId,
+				"https://api.fitbit.com/1/user/-/activities/steps/date/today/1w.json",
+				"activities-steps");
+
+			var activityDistanceTask = FitbitHelper.GetResponseList<ActivityDistance>(
+					_dataContext,
+					_fitbitSettings,
+					clientId,
+					"https://api.fitbit.com/1/user/-/activities/distance/date/today/1w.json",
+					"activities-distance");
+
+			await Task.WhenAll(activityStepsTask, activityDistanceTask);
+
+			var fitbitWeekOverviewReponse = new FitbitWeekOverviewReponse();
+
+			foreach (var activityStep in activityStepsTask.Result)
+			{
+				fitbitWeekOverviewReponse.FitbitWeekOverviewItems.Add(new FitbitWeekOverviewItem
+				{
+					Date = activityStep.DateTime,
+					Steps = activityStep.Value
+				});
+			}
+
+			foreach (var activityDistance in activityDistanceTask.Result)
+			{
+				var existingItem = fitbitWeekOverviewReponse.FitbitWeekOverviewItems
+					.SingleOrDefault(item => item.Date == activityDistance.DateTime);
+
+				if (existingItem == null)
+				{
+					fitbitWeekOverviewReponse.FitbitWeekOverviewItems.Add(new FitbitWeekOverviewItem
+					{
+						Date = activityDistance.DateTime,
+						KiloMeters = Math.Round(Decimal.Parse(activityDistance.Value, NumberStyles.Any, CultureInfo.InvariantCulture), 2)
+					});
+				}
+				else
+				{
+					existingItem.KiloMeters = Math.Round(Decimal.Parse(activityDistance.Value, NumberStyles.Any, CultureInfo.InvariantCulture), 2);
+				}
+			}
+
+			return Json(fitbitWeekOverviewReponse.FitbitWeekOverviewItems.OrderByDescending(item => item.Date));
+		}
+
 		[HttpPost]
 		public async Task InsertCallback([FromBody] InsertCallbackClientModel insertCallbackClientModel)
 		{
@@ -169,5 +223,17 @@ namespace HouseDB.Api.Controllers.Fitbit
 
 			await FitbitHelper.ExchangeAuthCodeForAccessToken(_dataContext, _fitbitSettings, fitbitAuthCode);			
 		}
+	}
+
+	public class FitbitWeekOverviewReponse
+	{
+		public List<FitbitWeekOverviewItem> FitbitWeekOverviewItems { get; set; } = new List<FitbitWeekOverviewItem>();
+	}
+
+	public class FitbitWeekOverviewItem
+	{
+		public DateTime Date { get; set; }
+		public int Steps { get; set; }
+		public decimal KiloMeters { get; set; }
 	}
 }
