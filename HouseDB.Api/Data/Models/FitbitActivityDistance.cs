@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace HouseDB.Api.Data.Models
 {
@@ -16,6 +17,11 @@ namespace HouseDB.Api.Data.Models
 		public static List<FitbitActivityDistance> GetFitbitActivityDistances(List<ActivityDistance> activityDistances, FitbitClientDetail fitbitClientDetail)
 		{
 			var fitbitActivityDistances = new List<FitbitActivityDistance>();
+
+			if (activityDistances == null || !activityDistances.Any())
+			{
+				return fitbitActivityDistances;
+			}
 
 			foreach (var activityDistance in activityDistances)
 			{
