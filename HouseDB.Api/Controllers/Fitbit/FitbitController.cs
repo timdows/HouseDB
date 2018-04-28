@@ -1,8 +1,10 @@
 ﻿using HouseDB.Api.Data;
+using HouseDB.Api.Data.Fitbit;
 using HouseDB.Api.Data.FitbitResponse;
 using HouseDB.Api.Data.Models;
 using HouseDB.Core.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -16,11 +18,15 @@ namespace HouseDB.Api.Controllers.Fitbit
 	public class FitbitController : HouseDBController
 	{
 		private readonly FitbitSettings _fitbitSettings;
+		private readonly IMemoryCache _memoryCache;
 
-		public FitbitController(DataContext dataContext,
-			IOptions<FitbitSettings> fitbitSettings) : base(dataContext)
+		public FitbitController(
+			DataContext dataContext,
+			IOptions<FitbitSettings> fitbitSettings, 
+			IMemoryCache memoryCache) : base(dataContext)
 		{
 			_fitbitSettings = fitbitSettings.Value;
+			_memoryCache = memoryCache;
 		}
 
 		[HttpGet]
@@ -156,6 +162,12 @@ namespace HouseDB.Api.Controllers.Fitbit
 		[Produces(typeof(FitbitWeekOverviewReponse))]
 		public async Task<IActionResult> GetWeekOverview(string clientId)
 		{
+			var fitbitWeekOverviewResponseCache = _memoryCache.Get<FitbitWeekOverviewReponse>(nameof(FitbitWeekOverviewReponse));
+			if (fitbitWeekOverviewResponseCache != null)
+			{
+				return Json(fitbitWeekOverviewResponseCache);
+			}
+
 			var activityStepsTask = FitbitHelper.GetResponseList<ActivityStep>(
 				_dataContext,
 				_fitbitSettings,
@@ -206,6 +218,8 @@ namespace HouseDB.Api.Controllers.Fitbit
 				.OrderByDescending(item => item.Date)
 				.ToList();
 
+			_memoryCache.Set(nameof(FitbitWeekOverviewReponse), fitbitWeekOverviewResponseCache, TimeSpan.FromMinutes(1));
+
 			return Json(fitbitWeekOverviewReponse);
 		}
 
@@ -227,17 +241,5 @@ namespace HouseDB.Api.Controllers.Fitbit
 
 			await FitbitHelper.ExchangeAuthCodeForAccessToken(_dataContext, _fitbitSettings, fitbitAuthCode);			
 		}
-	}
-
-	public class FitbitWeekOverviewReponse
-	{
-		public List<FitbitWeekOverviewItem> FitbitWeekOverviewItems { get; set; } = new List<FitbitWeekOverviewItem>();
-	}
-
-	public class FitbitWeekOverviewItem
-	{
-		public DateTime Date { get; set; }
-		public int Steps { get; set; }
-		public decimal KiloMeters { get; set; }
 	}
 }
