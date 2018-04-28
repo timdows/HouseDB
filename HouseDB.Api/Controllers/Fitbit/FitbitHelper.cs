@@ -33,6 +33,11 @@ namespace HouseDB.Api.Controllers.Fitbit
 		{
 			var token = await GetAccessToken(dataContext, fitbitSettings, clientId);
 			var response = await GetResponseFromApi(token, requestUri);
+			if (response == null)
+			{
+				return null;
+			}
+
 			var jToken = response[jsonName];
 			return jToken.ToObject<List<TEntity>>();
 		}
@@ -96,9 +101,16 @@ namespace HouseDB.Api.Controllers.Fitbit
 			using (var client = new HttpClient())
 			{
 				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-				var response = await client.GetStringAsync(requestUri);
-				JObject responseObject = JObject.Parse(response);
-				return responseObject;
+				try
+				{
+					var response = await client.GetStringAsync(requestUri);
+					JObject responseObject = JObject.Parse(response);
+					return responseObject;
+				}
+				catch (Exception excep)
+				{
+					return null;
+				}			
 			}
 		}
 
