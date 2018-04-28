@@ -32,7 +32,7 @@ namespace HouseDB.Api.Controllers.SevenSegment
 		{
 			// Get cached objects
 			var domoticzValuesForCachingClientModelCache = _memoryCache.Get(nameof(DomoticzValuesForCachingClientModel));
-			var domoticzP1ConsumptionsCache = _memoryCache.Get(nameof(List<DomoticzP1Consumption>));
+			var domoticzP1ConsumptionsCache = _memoryCache.Get(nameof(DomoticzP1Consumption));
 
 			if (domoticzValuesForCachingClientModelCache != null)
 			{

@@ -193,7 +193,7 @@ namespace HouseDB.Api.Controllers.Statistics
 				.OrderBy(a_item => a_item.Date)
 				.ToList();
 
-			var domoticzP1ConsumptionsCache = _memoryCache.Get(nameof(List<DomoticzP1Consumption>));
+			var domoticzP1ConsumptionsCache = _memoryCache.Get(nameof(DomoticzP1Consumption));
 			List<DomoticzP1Consumption> domoticzP1Consumption = null;
 			if (domoticzP1ConsumptionsCache != null)
 			{
@@ -281,7 +281,7 @@ namespace HouseDB.Api.Controllers.Statistics
 				.OrderBy(a_item => a_item.Date)
 				.ToList();
 
-			var domoticzP1ConsumptionsCache = _memoryCache.Get(nameof(List<DomoticzP1Consumption>));
+			var domoticzP1ConsumptionsCache = _memoryCache.Get(nameof(DomoticzP1Consumption));
 			List<DomoticzP1Consumption> domoticzP1Consumption = null;
 			if (domoticzP1ConsumptionsCache != null)
 			{

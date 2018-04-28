@@ -25,7 +25,7 @@ namespace HouseDB.Api.Controllers.Exporter
 		public void InsertDomoticzP1Consumption([FromBody] List<DomoticzP1Consumption> domoticzP1Consumptions)
 		{
 			// Save in memory cache to be used by sevensegment
-			_memoryCache.Set(nameof(List<DomoticzP1Consumption>), domoticzP1Consumptions);
+			_memoryCache.Set(nameof(DomoticzP1Consumption), domoticzP1Consumptions);
 
 			var existingValues = _dataContext.P1Consumptions
 				.Select(a_item => a_item.Date)

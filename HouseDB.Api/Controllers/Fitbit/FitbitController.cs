@@ -33,7 +33,7 @@ namespace HouseDB.Api.Controllers.Fitbit
 		[Produces(typeof(List<FitbitActivityStep>))]
 		public async Task<IActionResult> GetActivitySteps(string clientId)
 		{
-			var cachedResponse = _memoryCache.Get<List<FitbitActivityStep>>(nameof(List<FitbitActivityStep>));
+			var cachedResponse = _memoryCache.Get<List<FitbitActivityStep>>(nameof(FitbitActivityStep));
 			if (cachedResponse != null)
 			{
 				return Json(cachedResponse);
@@ -62,7 +62,7 @@ namespace HouseDB.Api.Controllers.Fitbit
 				existingFitbitActivitySteps = existingFitbitActivitySteps
 					.OrderByDescending(item => item.Date)
 					.ToList();
-				_memoryCache.Set(nameof(List<FitbitActivityStep>), existingFitbitActivitySteps, TimeSpan.FromMinutes(5));
+				_memoryCache.Set(nameof(FitbitActivityStep), existingFitbitActivitySteps, TimeSpan.FromMinutes(5));
 
 				return Json(existingFitbitActivitySteps);
 			}
@@ -102,7 +102,7 @@ namespace HouseDB.Api.Controllers.Fitbit
 				await _dataContext.SaveChangesAsync();
 
 				fitbitActivitySteps = fitbitActivitySteps.OrderByDescending(item => item.Date).ToList();
-				_memoryCache.Set(nameof(List<FitbitActivityStep>), fitbitActivitySteps, TimeSpan.FromMinutes(5));
+				_memoryCache.Set(nameof(FitbitActivityStep), fitbitActivitySteps, TimeSpan.FromMinutes(5));
 
 				return Json(fitbitActivitySteps);
 			}
@@ -112,7 +112,7 @@ namespace HouseDB.Api.Controllers.Fitbit
 		[Produces(typeof(List<FitbitActivityDistance>))]
 		public async Task<IActionResult> GetActivityDistance(string clientId)
 		{
-			var cachedResponse = _memoryCache.Get<List<FitbitActivityDistance>>(nameof(List<FitbitActivityDistance>));
+			var cachedResponse = _memoryCache.Get<List<FitbitActivityDistance>>(nameof(FitbitActivityDistance));
 			if (cachedResponse != null)
 			{
 				return Json(cachedResponse);
@@ -141,7 +141,7 @@ namespace HouseDB.Api.Controllers.Fitbit
 				existingFitbitActivityDistances = existingFitbitActivityDistances
 					.OrderByDescending(item => item.Date)
 					.ToList();
-				_memoryCache.Set(nameof(List<FitbitActivityDistance>), existingFitbitActivityDistances, TimeSpan.FromMinutes(5));
+				_memoryCache.Set(nameof(FitbitActivityDistance), existingFitbitActivityDistances, TimeSpan.FromMinutes(5));
 
 				return Json(existingFitbitActivityDistances);
 			}
@@ -180,7 +180,7 @@ namespace HouseDB.Api.Controllers.Fitbit
 				await _dataContext.SaveChangesAsync();
 
 				fitbitActivityDistances = fitbitActivityDistances.OrderByDescending(item => item.Date).ToList();
-				_memoryCache.Set(nameof(List<FitbitActivityDistance>), fitbitActivityDistances, TimeSpan.FromMinutes(5));
+				_memoryCache.Set(nameof(FitbitActivityDistance), fitbitActivityDistances, TimeSpan.FromMinutes(5));
 
 				return Json(fitbitActivityDistances);
 			}
