@@ -242,6 +242,12 @@ namespace HouseDB.Api.Controllers.Fitbit
 				}
 			}
 
+			foreach (var item in fitbitWeekOverviewReponse.FitbitWeekOverviewItems)
+			{
+				var date = item.Date.Date == DateTime.Today ? "Today" : item.Date.ToString("dddd");
+				item.DisplayText = $"{date}\t{item.Steps} steps";
+			}
+
 			fitbitWeekOverviewReponse.FitbitWeekOverviewItems = fitbitWeekOverviewReponse.FitbitWeekOverviewItems
 				.OrderByDescending(item => item.Date)
 				.ToList();
