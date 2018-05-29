@@ -46,3 +46,4 @@
 /HouseDB.Fitbit/Properties
 *.user
 /HouseDB.Fitbit/appsettings.json
+/HouseDB.Trappers/obj
