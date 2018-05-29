@@ -101,16 +101,9 @@ namespace HouseDB.Api.Controllers.Fitbit
 			using (var client = new HttpClient())
 			{
 				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-				try
-				{
-					var response = await client.GetStringAsync(requestUri);
-					JObject responseObject = JObject.Parse(response);
-					return responseObject;
-				}
-				catch (Exception excep)
-				{
-					return null;
-				}			
+				var response = await client.GetStringAsync(requestUri);
+				JObject responseObject = JObject.Parse(response);
+				return responseObject;
 			}
 		}
 
