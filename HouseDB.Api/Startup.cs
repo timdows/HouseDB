@@ -56,6 +56,7 @@ namespace HouseDB.Api
 			services.Configure<DomoticzSettings>(Configuration.GetSection("DomoticzSettings"));
 			services.Configure<IdentityServerHostSettings>(Configuration.GetSection("IdentityServerHostSettings"));
 			services.Configure<FitbitSettings>(Configuration.GetSection("FitbitSettings"));
+			services.Configure<TrappersSettings>(Configuration.GetSection("TrappersSettings"));
 
 			// Register the Swagger generator, defining one or more Swagger documents
 			services.AddSwaggerGen(options =>

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HouseDB.Api.Controllers
 {
 	[ElapsedTimeFilter]
-	[Authorize]
+	//[Authorize]
 	public class HouseDBController : Controller
 	{
 		public HouseDBController(DataContext dataContext)
