@@ -51,8 +51,8 @@ namespace HouseDB.Api.Controllers.Trappers
 			var loginRequest = new LoginRequest
 			{
 				Event = "Log-in",
-				LoginId = "113847",
-				Password = "712370548"
+				LoginId = _trappersSettings.LoginId,
+				Password = _trappersSettings.Password
 			};
 			var request = CreateHttpRequestMessage(
 				$"{_trappersSettings.BaseUrl}/deelnemersite/tres_mijntrapperslogin.jsp", 
