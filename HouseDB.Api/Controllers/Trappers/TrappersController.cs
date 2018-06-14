@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -56,9 +57,9 @@ namespace HouseDB.Api.Controllers.Trappers
 			};
 			var request = CreateHttpRequestMessage(
 				$"{_trappersSettings.BaseUrl}/deelnemersite/tres_mijntrapperslogin.jsp", 
-				loginRequest);
+				loginRequest,
+				string.Empty);
 			var response = await _client.SendAsync(request);
-
 
 			var cookies = _cookieJar.GetCookies(_client.BaseAddress);
 			foreach (Cookie cookie in cookies)
@@ -75,28 +76,45 @@ namespace HouseDB.Api.Controllers.Trappers
 
 		private async Task GetTransactions()
 		{
-			var transactionsRequest = new TransactionsRequest
-			{
-				Event = "Zoek",
-				BeginDatum = "01-05-2018",
-				EindDatum = "01-06-2018"
-			};
-			var request = CreateHttpRequestMessage(
-				$"{_trappersSettings.BaseUrl}/deelnemersite/tres_mijntrapperstransacties.jsp",
-				transactionsRequest);
-			//request./*cook*/
-			var response = await _client.SendAsync(request);
+			//var transactionsRequest = new TransactionsRequest
+			//{
+			//	Event = "Zoek",
+			//	BeginDatum = "01-05-2018",
+			//	EindDatum = "01-06-2018"
+			//};
+			//var request = CreateHttpRequestMessage(
+			//	$"{_trappersSettings.BaseUrl}/deelnemersite/tres_mijntrapperstransacties.jsp",
+			//	transactionsRequest,
+			//	_loginCookie.ToString());
+			////request./*cook*/
+			//var response = await _client.SendAsync(request);
 
+			//var x = await response.Content.ReadAsStringAsync();
+
+			var content = new FormUrlEncodedContent(new[]
+			{
+				new KeyValuePair<string, string>("begindatum", "01-06-2018^"),
+				new KeyValuePair<string, string>("einddatum", "14-06-2018^"),
+				new KeyValuePair<string, string>("event", "Zoek")
+			});
+			_client.DefaultRequestHeaders.Add("cookie", $"JSESSIONID={_loginCookie.Value}");
+			var response = await _client.PostAsync($"{_trappersSettings.BaseUrl}/deelnemersite/tres_mijntrapperstransacties.jsp", content);
 			var x = await response.Content.ReadAsStringAsync();
 		}
 
-		private HttpRequestMessage CreateHttpRequestMessage(string requestUri, object requestObject)
+		private HttpRequestMessage CreateHttpRequestMessage(string requestUri, object requestObject, string cookie)
 		{
 			var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+			if (cookie != string.Empty)
+			{
+				request.Headers.Add("cookie", cookie);
+			}
 			var json = JsonConvert.SerializeObject(requestObject);
 			request.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 			return request;
 		}
+
+		
 
 	}
 
