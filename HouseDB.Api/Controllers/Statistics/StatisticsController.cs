@@ -356,13 +356,13 @@ namespace HouseDB.Api.Controllers.Statistics
 					.Where(item => item.Date >= startOfWeek &&
 								   item.Date <= endOfWeek)
 					.Sum(item => item.DayUsage);
-				consumption = Math.Round(consumption, 3);
+				consumption = Math.Round(consumption, 2);
 
 				p1WeekUsages.Add(new P1WeekUsage
 				{
 					Week = weekNumber,
 					P1Usage = consumption,
-					DisplayText = $"{date.Year}-{weekNumber} {consumption}kWh"
+					DisplayText = $"{consumption} kWh - week {weekNumber} ({startOfWeek.ToString("dd-MM")}-{endOfWeek.ToString("dd-MM")})"
 				});
 			}
 
