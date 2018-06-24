@@ -347,7 +347,7 @@ namespace HouseDB.Api.Controllers.Statistics
 			for (var i = 0; i < amountOfWeeks; i++)
 			{
 				var date = DateTime.Today.AddDays(-7 * i);
-				var weekNumber = DateTime.Today.GetIso8601WeekOfYear();
+				var weekNumber = date.GetIso8601WeekOfYear();
 
 				var startOfWeek = DateTimeExtension.FirstDateOfWeekISO8601(date.Year, weekNumber);
 				var endOfWeek = startOfWeek.AddDays(7);
@@ -356,6 +356,7 @@ namespace HouseDB.Api.Controllers.Statistics
 					.Where(item => item.Date >= startOfWeek &&
 								   item.Date <= endOfWeek)
 					.Sum(item => item.DayUsage);
+				consumption = Math.Round(consumption, 3);
 
 				p1WeekUsages.Add(new P1WeekUsage
 				{
