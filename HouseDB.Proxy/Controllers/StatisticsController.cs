@@ -69,5 +69,17 @@ namespace HouseDB.Proxy.Controllers
 				return Json(response);
 			}
 		}
+
+		[HttpGet]
+		public async Task<IActionResult> GetP1WeekUsage(int amountOfWeeks)
+		{
+			using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
+			{
+				var token = await _jwtTokenManager.GetToken(_houseDBSettings);
+				api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+				var response = await api.StatisticsGetP1WeekUsageGetAsync(amountOfWeeks);
+				return Json(response);
+			}
+		}
 	}
 }
