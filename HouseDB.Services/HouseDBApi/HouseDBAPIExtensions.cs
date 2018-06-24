@@ -591,5 +591,50 @@ namespace HouseDB.Services.HouseDBApi
                 }
             }
 
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='amountOfWeeks'>
+            /// </param>
+            public static IList<P1WeekUsage> StatisticsGetP1WeekUsageGet(this IHouseDBAPI operations, int amountOfWeeks)
+            {
+                return operations.StatisticsGetP1WeekUsageGetAsync(amountOfWeeks).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='amountOfWeeks'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<IList<P1WeekUsage>> StatisticsGetP1WeekUsageGetAsync(this IHouseDBAPI operations, int amountOfWeeks, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.StatisticsGetP1WeekUsageGetWithHttpMessagesAsync(amountOfWeeks, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            public static void TrappersGetThingsGet(this IHouseDBAPI operations)
+            {
+                operations.TrappersGetThingsGetAsync().GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task TrappersGetThingsGetAsync(this IHouseDBAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                (await operations.TrappersGetThingsGetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false)).Dispose();
+            }
+
     }
 }
