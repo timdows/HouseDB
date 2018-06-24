@@ -337,5 +337,35 @@ namespace HouseDB.Api.Controllers.Statistics
 
 			return Json(monthOverviews);
 		}
+
+		[HttpGet]
+		[Produces(typeof(List<P1WeekUsage>))]
+		public JsonResult GetP1WeekUsage(int amountOfWeeks)
+		{
+			var p1WeekUsages = new List<P1WeekUsage>();
+
+			for (var i = 0; i < amountOfWeeks; i++)
+			{
+				var date = DateTime.Today.AddDays(-7 * i);
+				var weekNumber = DateTime.Today.GetIso8601WeekOfYear();
+
+				var startOfWeek = DateTimeExtension.FirstDateOfWeekISO8601(date.Year, weekNumber);
+				var endOfWeek = startOfWeek.AddDays(7);
+
+				var consumption = _dataContext.P1Consumptions
+					.Where(item => item.Date >= startOfWeek &&
+								   item.Date <= endOfWeek)
+					.Sum(item => item.DayUsage);
+
+				p1WeekUsages.Add(new P1WeekUsage
+				{
+					Week = weekNumber,
+					P1Usage = consumption,
+					DisplayText = $"{date.Year}-{weekNumber} {consumption}kWh"
+				});
+			}
+
+			return Json(p1WeekUsages);
+		}
 	}
 }

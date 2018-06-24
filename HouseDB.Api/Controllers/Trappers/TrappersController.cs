@@ -41,6 +41,7 @@ namespace HouseDB.Api.Controllers.Trappers
 			_client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 		}
 
+		[HttpGet]
 		public async Task GetThings()
 		{
 			var a = await Login();
