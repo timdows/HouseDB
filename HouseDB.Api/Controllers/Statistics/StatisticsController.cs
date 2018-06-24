@@ -362,7 +362,7 @@ namespace HouseDB.Api.Controllers.Statistics
 				{
 					Week = weekNumber,
 					P1Usage = consumption,
-					DisplayText = $"{consumption} kWh - week {weekNumber} ({startOfWeek.ToString("dd-MM")}-{endOfWeek.ToString("dd-MM")})"
+					DisplayText = $"{consumption.ToString("F")} kWh - ({weekNumber}) {startOfWeek.ToString("dd-MM")} - {endOfWeek.ToString("dd-MM")}"
 				});
 			}
 
