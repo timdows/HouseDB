@@ -1,0 +1,20 @@
+﻿autorest -namespace HouseDB.Exporter.HouseDBService -CodeGenerator CSharp -Modeler Swagger -Input "C:\Users\tim\Downloads\swagger.json"
+
+
+AutoRest -Input http://localhost:5002/swagger/v1/swagger.json -namespace HouseDB.Exporter.HouseDBService -OutputDirectory HouseDBService
+AutoRest -Input https://housedb.timdows.com/api/swagger/v1/swagger.json -namespace HouseDB.Exporter.HouseDBService -OutputDirectory HouseDBService
+
+autorest --input-file=https://housedb.timdows.com/api/swagger/v1/swagger.json --csharp --output-folder=HouseDBApi --namespace=HouseDB.Services.HouseDBApi
+autorest --input-file=http://localhost:5002/swagger/v1/swagger.json --csharp --output-folder=HouseDBApi --namespace=HouseDB.Services.HouseDBApi
+
+
+--Publish steps
+https://github.com/dotnet/core/blob/master/samples/RaspberryPiInstructions.md
+1. dotnet publish -r linux-arm
+2. Copy directory to pi (\\192.168.1.26\pi\Exporter)
+
+--Migration steps
+Use PS commands
+Add-Migration NameOfMigration
+Update-Database
+

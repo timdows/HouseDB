@@ -1,51 +1,116 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HouseDB.Api.Data.Settings;
+using HouseDB.Api.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Serilog;
+using Swashbuckle.AspNetCore.Swagger;
+using HouseDB.Core.Settings;
 
 namespace HouseDB.Api
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class Startup
+	{
+		public Startup(IHostingEnvironment env)
+		{
+			var builder = new ConfigurationBuilder()
+				.SetBasePath(env.ContentRootPath)
+				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+				.AddEnvironmentVariables();
+			Configuration = builder.Build();
 
-        public IConfiguration Configuration { get; }
+			builder.AddEntityFrameworkConfig(options => options.UseMySql(Configuration["Database:ConnectionString"]));
+			Configuration = builder.Build();
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllers();
-        }
+			Log.Logger = new LoggerConfiguration()
+				.MinimumLevel.Debug()
+				.Enrich.FromLogContext()
+				.WriteTo.LiterateConsole()
+				.ReadFrom.Configuration(Configuration)
+				.CreateLogger();
+		}
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+		public IConfigurationRoot Configuration { get; }
 
-            app.UseHttpsRedirection();
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddMemoryCache();
+			services.AddMvc()
+				.AddJsonOptions(options =>
+				{
+					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+					options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Unspecified;
+				});
 
-            app.UseRouting();
+			services.AddCors();
 
-            app.UseAuthorization();
+			var connection = Configuration["Database:ConnectionString"];
+			services.AddDbContext<DataContext>(options => options.UseMySql(connection));
+			services.Configure<RaspicamSettings>(Configuration.GetSection("RaspicamSettings"));
+			services.Configure<DomoticzSettings>(Configuration.GetSection("DomoticzSettings"));
+			services.Configure<IdentityServerHostSettings>(Configuration.GetSection("IdentityServerHostSettings"));
+			services.Configure<FitbitSettings>(Configuration.GetSection("FitbitSettings"));
+			services.Configure<TrappersSettings>(Configuration.GetSection("TrappersSettings"));
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
-    }
+			// Register the Swagger generator, defining one or more Swagger documents
+			services.AddSwaggerGen(options =>
+			{
+				options.SwaggerDoc("v1", new Info { Title = "HouseDB API", Version = "v1" });
+				options.AddSecurityDefinition("Bearer", new ApiKeyScheme() { In = "header", Description = "Please insert JWT with Bearer into field", Name = "Authorization", Type = "apiKey" });
+			});
+
+			// Fancypants
+			IConfigurationSection sectionData = Configuration.GetSection("IdentityServerHostSettings");
+			var identityServerHostSettings = new IdentityServerHostSettings();
+			sectionData.Bind(identityServerHostSettings);
+
+			services.AddAuthentication(options =>
+			{
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+
+			}).AddJwtBearer(options =>
+			{
+				options.Authority = identityServerHostSettings.Host;
+				options.Audience = identityServerHostSettings.ApiName;
+				options.RequireHttpsMetadata = true;
+			});
+		}
+
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
+		{
+			loggerFactory.AddSerilog();
+			appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
+
+			app.UseCors(builder => builder.AllowAnyOrigin());
+
+			app.UseAuthentication();
+
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(name: "jsonRoute", template: "{controller}/{action}.json");
+				routes.MapRoute(name: "postRoute", template: "{controller}/{action}");
+			});
+
+			// Enable middleware to serve generated Swagger as a JSON endpoint.
+			app.UseSwagger(options =>
+			{
+				options.RouteTemplate = "swagger/{documentName}/swagger.json";
+			});
+
+			// Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
+			app.UseSwaggerUI(options =>
+			{
+				options.SwaggerEndpoint("/api/swagger/v1/swagger.json", "HouseDB API v1");
+				options.RoutePrefix = "swagger";
+			});
+		}
+	}
 }
