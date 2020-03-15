@@ -1,24 +1,26 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Builder;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using System.Net;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace HouseDB.Api
 {
-	public class Program
+    public class Program
     {
-		public static void Main(string[] args)
-		{
-			BuildWebHost(args).Run();
-		}
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
 
-		public static IWebHost BuildWebHost(string[] args) =>
-			WebHost.CreateDefaultBuilder(args)
-				.UseKestrel(options =>
-				{
-					options.Listen(IPAddress.Loopback, 5002);
-				})
-				.UseStartup<Startup>()
-				.Build();
-	}
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
