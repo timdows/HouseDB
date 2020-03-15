@@ -1,0 +1,63 @@
+aside {
+	background-color:#2a2d35;
+	height: 100%;
+	width: 3rem;
+	transition: all .5s;
+
+	> .container {
+		padding: .2rem;
+
+		button {
+			width: 100%;
+			margin-bottom: .1rem;
+			min-height: 3rem;
+			border: none;
+  			background: #555;
+
+			span {
+				display: none;
+				color: white;
+				font-size: 1rem;
+				font-family: 'Roboto', sans-serif;
+			}
+			i {
+				color: white;
+				font-size: 1rem;
+			}
+		}
+
+		&.showText {
+			button {
+				span {
+					display: inline;
+				}
+			}
+			i {
+				float: left;
+				margin-left: 10px;
+			}
+		}
+	}
+
+	> .info {
+		display: none;
+		padding: 1rem;
+		font-size: .8rem;
+
+		> .block{
+			display: flex;
+
+			> span {
+				flex: 0 1 50%;
+			}
+		}
+	}
+}
+
+/deep/ .aside-open aside {
+	width: 11rem;
+}
+
+/deep/ .aside-open aside .info {
+	display: block !important;
+}

@@ -1,0 +1,30 @@
+﻿{
+	"Serilog": {
+		"WriteTo": [
+			{
+				"Name": "RollingFile",
+				"Args": {
+					"pathFormat": "logs/log-{Date}.txt"
+				}
+			}
+		]
+	},
+	"IdentityServerSettings": {
+		"IdentityServerApis": [
+			{
+				"Name": "",
+				"DisplayName": "",
+				"IdentityServerClients": [
+					{
+						"ClientID": "",
+						"Secret": ""
+					}
+				]
+			}
+		],
+		"CertificateSettings": {
+			"FileName": "",
+			"Password": ""
+		} 
+	}
+}
