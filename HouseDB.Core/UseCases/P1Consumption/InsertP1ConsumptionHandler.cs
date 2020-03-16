@@ -1,7 +1,6 @@
 ﻿using HouseDB.Core.Exceptions;
 using HouseDB.Core.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading;
@@ -11,13 +10,10 @@ namespace HouseDB.Core.UseCases.P1Consumption
 {
     public class InsertP1ConsumptionHandler : IRequestHandler<InsertP1ConsumptionRequest, InsertP1ConsumptionResponse>
     {
-        private readonly ILogger _logger;
         private readonly IP1ConsumptionRepository _p1ConsumptionRepository;
 
-        public InsertP1ConsumptionHandler(ILogger<InsertP1ConsumptionHandler> logger,
-            IP1ConsumptionRepository p1ConsumptionRepository)
+        public InsertP1ConsumptionHandler(IP1ConsumptionRepository p1ConsumptionRepository)
         {
-            _logger = logger;
             _p1ConsumptionRepository = p1ConsumptionRepository;
         }
 
