@@ -1,9 +1,9 @@
-﻿using HouseDB.Data;
+﻿using HouseDB.Core.Interfaces;
+using HouseDB.Data;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.IO;
 using System.Reflection;
 
 namespace HouseDB.DependencyInjection
@@ -13,6 +13,10 @@ namespace HouseDB.DependencyInjection
         public static void SetupDI(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<DataContext>(options => options.UseMySql(configuration.GetConnectionString("HouseDBDatabase")));
+            services.AddMediatR(typeof(Core.Entities.SqlBase).GetTypeInfo().Assembly);
+
+            services.AddTransient<IDeviceRepository, DeviceRepository>();
+            services.AddTransient<IP1ConsumptionRepository, P1ConsumptionRepository>();
         }
     }
 }
