@@ -1,5 +1,6 @@
 ﻿using HouseDB.Core.Interfaces;
 using HouseDB.Data;
+using HouseDB.Data.MemoryCaches;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,8 @@ namespace HouseDB.DependencyInjection
         {
             services.AddDbContext<DataContext>(options => options.UseMySql(configuration.GetConnectionString("HouseDBDatabase")));
             services.AddMediatR(typeof(Core.Entities.SqlBase).GetTypeInfo().Assembly);
+
+            services.AddSingleton<IDomoticzMemoryCache, DomoticzMemoryCache>();
 
             services.AddTransient<IDeviceRepository, DeviceRepository>();
             services.AddTransient<IP1ConsumptionRepository, P1ConsumptionRepository>();
