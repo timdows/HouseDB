@@ -7,9 +7,9 @@ namespace HouseDB.Core.Interfaces
     public interface IP1ConsumptionRepository
     {
         List<P1Consumption> GetAll();
-
+        List<P1Consumption> GetUntillLastMonth();
         List<DateTime> GetExistingDates();
-
+        
         void Add(P1Consumption p1Consumption);
     }
 }

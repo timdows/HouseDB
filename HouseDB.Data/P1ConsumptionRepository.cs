@@ -33,5 +33,14 @@ namespace HouseDB.Data
                 .Select(item => item.Date)
                 .ToList();
         }
+
+        public List<P1Consumption> GetUntillLastMonth()
+        {
+            var beginningOfLastMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(-1);
+
+            return _dataContext.P1Consumptions
+                .Where(item => item.Date >= beginningOfLastMonth)
+                .ToList();
+        }
     }
 }
