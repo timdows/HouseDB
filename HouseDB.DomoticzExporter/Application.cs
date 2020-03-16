@@ -1,7 +1,5 @@
-﻿using HouseDB.Core.Interfaces;
-using HouseDB.Core.SettingModels;
-using HouseDB.DomoticzExporter.Exporters;
-using MediatR;
+﻿using HouseDB.DomoticzExporter.Exporters;
+using HouseDB.DomoticzExporter.SettingModels;
 using Microsoft.Extensions.Options;
 using Serilog;
 using System;
@@ -12,24 +10,22 @@ namespace HouseDB.DomoticzExporter
     public class Application
     {
         private readonly DomoticzSettings _domoticzSettings;
-        private readonly IMediator _mediator;
-        private readonly IP1ConsumptionRepository _p1ConsumptionRepository;
+        private readonly HouseDBSettings _houseDBSettings;
 
         public Application(
             IOptions<DomoticzSettings> domoticzSettings,
-            IMediator mediator,
-            IP1ConsumptionRepository p1ConsumptionRepository)
+            IOptions<HouseDBSettings> houseDBSettings)
         {
             _domoticzSettings = domoticzSettings.Value;
-            _mediator = mediator;
-            _p1ConsumptionRepository = p1ConsumptionRepository;
+            _houseDBSettings = houseDBSettings.Value;
         }
 
         public async Task Run()
         {
             Log.Information("Starting Application.Run()");
 
-            var exportP1Consumption = new ExportP1Consumption(_domoticzSettings, _mediator);
+            var exportP1Consumption = new ExportP1Consumption(_domoticzSettings, _houseDBSettings);
+            var exportValuesForCaching = new ExportValuesForCaching(_domoticzSettings);
 
             while (true)
             {
@@ -37,7 +33,7 @@ namespace HouseDB.DomoticzExporter
                 {
                     await Task.WhenAll(
                         exportP1Consumption.DoExport(),
-                        //exportKwhDeviceValues.DoExport(),
+                        exportValuesForCaching.DoExport(),
                         //exportValuesForCaching.DoExport(),
                         //exportDatabase.DoExport(),
                         //exportMotionDetection.DoExport(),

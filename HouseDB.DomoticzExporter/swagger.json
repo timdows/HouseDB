@@ -1,0 +1,240 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "HouseDB API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/DomoticzCache/InsertDomoticzDeviceValuesForCaching": {
+      "post": {
+        "tags": [
+          "DomoticzCache"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertDomoticzDeviceValuesForCachingRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertDomoticzDeviceValuesForCachingRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertDomoticzDeviceValuesForCachingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Server Error"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InsertDomoticzDeviceValuesForCachingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/P1Consumption/InsertP1Consumption": {
+      "post": {
+        "tags": [
+          "P1Consumption"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertP1ConsumptionRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertP1ConsumptionRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertP1ConsumptionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Server Error"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InsertP1ConsumptionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SevenSegment/GetSevenSegment": {
+      "get": {
+        "tags": [
+          "SevenSegment"
+        ],
+        "responses": {
+          "500": {
+            "description": "Server Error"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSevenSegmentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DomoticzDeviceValuesForCaching": {
+        "type": "object",
+        "properties": {
+          "deviceID": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "currentWattValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "todayKwhUsage": {
+            "type": "number",
+            "format": "double"
+          },
+          "lastUpdate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "InsertDomoticzDeviceValuesForCachingRequest": {
+        "type": "object",
+        "properties": {
+          "domoticzDeviceValuesForCaching": {
+            "$ref": "#/components/schemas/DomoticzDeviceValuesForCaching"
+          }
+        }
+      },
+      "InsertDomoticzDeviceValuesForCachingResponse": {
+        "type": "object"
+      },
+      "DomoticzP1Consumption": {
+        "type": "object",
+        "properties": {
+          "c1": {
+            "type": "string",
+            "nullable": true
+          },
+          "c2": {
+            "type": "string",
+            "nullable": true
+          },
+          "c3": {
+            "type": "string",
+            "nullable": true
+          },
+          "c4": {
+            "type": "string",
+            "nullable": true
+          },
+          "d": {
+            "type": "string",
+            "nullable": true
+          },
+          "r1": {
+            "type": "string",
+            "nullable": true
+          },
+          "r2": {
+            "type": "string",
+            "nullable": true
+          },
+          "v": {
+            "type": "string",
+            "nullable": true
+          },
+          "v2": {
+            "type": "string",
+            "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "dayUsage": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          }
+        }
+      },
+      "InsertP1ConsumptionRequest": {
+        "type": "object",
+        "properties": {
+          "domoticzP1Consumptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DomoticzP1Consumption"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "InsertP1ConsumptionResponse": {
+        "type": "object"
+      },
+      "GetSevenSegmentResponse": {
+        "type": "object",
+        "properties": {
+          "watt": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "today": {
+            "type": "number",
+            "format": "double"
+          },
+          "thisWeek": {
+            "type": "number",
+            "format": "double"
+          },
+          "thisMonth": {
+            "type": "number",
+            "format": "double"
+          },
+          "lastMonth": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      }
+    }
+  }
+}

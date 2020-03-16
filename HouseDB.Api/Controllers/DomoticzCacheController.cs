@@ -16,7 +16,7 @@ namespace HouseDB.Api.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(InsertDomoticzDeviceValuesForCachingResponse), 200)]
-        public async Task<IActionResult> GetSevenSegment([FromBody] InsertDomoticzDeviceValuesForCachingRequest request)
+        public async Task<IActionResult> InsertDomoticzDeviceValuesForCaching([FromBody] InsertDomoticzDeviceValuesForCachingRequest request)
         {
             var result = await _mediator.Send(request);
             return Ok(result);

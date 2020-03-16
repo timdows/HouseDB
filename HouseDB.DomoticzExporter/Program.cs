@@ -1,5 +1,4 @@
-﻿using HouseDB.Core.SettingModels;
-using HouseDB.DependencyInjection;
+﻿using HouseDB.DomoticzExporter.SettingModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -33,9 +32,10 @@ namespace HouseDB.DomoticzExporter
 				.ReadFrom.Configuration(config)
 				.CreateLogger();
 			Log.Information($"Starting HouseDB.DomoticzExporter {Assembly.GetExecutingAssembly().GetName().Version}");
-			
-			services.SetupDI(config);
 
+			services.AddOptions();
+
+			services.Configure<HouseDBSettings>(config.GetSection("HouseDBSettings"));
 			services.Configure<DomoticzSettings>(config.GetSection("DomoticzSettings"));
 			services.AddTransient<Application>();
 		}

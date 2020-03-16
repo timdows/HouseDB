@@ -1,7 +1,4 @@
-﻿using HouseDB.Core.DomoticzModels;
-using HouseDB.Core.SettingModels;
-using HouseDB.Core.UseCases.P1Consumption;
-using MediatR;
+﻿using HouseDB.DomoticzExporter.SettingModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -14,18 +11,19 @@ namespace HouseDB.DomoticzExporter.Exporters
     public class ExportP1Consumption
     {
         private DomoticzSettings _domoticzSettings;
-        private readonly IMediator _mediator;
+        private readonly HouseDBSettings _houseDBSettings;
 
-        public ExportP1Consumption(DomoticzSettings domoticzSettings, IMediator mediator)
+        public ExportP1Consumption(DomoticzSettings domoticzSettings, HouseDBSettings houseDBSettings)
         {
             _domoticzSettings = domoticzSettings;
-            _mediator = mediator;
+            _houseDBSettings = houseDBSettings;
         }
 
         public async Task DoExport()
         {
             Log.Information("Starting ExportP1Consumption()");
 
+            List<DomoticzP1Consumption> domoticzP1Consumptions = null;
             using (var client = new HttpClient())
             {
                 // Get the list with values
@@ -35,22 +33,19 @@ namespace HouseDB.DomoticzExporter.Exporters
                 JArray resultList = data.result;
 
                 // Cast resultList to objects
-                var domoticzP1Consumptions = resultList.ToObject<List<DomoticzP1Consumption>>();
+                domoticzP1Consumptions = resultList.ToObject<List<DomoticzP1Consumption>>();
 
-                var insertP1ConsumptionRequest = new InsertP1ConsumptionRequest
+                var api = new swaggerClient(_houseDBSettings.ApiBaseUrl, client);
+                await api.InsertP1ConsumptionAsync(new InsertP1ConsumptionRequest
                 {
                     DomoticzP1Consumptions = domoticzP1Consumptions
-                };
-                var insertP1ConsumptionResponse = await _mediator.Send(insertP1ConsumptionRequest);
-
-                //// Post it away
-                //using (var api = new HouseDBAPI(new Uri(_houseDBSettings.ApiUrl)))
-                //{
-                //    var token = _jwtTokenManager.GetToken(_houseDBSettings).GetAwaiter().GetResult();
-                //    api.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                //    await api.ExporterInsertDomoticzP1ConsumptionPostAsync(values);
-                //}
+                });
             }
+
+            //using (var client = new HttpClient())
+            //{
+                
+            //}
         }
     }
 }

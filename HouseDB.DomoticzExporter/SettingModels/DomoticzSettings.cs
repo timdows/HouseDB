@@ -1,4 +1,4 @@
-﻿namespace HouseDB.Core.SettingModels
+﻿namespace HouseDB.DomoticzExporter.SettingModels
 {
     public class DomoticzSettings
     {
