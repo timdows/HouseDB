@@ -3,6 +3,7 @@ using HouseDB.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HouseDB.Data
 {
@@ -15,10 +16,14 @@ namespace HouseDB.Data
             _dataContext = dataContext;
         }
 
-        public void Add(P1Consumption p1Consumption)
+        public void Add(P1Consumption p1Consumption, bool saveChanges = true)
         {
             _dataContext.P1Consumptions.Add(p1Consumption);
-            _dataContext.SaveChanges();
+
+            if (saveChanges)
+            {
+                _dataContext.SaveChanges();
+            }
         }
 
         public List<P1Consumption> GetAll()
@@ -41,6 +46,11 @@ namespace HouseDB.Data
             return _dataContext.P1Consumptions
                 .Where(item => item.Date >= beginningOfLastMonth)
                 .ToList();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using HouseDB.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HouseDB.Core.Interfaces
 {
@@ -10,6 +11,8 @@ namespace HouseDB.Core.Interfaces
         List<P1Consumption> GetUntillLastMonth();
         List<DateTime> GetExistingDates();
         
-        void Add(P1Consumption p1Consumption);
+        void Add(P1Consumption p1Consumption, bool saveChanges = true);
+
+        Task SaveChangesAsync();
     }
 }

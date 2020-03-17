@@ -50,8 +50,10 @@ namespace HouseDB.Core.UseCases.P1Consumption
                 {
                     Date = item.Date,
                     DayUsage = item.DayUsage
-                });
+                }, false);
             }
+
+            await _p1ConsumptionRepository.SaveChangesAsync();
 
             return new InsertP1ConsumptionResponse();
         }
