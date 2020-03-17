@@ -40,5 +40,14 @@ namespace HouseDB.Data
         {
             await _dataContext.SaveChangesAsync();
         }
+
+        public List<KwhDateUsage> GetKwhDateUsageBetweenDates(int deviceId, DateTime minDate, DateTime maxDate)
+        {
+            return _dataContext.KwhDateUsages
+                .Where(item => item.DeviceId == deviceId &&
+                               item.Date >= minDate &&
+                               item.Date <= maxDate)
+                .ToList();
+        }
     }
 }

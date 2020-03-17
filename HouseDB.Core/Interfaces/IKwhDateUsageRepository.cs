@@ -7,6 +7,7 @@ namespace HouseDB.Core.Interfaces
 {
     public interface IKwhDateUsageRepository
     {
+        List<KwhDateUsage> GetKwhDateUsageBetweenDates(int deviceId, DateTime minDate, DateTime maxDate);
         List<DateTime> GetDatesBetweenDates(int deviceId, DateTime minDate, DateTime maxDate);
 
         void Add(KwhDateUsage kwhDateUsage, bool saveChanges = true);
