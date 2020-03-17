@@ -29,6 +29,7 @@ namespace HouseDB.DomoticzExporter
             var exportKwhDeviceValues = new ExportKwhDeviceValues(_domoticzSettings, _houseDBSettings);
 
             //await exportP1Consumption.DoExportMultipleYears();
+            //await exportKwhDeviceValues.DoExportMultipleYears();
 
             while (true)
             {

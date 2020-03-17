@@ -26,7 +26,7 @@ namespace HouseDB.DomoticzExporter.Exporters
         public async Task DoExport(string additionalRequestUrl = null)
         {
             // Only trigger once per hour
-            if (_lastRunDateTime.AddHours(1) > DateTime.Now)
+            if (_lastRunDateTime.AddHours(1) > DateTime.Now && additionalRequestUrl == null)
             {
                 return;
             }
@@ -42,7 +42,7 @@ namespace HouseDB.DomoticzExporter.Exporters
 
                 foreach (var device in devices)
                 {
-                    var domoticzDeviceKwhUsages = await GetDomoticzDeviceKwhUsages(device);
+                    var domoticzDeviceKwhUsages = await GetDomoticzDeviceKwhUsages(device, additionalRequestUrl);
                     await api.InsertDomoticzDeviceKwhValuesAsync(new InsertDomoticzDeviceKwhValuesRequest
                     {
                         DeviceId = device.Id,
@@ -52,14 +52,27 @@ namespace HouseDB.DomoticzExporter.Exporters
             }
         }
 
-        private async Task<List<DomoticzDeviceKwhUsage>> GetDomoticzDeviceKwhUsages(DeviceDTO device)
+        public async Task DoExportMultipleYears()
+        {
+            for (int i = 2010; i <= DateTime.Today.Year; i++)
+            {
+                await DoExport($"&actyear={i}");
+            }
+        }
+
+        private async Task<List<DomoticzDeviceKwhUsage>> GetDomoticzDeviceKwhUsages(DeviceDTO device, string additionalRequestUrl)
         {
             using (var client = new HttpClient())
             {
-                var url = $"http://{_domoticzSettings.Host}:{_domoticzSettings.Port}/json.htm?type=graph&sensor=counter&idx={device.DomoticzKwhIdx}&range=year";
+                var url = $"http://{_domoticzSettings.Host}:{_domoticzSettings.Port}/json.htm?type=graph&sensor=counter&idx={device.DomoticzKwhIdx}&range=year{additionalRequestUrl}";
                 var response = await client.GetStringAsync(url);
                 var data = JsonConvert.DeserializeObject<dynamic>(response);
                 JArray resultList = data.result;
+
+                if (resultList == null)
+                {
+                    return new List<DomoticzDeviceKwhUsage>();
+                }
 
                 // Cast resultList to objects
                 var values = resultList.ToObject<List<DomoticzDeviceKwhUsage>>();

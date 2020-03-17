@@ -27,6 +27,11 @@ namespace HouseDB.Core.UseCases.DomoticzKwhDeviceValue
                 throw new MediatRValidationException(result.ToString());
             }
 
+            if (request.DomoticzDeviceKwhUsages == null || !request.DomoticzDeviceKwhUsages.Any())
+            {
+                return new InsertDomoticzDeviceKwhValuesResponse();
+            }
+
             var minDate = request.DomoticzDeviceKwhUsages.Min(item => item.Date);
             var maxDate = request.DomoticzDeviceKwhUsages.Max(item => item.Date);
 
