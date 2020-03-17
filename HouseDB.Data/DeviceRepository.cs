@@ -26,5 +26,12 @@ namespace HouseDB.Data
                 .Where(item => item.IsForKwhImport && (item.DomoticzWattIdx != 0 || item.DomoticzKwhIdx != 0))
                 .ToList();
         }
+
+        public List<Device> GetAllDevicesForKwhExport()
+        {
+            return _dataContext.Devices
+                .Where(item => item.IsForKwhImport && item.DomoticzKwhIdx != 0)
+                .ToList();
+        }
     }
 }

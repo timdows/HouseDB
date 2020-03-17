@@ -26,6 +26,7 @@ namespace HouseDB.DomoticzExporter
 
             var exportP1Consumption = new ExportP1Consumption(_domoticzSettings, _houseDBSettings);
             var exportValuesForCaching = new ExportValuesForCaching(_domoticzSettings, _houseDBSettings);
+            var exportKwhDeviceValues = new ExportKwhDeviceValues(_domoticzSettings, _houseDBSettings);
 
             //await exportP1Consumption.DoExportMultipleYears();
 
@@ -36,9 +37,7 @@ namespace HouseDB.DomoticzExporter
                     await Task.WhenAll(
                         exportP1Consumption.DoExport(),
                         exportValuesForCaching.DoExport(),
-                        //exportValuesForCaching.DoExport(),
-                        //exportDatabase.DoExport(),
-                        //exportMotionDetection.DoExport(),
+                        exportKwhDeviceValues.DoExport(),
                         Task.Delay(5000));
                 }
                 catch (Exception excep)

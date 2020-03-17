@@ -11,7 +11,7 @@ namespace HouseDB.DomoticzExporter.Exporters
 {
     public class ExportP1Consumption
     {
-        private DomoticzSettings _domoticzSettings;
+        private readonly DomoticzSettings _domoticzSettings;
         private readonly HouseDBSettings _houseDBSettings;
         private DateTime _lastRunDateTime;
 

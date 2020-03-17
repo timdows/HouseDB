@@ -5,6 +5,88 @@
         "version": "v1"
     },
     "paths": {
+        "/api/DeviceKwhValue/InsertDomoticzDeviceKwhValues": {
+            "post": {
+                "tags": [
+                    "DeviceKwhValue"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InsertDomoticzDeviceKwhValuesRequest"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InsertDomoticzDeviceKwhValuesRequest"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InsertDomoticzDeviceKwhValuesRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InsertDomoticzDeviceKwhValuesResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/DeviceKwhValue/GetDomoticzDevicesForKwhExport": {
+            "post": {
+                "tags": [
+                    "DeviceKwhValue"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetDomoticzDevicesForKwhExportRequest"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetDomoticzDevicesForKwhExportRequest"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetDomoticzDevicesForKwhExportRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetDomoticzDevicesForKwhExportResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/DomoticzCache/InsertDomoticzDeviceValuesForCaching": {
             "post": {
                 "tags": [
@@ -128,6 +210,70 @@
                 }
             }
         },
+        "/api/P1Consumption/P1WeekUsage": {
+            "get": {
+                "tags": [
+                    "P1Consumption"
+                ],
+                "parameters": [
+                    {
+                        "name": "amountOfWeeks",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/P1WeekUsageResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/P1Consumption/P1MonthUsage": {
+            "get": {
+                "tags": [
+                    "P1Consumption"
+                ],
+                "parameters": [
+                    {
+                        "name": "amountOfMonths",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Server Error"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/P1MonthUsageResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/SevenSegment/GetSevenSegment": {
             "get": {
                 "tags": [
@@ -153,6 +299,98 @@
     },
     "components": {
         "schemas": {
+            "DomoticzDeviceKwhUsage": {
+                "type": "object",
+                "properties": {
+                    "c": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "d": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "v": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "usage": {
+                        "type": "number",
+                        "format": "double",
+                        "readOnly": true
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    }
+                }
+            },
+            "InsertDomoticzDeviceKwhValuesRequest": {
+                "type": "object",
+                "properties": {
+                    "deviceId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "domoticzDeviceKwhUsages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DomoticzDeviceKwhUsage"
+                        },
+                        "nullable": true
+                    }
+                }
+            },
+            "InsertDomoticzDeviceKwhValuesResponse": {
+                "type": "object"
+            },
+            "GetDomoticzDevicesForKwhExportRequest": {
+                "type": "object"
+            },
+            "DeviceDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "domoticzKwhIdx": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "domoticzWattIdx": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "isForKwhImport": {
+                        "type": "boolean"
+                    },
+                    "isForTemperatureImport": {
+                        "type": "boolean"
+                    },
+                    "domoticzMotionDetectionIdx": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "GetDomoticzDevicesForKwhExportResponse": {
+                "type": "object",
+                "properties": {
+                    "devices": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DeviceDTO"
+                        },
+                        "nullable": true
+                    }
+                }
+            },
             "DomoticzDeviceValuesForCaching": {
                 "type": "object",
                 "properties": {
@@ -201,37 +439,6 @@
             },
             "GetDomoticzDevicesForValuesCachingRequest": {
                 "type": "object"
-            },
-            "DeviceDTO": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "name": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "domoticzKwhIdx": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "domoticzWattIdx": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "isForKwhImport": {
-                        "type": "boolean"
-                    },
-                    "isForTemperatureImport": {
-                        "type": "boolean"
-                    },
-                    "domoticzMotionDetectionIdx": {
-                        "type": "integer",
-                        "format": "int32"
-                    }
-                }
             },
             "GetDomoticzDevicesForValuesCachingResponse": {
                 "type": "object",
@@ -310,6 +517,68 @@
             },
             "InsertP1ConsumptionResponse": {
                 "type": "object"
+            },
+            "P1WeekUsage": {
+                "type": "object",
+                "properties": {
+                    "week": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "p1Usage": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "displayText": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "P1WeekUsageResponse": {
+                "type": "object",
+                "properties": {
+                    "p1WeekUsages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/P1WeekUsage"
+                        },
+                        "nullable": true
+                    }
+                }
+            },
+            "P1MonthUsage": {
+                "type": "object",
+                "properties": {
+                    "year": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "month": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "p1Usage": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "displayText": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "P1MonthUsageResponse": {
+                "type": "object",
+                "properties": {
+                    "p1MonthUsages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/P1MonthUsage"
+                        },
+                        "nullable": true
+                    }
+                }
             },
             "GetSevenSegmentResponse": {
                 "type": "object",

@@ -14,7 +14,7 @@ namespace HouseDB.Data
 
         public DbSet<Device> Devices { get; set; }
 		public DbSet<P1Consumption> P1Consumptions { get; set; }
-
+		public DbSet<KwhDateUsage> KwhDateUsages { get; set; }
 	}
 
 	public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>

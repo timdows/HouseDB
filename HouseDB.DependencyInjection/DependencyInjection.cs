@@ -22,6 +22,7 @@ namespace HouseDB.DependencyInjection
 
             services.AddTransient<IDeviceRepository, DeviceRepository>();
             services.AddTransient<IP1ConsumptionRepository, P1ConsumptionRepository>();
+            services.AddTransient<IKwhDateUsageRepository, KwhDateUsageRepository>();
         }
     }
 }

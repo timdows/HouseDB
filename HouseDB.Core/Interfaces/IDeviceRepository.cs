@@ -7,5 +7,6 @@ namespace HouseDB.Core.Interfaces
     {
         List<Device> GetAll();
         List<Device> GetAllDevicesForCachingValues();
+        List<Device> GetAllDevicesForKwhExport();
     }
 }
