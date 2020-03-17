@@ -11,10 +11,12 @@ namespace HouseDB.Core.UseCases.SevenSegment
 {
     public class GetSevenSegmentHandler : IRequestHandler<GetSevenSegmentRequest, GetSevenSegmentResponse>
     {
+        private readonly IDomoticzMemoryCache _domoticzMemoryCache;
         private readonly IP1ConsumptionRepository _p1ConsumptionRepository;
 
-        public GetSevenSegmentHandler(IP1ConsumptionRepository p1ConsumptionRepository)
+        public GetSevenSegmentHandler(IDomoticzMemoryCache domoticzMemoryCache, IP1ConsumptionRepository p1ConsumptionRepository)
         {
+            _domoticzMemoryCache = domoticzMemoryCache;
             _p1ConsumptionRepository = p1ConsumptionRepository;
         }
 
@@ -25,7 +27,7 @@ namespace HouseDB.Core.UseCases.SevenSegment
 
             if (!result.IsValid)
             {
-                throw new HouseDBValidationException(result.ToString());
+                throw new MediatRValidationException(result.ToString());
             }
 
             var domoticzP1Consumptions = _p1ConsumptionRepository.GetUntillLastMonth();

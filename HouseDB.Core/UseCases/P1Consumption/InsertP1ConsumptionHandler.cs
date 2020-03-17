@@ -24,7 +24,7 @@ namespace HouseDB.Core.UseCases.P1Consumption
 
             if (!result.IsValid)
             {
-                throw new HouseDBValidationException(result.ToString());
+                throw new MediatRValidationException(result.ToString());
             }
 
             var existingDates = _p1ConsumptionRepository.GetExistingDates();
