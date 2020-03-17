@@ -14,8 +14,8 @@ namespace HouseDB.DomoticzExporter.Exporters
 		private DomoticzSettings _domoticzSettings;
 
         public ExportValuesForCaching(
-			HouseDBSettings houseDBSettings,
-			DomoticzSettings domoticzSettings)
+			DomoticzSettings domoticzSettings,
+			HouseDBSettings houseDBSettings)
         {
 			_houseDBSettings = houseDBSettings;
 			_domoticzSettings = domoticzSettings;

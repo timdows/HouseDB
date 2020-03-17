@@ -14,14 +14,14 @@ namespace HouseDB.DomoticzExporter
         public static void Main(string[] args)
         {
             IServiceCollection serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection).Wait();
+			ConfigureServices(serviceCollection);
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
             var app = serviceProvider.GetService<Application>();
             Task.Run(() => app.Run()).Wait();
         }
 
-		private static async Task ConfigureServices(IServiceCollection services)
+		private static void ConfigureServices(IServiceCollection services)
 		{
 			var config = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())

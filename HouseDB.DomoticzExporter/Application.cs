@@ -25,7 +25,7 @@ namespace HouseDB.DomoticzExporter
             Log.Information("Starting Application.Run()");
 
             var exportP1Consumption = new ExportP1Consumption(_domoticzSettings, _houseDBSettings);
-            var exportValuesForCaching = new ExportValuesForCaching(_domoticzSettings);
+            var exportValuesForCaching = new ExportValuesForCaching(_domoticzSettings, _houseDBSettings);
 
             //await exportP1Consumption.DoExportMultipleYears();
 
