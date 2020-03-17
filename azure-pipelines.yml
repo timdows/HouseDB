@@ -18,16 +18,19 @@ steps:
     command: 'publish'
     publishWebProjects: false
     projects: '$(Build.SourcesDirectory)/HouseDB.Api'
-    arguments: '--configuration $(buildConfiguration) --runtime linux-x64 --output $(Build.SourcesDirectory)/publish --self-contained'
+    arguments: '--configuration $(buildConfiguration) --runtime linux-x64 --output $(Build.SourcesDirectory)/publish/api --self-contained'
     zipAfterPublish: false
     modifyOutputPath: false
-    feedsToUse: 'select'
-    versioningScheme: 'off'
-# - task: DotNetCoreCLI@2
-#   inputs:
-#     command: 'test'
-#     projects: '**/*Tests/*.csproj'
-#     arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '$(Build.SourcesDirectory)/HouseDB.DomoticzExporter'
+    arguments: '--configuration $(buildConfiguration) --runtime linux-arm --output $(Build.SourcesDirectory)/publish/exporter --self-contained'
+    zipAfterPublish: false
+    modifyOutputPath: false
+
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.SourcesDirectory)/publish'
