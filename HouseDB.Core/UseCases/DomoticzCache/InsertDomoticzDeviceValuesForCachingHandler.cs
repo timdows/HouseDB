@@ -25,7 +25,7 @@ namespace HouseDB.Core.UseCases.DomoticzCache
                 throw new MediatRValidationException(result.ToString());
             }
 
-            _domoticzMemoryCache.SetDomoticzDeviceValuesForCachingRequest(nameof(InsertDomoticzDeviceValuesForCachingRequest), request);
+            _domoticzMemoryCache.SetDomoticzDeviceValuesForCachingRequest(request);
 
             return new InsertDomoticzDeviceValuesForCachingResponse();
         }

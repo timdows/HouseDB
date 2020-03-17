@@ -15,9 +15,9 @@ namespace HouseDB.Data.MemoryCaches
 			});
 		}
 
-		public InsertDomoticzDeviceValuesForCachingRequest TryGetDomoticzDeviceValuesForCachingRequest(string key)
+		public InsertDomoticzDeviceValuesForCachingRequest TryGetDomoticzDeviceValuesForCachingRequest()
 		{
-			if (_memoryCache.TryGetValue(key, out InsertDomoticzDeviceValuesForCachingRequest cache))
+			if (_memoryCache.TryGetValue(nameof(InsertDomoticzDeviceValuesForCachingRequest), out InsertDomoticzDeviceValuesForCachingRequest cache))
 			{
 				return cache;
 			}
@@ -25,9 +25,9 @@ namespace HouseDB.Data.MemoryCaches
 			return null;
 		}
 
-		public void SetDomoticzDeviceValuesForCachingRequest(string key, InsertDomoticzDeviceValuesForCachingRequest value)
+		public void SetDomoticzDeviceValuesForCachingRequest(InsertDomoticzDeviceValuesForCachingRequest value)
 		{
-			_memoryCache.Set(key, value);
+			_memoryCache.Set(nameof(InsertDomoticzDeviceValuesForCachingRequest), value);
 		}
 
 		public void InvalidateAll()

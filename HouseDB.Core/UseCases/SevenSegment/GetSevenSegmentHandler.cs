@@ -14,7 +14,9 @@ namespace HouseDB.Core.UseCases.SevenSegment
         private readonly IDomoticzMemoryCache _domoticzMemoryCache;
         private readonly IP1ConsumptionRepository _p1ConsumptionRepository;
 
-        public GetSevenSegmentHandler(IDomoticzMemoryCache domoticzMemoryCache, IP1ConsumptionRepository p1ConsumptionRepository)
+        public GetSevenSegmentHandler(
+            IDomoticzMemoryCache domoticzMemoryCache, 
+            IP1ConsumptionRepository p1ConsumptionRepository)
         {
             _domoticzMemoryCache = domoticzMemoryCache;
             _p1ConsumptionRepository = p1ConsumptionRepository;
@@ -30,6 +32,22 @@ namespace HouseDB.Core.UseCases.SevenSegment
                 throw new MediatRValidationException(result.ToString());
             }
 
+            var getSevenSegmentResponse = new GetSevenSegmentResponse();
+
+            var cachedInsertDomoticzDeviceValuesForCachingRequest = _domoticzMemoryCache.TryGetDomoticzDeviceValuesForCachingRequest();
+            if (cachedInsertDomoticzDeviceValuesForCachingRequest != null)
+            {
+                var p1Values = cachedInsertDomoticzDeviceValuesForCachingRequest.P1Values;
+                if (p1Values != null && p1Values.CurrentWattValue.HasValue)
+                {
+                    getSevenSegmentResponse.Watt = Convert.ToInt32(p1Values.CurrentWattValue.Value);
+                }
+                if (p1Values != null && p1Values.TodayKwhUsage.HasValue)
+                {
+                    getSevenSegmentResponse.Today = Math.Round(p1Values.TodayKwhUsage.Value, 2);
+                }
+            }
+
             var domoticzP1Consumptions = _p1ConsumptionRepository.GetUntillLastMonth();
 
             // Get working dates
@@ -40,13 +58,11 @@ namespace HouseDB.Core.UseCases.SevenSegment
             var previousMonthFirstDay = thisMonthFirstDay.AddMonths(-1);
             var previousMonthLastDay = thisMonthFirstDay.AddDays(-1);
 
-            var getSevenSegmentResponse = new GetSevenSegmentResponse();
-
             // Calculate week values
             getSevenSegmentResponse.ThisWeek = (decimal)Math.Round(domoticzP1Consumptions
                 .Where(a_item => a_item.Date >= thisWeekMonday &&
                                  a_item.Date <= thisWeekSunday)
-                .Sum(a_item => a_item.DayUsage), 2);
+                .Sum(a_item => a_item.DayUsage), 2) + getSevenSegmentResponse.Today;
 
             // Calculate Month values
             getSevenSegmentResponse.ThisMonth = (decimal)Math.Round(domoticzP1Consumptions
