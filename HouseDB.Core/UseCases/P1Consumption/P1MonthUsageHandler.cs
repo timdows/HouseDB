@@ -45,7 +45,7 @@ namespace HouseDB.Core.UseCases.P1Consumption
 					Year = startOfMonth.Year,
 					Month = startOfMonth.Month,
 					P1Usage = consumption,
-					DisplayText = $"{consumption.ToString("F")} kWh - ({startOfMonth.Year}-startOfMonth.Month)"
+					DisplayText = $"{consumption.ToString("F")} kWh - ({startOfMonth.Year}-{startOfMonth.Month})"
 				});
 			}
 
