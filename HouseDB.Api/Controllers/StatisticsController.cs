@@ -14,11 +14,11 @@ namespace HouseDB.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(typeof(GetDeviceKwhStatisticsResponse), 200)]
-        public async Task<IActionResult> GetDeviceKwhStatistics([FromBody] GetDeviceKwhStatisticsRequest request)
+        public async Task<IActionResult> GetDeviceKwhStatistics()
         {
-            var result = await _mediator.Send(request);
+            var result = await _mediator.Send(new GetDeviceKwhStatisticsRequest());
             return Ok(result);
         }
     }
