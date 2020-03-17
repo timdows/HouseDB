@@ -5,7 +5,9 @@ cd HouseDB.Data
 dotnet ef --startup-project ..\HouseDB.Api migrations add Initial 
 dotnet ef --startup-project ..\HouseDB.Api database update 
 
-## Server hosting ACC
+## Server hosting
+usermod -a -G systemd-journal timdows
+loginctl enable-linger timdows
 systemctl --user enable kestrel-housedbprod.service
 systemctl --user start kestrel-housedbprod.service
 systemctl --user stop kestrel-housedbprod.service
