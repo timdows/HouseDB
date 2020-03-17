@@ -10,6 +10,8 @@ namespace HouseDB.Core.Interfaces
         List<P1Consumption> GetAll();
         List<P1Consumption> GetUntillLastMonth();
         List<DateTime> GetExistingDates();
+
+        double GetUsageBetweenDates(DateTime start, DateTime stop);
         
         void Add(P1Consumption p1Consumption, bool saveChanges = true);
 

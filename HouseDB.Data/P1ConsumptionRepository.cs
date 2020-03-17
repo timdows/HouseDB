@@ -48,6 +48,15 @@ namespace HouseDB.Data
                 .ToList();
         }
 
+        public double GetUsageBetweenDates(DateTime start, DateTime stop)
+        {
+            var consumption = _dataContext.P1Consumptions
+                .Where(item => item.Date >= start &&
+                               item.Date <= stop)
+                .Sum(item => item.DayUsage);
+            return Math.Round(consumption, 2);
+        }
+
         public async Task SaveChangesAsync()
         {
             await _dataContext.SaveChangesAsync();
