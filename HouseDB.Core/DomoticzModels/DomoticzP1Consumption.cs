@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace HouseDB.Core.DomoticzModels
 {
@@ -15,6 +16,6 @@ namespace HouseDB.Core.DomoticzModels
 		public string V2 { get; set; }
 
 		public DateTime Date => DateTime.Parse(D);
-		public double DayUsage => double.Parse(V) + double.Parse(V2);
+		public double DayUsage => double.Parse(V, CultureInfo.InvariantCulture) + double.Parse(V2, CultureInfo.InvariantCulture);
 	}
 }
