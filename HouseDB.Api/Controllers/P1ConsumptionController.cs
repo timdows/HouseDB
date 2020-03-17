@@ -22,10 +22,14 @@ namespace HouseDB.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(typeof(P1WeekUsageResponse), 200)]
-        public async Task<IActionResult> P1WeekUsage([FromBody] P1WeekUsageRequest request)
+        public async Task<IActionResult> P1WeekUsage([FromQuery] int amountOfWeeks)
         {
+            var request = new P1WeekUsageRequest
+            {
+                AmountOfWeeks = amountOfWeeks
+            };
             var result = await _mediator.Send(request);
             return Ok(result);
         }
