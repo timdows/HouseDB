@@ -1,4 +1,5 @@
-﻿using HouseDB.Core.Interfaces;
+﻿using AutoMapper;
+using HouseDB.Core.Interfaces;
 using HouseDB.Data;
 using HouseDB.Data.MemoryCaches;
 using MediatR;
@@ -15,6 +16,7 @@ namespace HouseDB.DependencyInjection
         {
             services.AddDbContext<DataContext>(options => options.UseMySql(configuration.GetConnectionString("HouseDBDatabase")));
             services.AddMediatR(typeof(Core.Entities.SqlBase).GetTypeInfo().Assembly);
+            services.AddAutoMapper(typeof(Core.Entities.SqlBase).GetTypeInfo().Assembly);
 
             services.AddSingleton<IDomoticzMemoryCache, DomoticzMemoryCache>();
 

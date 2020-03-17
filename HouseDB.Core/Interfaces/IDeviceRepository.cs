@@ -6,5 +6,6 @@ namespace HouseDB.Core.Interfaces
     public interface IDeviceRepository
     {
         List<Device> GetAll();
+        List<Device> GetAllDevicesForCachingValues();
     }
 }

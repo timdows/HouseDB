@@ -1,6 +1,7 @@
 ﻿using HouseDB.Core.Entities;
 using HouseDB.Core.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HouseDB.Data
 {
@@ -15,7 +16,15 @@ namespace HouseDB.Data
 
         public List<Device> GetAll()
         {
-            throw new System.NotImplementedException();
+            return _dataContext.Devices
+                .ToList();
+        }
+
+        public List<Device> GetAllDevicesForCachingValues()
+        {
+            return _dataContext.Devices
+                .Where(item => item.IsForKwhImport && (item.DomoticzWattIdx != 0 || item.DomoticzKwhIdx != 0))
+                .ToList();
         }
     }
 }

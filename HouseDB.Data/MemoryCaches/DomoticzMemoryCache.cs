@@ -1,5 +1,5 @@
-﻿using HouseDB.Core.DomoticzModels;
-using HouseDB.Core.Interfaces;
+﻿using HouseDB.Core.Interfaces;
+using HouseDB.Core.UseCases.DomoticzCache;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace HouseDB.Data.MemoryCaches
@@ -15,9 +15,9 @@ namespace HouseDB.Data.MemoryCaches
 			});
 		}
 
-		public DomoticzDeviceValuesForCaching TryGetDomoticzDeviceValues(string key)
+		public InsertDomoticzDeviceValuesForCachingRequest TryGetDomoticzDeviceValuesForCachingRequest(string key)
 		{
-			if (_memoryCache.TryGetValue(key, out DomoticzDeviceValuesForCaching cache))
+			if (_memoryCache.TryGetValue(key, out InsertDomoticzDeviceValuesForCachingRequest cache))
 			{
 				return cache;
 			}
@@ -25,7 +25,7 @@ namespace HouseDB.Data.MemoryCaches
 			return null;
 		}
 
-		public void SetDomoticzDeviceValues(string key, DomoticzDeviceValuesForCaching value)
+		public void SetDomoticzDeviceValuesForCachingRequest(string key, InsertDomoticzDeviceValuesForCachingRequest value)
 		{
 			_memoryCache.Set(key, value);
 		}

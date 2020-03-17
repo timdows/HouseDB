@@ -21,5 +21,13 @@ namespace HouseDB.Api.Controllers
             var result = await _mediator.Send(request);
             return Ok(result);
         }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(GetDomoticzDevicesForValuesCachingResponse), 200)]
+        public async Task<IActionResult> GetDomoticzDevicesForValuesCaching([FromBody] GetDomoticzDevicesForValuesCachingRequest request)
+        {
+            var result = await _mediator.Send(request);
+            return Ok(result);
+        }
     }
 }

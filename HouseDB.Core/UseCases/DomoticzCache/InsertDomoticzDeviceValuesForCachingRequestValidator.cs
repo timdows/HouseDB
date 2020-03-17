@@ -6,7 +6,7 @@ namespace HouseDB.Core.UseCases.DomoticzCache
     {
         public InsertDomoticzDeviceValuesForCachingRequestValidator()
         {
-            RuleFor(item => item.DomoticzDeviceValuesForCaching).NotNull();
+            RuleFor(item => item).NotNull();
         }
     }
 }

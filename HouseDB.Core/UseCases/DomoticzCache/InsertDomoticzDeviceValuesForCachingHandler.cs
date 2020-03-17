@@ -1,5 +1,4 @@
-﻿using HouseDB.Core.DomoticzModels;
-using HouseDB.Core.Exceptions;
+﻿using HouseDB.Core.Exceptions;
 using HouseDB.Core.Interfaces;
 using MediatR;
 using System.Threading;
@@ -26,7 +25,7 @@ namespace HouseDB.Core.UseCases.DomoticzCache
                 throw new MediatRValidationException(result.ToString());
             }
 
-            _domoticzMemoryCache.SetDomoticzDeviceValues($"{nameof(DomoticzDeviceValuesForCaching)}_{request.DomoticzDeviceValuesForCaching.DeviceID}", request.DomoticzDeviceValuesForCaching);
+            _domoticzMemoryCache.SetDomoticzDeviceValuesForCachingRequest(nameof(InsertDomoticzDeviceValuesForCachingRequest), request);
 
             return new InsertDomoticzDeviceValuesForCachingResponse();
         }
