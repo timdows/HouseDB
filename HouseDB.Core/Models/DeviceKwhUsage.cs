@@ -17,6 +17,6 @@
         public string ThisMonthFormatted => $"{decimal.Round(ThisMonth, 2)}";
 
         public decimal LastMonth { get; set; }
-        public string TLastMonthFormatted => $"{decimal.Round(LastMonth, 2)}";
+        public string LastMonthFormatted => $"{decimal.Round(LastMonth, 2)}";
     }
 }

@@ -38,7 +38,8 @@ namespace HouseDB.Core.UseCases.Statistics
                 throw new MediatRValidationException(result.ToString());
             }
 
-            var devices = _deviceRepository.GetAllDevicesForKwhExport();
+            var devices = _deviceRepository.GetAllDevicesForKwhExport()
+                .OrderBy(item => item.Name);
 
             var deviceKwhStatisticsResponse = new GetDeviceKwhStatisticsResponse
             {
@@ -64,7 +65,7 @@ namespace HouseDB.Core.UseCases.Statistics
             var startOfLastMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(-1);
             var endOfLastMonth = startOfLastMonth.AddMonths(1).AddDays(-1);
 
-            var kwhDateUsages = _kwhDateUsageRepository.GetKwhDateUsageBetweenDates(device.Id, startOfLastMonth, DateTime.Today);
+            var kwhDateUsages = _kwhDateUsageRepository.GetKwhDateUsageBetweenDates(device.Id, startOfLastMonth, DateTime.Today)
 
             var deviceKwhUsage = new DeviceKwhUsage
             {
