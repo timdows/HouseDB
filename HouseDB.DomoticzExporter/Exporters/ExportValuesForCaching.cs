@@ -2,21 +2,23 @@
 using Newtonsoft.Json;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HouseDB.DomoticzExporter.Exporters
 {
-    public class ExportValuesForCaching
+	public class ExportValuesForCaching
     {
-        private DomoticzSettings _domoticzSettings;
+		private readonly HouseDBSettings _houseDBSettings;
+		private DomoticzSettings _domoticzSettings;
 
-        public ExportValuesForCaching(DomoticzSettings domoticzSettings)
+        public ExportValuesForCaching(
+			HouseDBSettings houseDBSettings,
+			DomoticzSettings domoticzSettings)
         {
-            _domoticzSettings = domoticzSettings;
+			_houseDBSettings = houseDBSettings;
+			_domoticzSettings = domoticzSettings;
         }
 
         public async Task DoExport()
@@ -25,7 +27,7 @@ namespace HouseDB.DomoticzExporter.Exporters
 
             using (var client = new HttpClient())
             {
-                var api = new swaggerClient("http://localhost:5500", client);
+                var api = new swaggerClient(_houseDBSettings.ApiBaseUrl, client);
                 await api.InsertDomoticzDeviceValuesForCachingAsync(new InsertDomoticzDeviceValuesForCachingRequest
                 {
                     DomoticzDeviceValuesForCaching = await GetP1Values(client)
