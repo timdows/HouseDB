@@ -18,7 +18,7 @@ steps:
     command: 'publish'
     publishWebProjects: false
     projects: '$(Build.SourcesDirectory)/HouseDB.Api'
-    arguments: '--configuration $(buildConfiguration) --runtime linux-x64 --output $(Build.SourcesDirectory)/publish/api --self-contained'
+    arguments: '--configuration $(buildConfiguration) --runtime linux-x64 --output $(Build.SourcesDirectory)/publish-api --self-contained'
     zipAfterPublish: false
     modifyOutputPath: false
 
@@ -27,17 +27,21 @@ steps:
     command: 'publish'
     publishWebProjects: false
     projects: '$(Build.SourcesDirectory)/HouseDB.DomoticzExporter'
-    arguments: '--configuration $(buildConfiguration) --runtime linux-arm --output $(Build.SourcesDirectory)/publish/exporter --self-contained'
+    arguments: '--configuration $(buildConfiguration) --runtime linux-arm --output $(Build.SourcesDirectory)/publish-exporter --self-contained'
     zipAfterPublish: false
     modifyOutputPath: false
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.SourcesDirectory)/publish'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/deploy-publish$(Build.BuildId).zip'
+    rootFolderOrFile: '$(Build.SourcesDirectory)/publish-api'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/deploy-publish-api.zip'
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.SourcesDirectory)/publish-exporter'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/deploy-publish-exporter.zip'
 - task: CopyFilesOverSSH@0
   inputs:
     sshEndpoint: 'azurebuild.inexpro.nl'
     sourceFolder: '$(Build.ArtifactStagingDirectory)'
     contents: '**'
-    targetFolder: '/home/azurebuild/housedb-deploy/$(Build.BuildId)/'
+    targetFolder: '/home/azurebuild/housedb-deploy/'
