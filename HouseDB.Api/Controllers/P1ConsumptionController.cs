@@ -33,5 +33,19 @@ namespace HouseDB.Api.Controllers
             var result = await _mediator.Send(request);
             return Ok(result);
         }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(P1MonthUsageResponse), 200)]
+        public async Task<IActionResult> P1MonthUsage([FromQuery] int amountOfMonths)
+        {
+            var request = new P1MonthUsageRequest
+            {
+                AmountOfMonths = amountOfMonths
+            };
+            var result = await _mediator.Send(request);
+            return Ok(result);
+        }
+
+        
     }
 }
